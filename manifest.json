@@ -1,0 +1,18 @@
+{
+  "name": "도쿄 4박 5일 체크리스트",
+  "short_name": "도쿄여행",
+  "description": "도쿄 4박 5일 여행 체크리스트",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fdf2f8",
+  "theme_color": "#ec4899",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

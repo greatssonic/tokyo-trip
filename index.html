@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FFB6C1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="도쿄여행">
+<title>🌸 도쿄 4박 5일 체크리스트</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23ec4899%22/><text x=%2250%22 y=%2258%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-size=%2260%22>🌸</text></svg>">
+<link rel="manifest" href="manifest.json">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;background:linear-gradient(135deg,#fdf2f8 0%,#f3e8ff 50%,#e0e7ff 100%);min-height:100vh;color:#1f2937;padding-bottom:40px;line-height:1.5}
+.container{max-width:600px;margin:0 auto;padding:0 12px}
+.header{background:linear-gradient(135deg,#ec4899,#a855f7,#6366f1);color:#fff;padding:12px 16px 10px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.header-inner{max-width:600px;margin:0 auto}
+.header h1{font-size:15px;font-weight:700;margin-bottom:2px}
+.header-sub{font-size:10px;opacity:.9;margin-bottom:8px}
+.progress-card{background:rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:10px;padding:8px 10px}
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.progress-label{font-size:12px;font-weight:600}
+.progress-pct{font-size:18px;font-weight:700}
+.progress-count{font-size:10px;opacity:.8}
+.progress-bar-bg{height:6px;background:rgba(255,255,255,.3);border-radius:999px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(to right,#fde047,#fbcfe8);transition:width .5s;border-radius:999px}
+.complete-msg{text-align:center;margin-top:8px;font-size:13px;font-weight:600;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.sync-bar{display:flex;align-items:center;justify-content:space-between;margin-top:5px;font-size:10px;opacity:.9}
+.sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.sync-dot.on{background:#4ade80;animation:blink 2s infinite}
+.sync-dot.off{background:#f87171}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.day-card{background:#fff;border-radius:16px;margin-top:14px;overflow:visible;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.day-header{padding:14px 16px;color:#fff;cursor:pointer;user-select:none;border-radius:16px;position:relative;z-index:5}
+.day-card.open .day-header{position:sticky;top:var(--header-h,130px);border-radius:16px 16px 0 0;z-index:9;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.day-header-row{display:flex;align-items:center;gap:10px}
+.day-icon{background:rgba(255,255,255,.25);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.day-info{flex:1;min-width:0}.day-title{font-size:14px;font-weight:700;margin-bottom:2px}.day-date{font-size:11px;opacity:.9}
+.day-pct-block{text-align:right;flex-shrink:0}.day-count{font-size:10px;opacity:.9}.day-pct{font-size:14px;font-weight:700}
+.day-chevron{margin-left:6px;transition:transform .2s}.day-chevron.open{transform:rotate(180deg)}
+.day-progress{margin-top:10px;height:6px;background:rgba(255,255,255,.3);border-radius:999px;overflow:hidden}
+.day-progress-fill{height:100%;background:#fff;border-radius:999px;transition:width .5s}
+.day-content{display:none;padding:14px}.day-content.open{display:block}
+.section{margin-bottom:14px}.section:last-child{margin-bottom:0}
+.section-title{font-size:13px;font-weight:600;color:#4b5563;margin-bottom:8px;padding:0 4px;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.check-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:#f9fafb;border:2px solid #e5e7eb;margin-bottom:6px;transition:all .15s;user-select:none}
+.check-item.checked{background:#f0fdf4;border-color:#86efac}
+.check-content{flex:1;display:flex;align-items:flex-start;gap:10px;cursor:pointer;min-width:0}
+.check-content:active{opacity:.7}
+.check-box{width:22px;height:22px;border-radius:50%;border:2px solid #d1d5db;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .15s}
+.check-item.checked .check-box{background:#22c55e;border-color:#22c55e}
+.check-box svg{opacity:0;transition:opacity .15s}.check-item.checked .check-box svg{opacity:1}
+.check-text{flex:1;font-size:14px;color:#1f2937;word-break:keep-all}
+.check-item.checked .check-text{color:#6b7280;text-decoration:line-through}
+.map-btn{flex-shrink:0;width:38px;height:38px;border-radius:10px;background:#3b82f6;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .15s}
+.map-btn:active{transform:scale(.92);background:#2563eb}.map-btn svg{width:18px;height:18px}
+.price-btn{flex-shrink:0;width:38px;height:38px;border-radius:10px;background:#10b981;color:#fff;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;transition:all .15s;font-size:14px;font-weight:700;font-family:inherit;position:relative}
+.price-btn:active{transform:scale(.92);background:#059669}
+.price-btn.has-price{background:#0891b2}
+.price-badge{position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;font-size:9px;padding:1px 4px;border-radius:8px;font-weight:600;white-space:nowrap}
+/* Quick price popup */
+.price-popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:300;padding:20px;align-items:center;justify-content:center}
+.price-popup.open{display:flex}
+.price-popup-content{background:#fff;border-radius:20px;padding:20px;max-width:340px;width:100%;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.price-popup-content h3{font-size:15px;font-weight:700;margin-bottom:4px;color:#1f2937}
+.price-popup-content .price-item-text{font-size:13px;color:#6b7280;margin-bottom:12px;line-height:1.4}
+.price-popup-content .price-cat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.price-popup-content .price-cat-btn{background:#f3f4f6;border:2px solid transparent;border-radius:10px;padding:8px 4px;text-align:center;font-size:18px;cursor:pointer;font-family:inherit;transition:all .15s}
+.price-popup-content .price-cat-btn:active{transform:scale(.95)}
+.price-popup-content .price-cat-btn.active{border-color:#10b981;background:#ecfdf5}
+.price-popup-content .price-cat-name{font-size:9px;color:#6b7280;margin-top:2px;display:block}
+.price-popup-content .price-input-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;background:#f9fafb;border:2px solid #e5e7eb;border-radius:10px;padding:0 10px}
+.price-popup-content .price-input-row:focus-within{border-color:#10b981}
+.price-popup-content .price-input-row span{font-size:18px;font-weight:700;color:#10b981}
+.price-popup-content .price-input-row input{flex:1;padding:12px 0;border:none;font-size:18px;font-weight:600;outline:none;font-family:inherit;background:transparent}
+.price-popup-content .price-actions{display:flex;gap:8px}
+.price-popup-content .price-save{flex:1;background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:10px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:inherit}
+.price-popup-content .price-cancel{background:#e5e7eb;color:#374151;padding:10px 16px;border-radius:10px;font-size:13px;border:none;cursor:pointer;font-family:inherit}
+.price-popup-content .price-existing{background:#fef3c7;border-radius:8px;padding:8px;margin-bottom:12px;font-size:12px;color:#92400e;text-align:center}
+.resv-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;user-select:none;transition:all .15s;vertical-align:middle}
+.resv-tag.type-예약{background:#fef3c7;color:#92400e;border:1.5px solid #fde68a}
+.resv-tag.type-예약.done{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+.resv-tag.type-줄서기{background:#dbeafe;color:#1e40af;border:1.5px solid #93c5fd}
+.resv-tag.type-줄서기.done{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+.resv-tag.type-전화예약{background:#fce7f3;color:#9d174d;border:1.5px solid #f9a8d4}
+.resv-tag.type-전화예약.done{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+.resv-tag .resv-box{width:14px;height:14px;border-radius:4px;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;transition:all .15s}
+.resv-tag.done .resv-box{background:#22c55e;border-color:#22c55e}
+.resv-tag .resv-box svg{opacity:0;transition:opacity .15s}.resv-tag.done .resv-box svg{opacity:1}
+.resv-tag:active{transform:scale(.95)}
+.heart-msg{background:linear-gradient(135deg,#fce7f3,#f3e8ff);border-radius:16px;padding:20px;text-align:center;margin-top:14px}
+.heart-msg-title{font-size:15px;font-weight:700;color:#1f2937;margin:8px 0}
+.heart-msg-body{font-size:12px;color:#4b5563;line-height:1.6}
+.reset-btn{display:block;margin:20px auto 0;background:none;border:none;color:#9ca3af;font-size:12px;cursor:pointer;padding:6px 12px;font-family:inherit}
+.reset-confirm{background:#fef2f2;border:2px solid #fecaca;border-radius:12px;padding:14px;margin:14px 0;text-align:center}
+.reset-confirm p{font-size:13px;color:#991b1b;margin-bottom:10px}
+.reset-confirm button,.setup-box button{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;margin:0 4px;font-family:inherit}
+.btn-confirm{background:#ef4444;color:#fff}.btn-cancel{background:#e5e7eb;color:#374151}
+.map-tip,.sync-tip{border-radius:10px;padding:10px 12px;margin:8px 0 0;font-size:12px;text-align:center}
+.map-tip{background:#dbeafe;border:1px solid #93c5fd;color:#1e40af}
+.sync-tip{background:#d1fae5;border:1px solid #6ee7b7;color:#065f46}
+.day-color-0{background:linear-gradient(135deg,#a855f7,#ec4899)}
+.day-color-1{background:linear-gradient(135deg,#3b82f6,#06b6d4)}
+.day-color-2{background:linear-gradient(135deg,#10b981,#059669)}
+.day-color-3{background:linear-gradient(135deg,#f97316,#ef4444)}
+.day-color-4{background:linear-gradient(135deg,#6366f1,#a855f7)}
+.day-color-5{background:linear-gradient(135deg,#ec4899,#f43f5e)}
+.day-color-6{background:linear-gradient(135deg,#ef4444,#ec4899)}
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#fdf2f8,#f3e8ff,#e0e7ff);z-index:100;overflow-y:auto;padding:20px}
+.setup-box{max-width:400px;margin:40px auto;background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.setup-box h2{font-size:18px;font-weight:700;margin-bottom:6px;text-align:center}
+.setup-box p{font-size:13px;color:#6b7280;margin-bottom:16px;text-align:center;line-height:1.6}
+.setup-box label{font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:4px}
+.setup-box input{width:100%;padding:10px 12px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;margin-bottom:12px;font-family:inherit;outline:none}
+.setup-box input:focus{border-color:#a855f7}
+.setup-box .btn-primary{background:linear-gradient(135deg,#a855f7,#ec4899);color:#fff;width:100%;padding:12px;border-radius:12px;font-size:15px;font-weight:700;border:none;cursor:pointer;margin-top:8px}
+.setup-box .btn-secondary{background:#f3f4f6;color:#374151;width:100%;padding:10px;border-radius:10px;font-size:13px;border:none;cursor:pointer;margin-top:8px}
+.room-code-display{font-size:32px;font-weight:900;letter-spacing:6px;text-align:center;color:#7c3aed;background:#f5f3ff;padding:16px;border-radius:14px;margin:16px 0;font-family:monospace}
+.room-code-display.small{font-size:16px;letter-spacing:2px;padding:10px}
+.copy-btn{background:#7c3aed;color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;margin:0 auto;display:block}
+.step-num{display:inline-block;width:24px;height:24px;background:#a855f7;color:#fff;border-radius:50%;font-size:12px;font-weight:700;text-align:center;line-height:24px;margin-right:6px}
+.divider{height:1px;background:#e5e7eb;margin:16px 0}
+.error-msg{background:#fef2f2;color:#991b1b;padding:8px 12px;border-radius:8px;font-size:12px;margin-bottom:12px;display:none}
+.settings-btn{position:fixed;bottom:16px;right:16px;width:44px;height:44px;border-radius:50%;background:#7c3aed;color:#fff;border:none;cursor:pointer;box-shadow:0 2px 10px rgba(124,58,237,.3);z-index:50;display:flex;align-items:center;justify-content:center}
+.settings-btn svg{width:20px;height:20px}
+.budget-btn{position:fixed;bottom:16px;right:70px;width:44px;height:44px;border-radius:50%;background:#10b981;color:#fff;border:none;cursor:pointer;box-shadow:0 2px 10px rgba(16,185,129,.3);z-index:50;display:flex;align-items:center;justify-content:center;font-size:20px}
+.budget-btn:active{transform:scale(.92)}
+.emergency-btn{position:fixed;bottom:16px;right:124px;width:44px;height:44px;border-radius:50%;background:#ef4444;color:#fff;border:none;cursor:pointer;box-shadow:0 2px 10px rgba(239,68,68,.3);z-index:50;display:flex;align-items:center;justify-content:center;font-size:20px;animation:pulseRed 2s infinite}
+@keyframes pulseRed{0%,100%{box-shadow:0 2px 10px rgba(239,68,68,.3)}50%{box-shadow:0 2px 16px rgba(239,68,68,.6)}}
+.emergency-btn:active{transform:scale(.92)}
+/* Budget modal */
+.budget-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;padding:20px;overflow-y:auto}
+.budget-modal.open{display:block}
+.budget-content{max-width:500px;margin:20px auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.budget-content h2{font-size:18px;font-weight:700;margin-bottom:6px;text-align:center}
+.budget-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+.budget-summary-card{background:#f3f4f6;border-radius:10px;padding:10px;text-align:center}
+.budget-summary-card .label{font-size:11px;color:#6b7280;margin-bottom:4px}
+.budget-summary-card .value{font-size:16px;font-weight:700;color:#1f2937}
+.budget-categories{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0}
+.cat-card{background:#f9fafb;border:2px solid #e5e7eb;border-radius:10px;padding:8px 4px;text-align:center;font-size:11px;cursor:pointer;transition:all .15s}
+.cat-card:active{transform:scale(.95)}
+.cat-card.active{background:#fce7f3;border-color:#ec4899}
+.cat-icon{font-size:20px;margin-bottom:2px}
+.cat-amount{font-weight:700;color:#1f2937;font-size:13px;margin-top:2px}
+.budget-form{background:#f9fafb;border-radius:12px;padding:12px;margin:14px 0}
+.budget-form label{font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px;margin-top:8px}
+.budget-form input,.budget-form select{width:100%;padding:8px 10px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:#fff}
+.budget-form input:focus,.budget-form select:focus{border-color:#10b981}
+.budget-add-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;width:100%;padding:10px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;margin-top:10px;font-family:inherit}
+.budget-list{max-height:300px;overflow-y:auto;margin-top:10px}
+.budget-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.budget-item-icon{font-size:20px;flex-shrink:0}
+.budget-item-info{flex:1;min-width:0}
+.budget-item-name{font-size:13px;font-weight:600;color:#1f2937}
+.budget-item-meta{font-size:11px;color:#6b7280}
+.budget-item-amount{flex-shrink:0;display:flex;flex-direction:row;gap:4px;align-items:center}
+.budget-item-amount .jpy-box{background:#fef2f2;color:#dc2626;font-weight:700;font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid #fecaca;min-width:70px;text-align:right;white-space:nowrap}
+.budget-item-amount .krw-box{background:#fef3c7;color:#92400e;font-weight:700;font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid #fde68a;min-width:70px;text-align:right;white-space:nowrap}
+.budget-item-delete{background:none;border:none;color:#9ca3af;cursor:pointer;font-size:16px;padding:0 4px}
+.budget-item-delete:active{color:#ef4444}
+.budget-total-row{background:linear-gradient(135deg,#f3f4f6,#e5e7eb);border:2px solid #9ca3af;border-radius:12px;padding:12px;margin-top:8px;display:flex;align-items:center;gap:8px;position:sticky;bottom:0;box-shadow:0 -2px 8px rgba(0,0,0,.08)}
+.budget-total-row .total-label{font-size:14px;font-weight:700;color:#1f2937;flex:1}
+.budget-total-row .total-amounts{display:flex;flex-direction:row;gap:4px;align-items:center}
+.budget-total-row .total-jpy{background:#dc2626;color:#fff;font-weight:700;font-size:13px;padding:5px 10px;border-radius:6px;min-width:80px;text-align:right;white-space:nowrap}
+.budget-total-row .total-krw{background:#f59e0b;color:#fff;font-weight:700;font-size:13px;padding:5px 10px;border-radius:6px;min-width:80px;text-align:right;white-space:nowrap}
+.budget-close{background:#e5e7eb;color:#374151;width:100%;padding:10px;border-radius:10px;font-size:13px;border:none;cursor:pointer;margin-top:8px;font-family:inherit}
+/* Emergency modal */
+.emerg-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;padding:20px;overflow-y:auto}
+.emerg-modal.open{display:block}
+.emerg-content{max-width:500px;margin:20px auto;background:#fff;border-radius:20px;padding:20px}
+.emerg-content h2{font-size:18px;font-weight:700;margin-bottom:8px;text-align:center;color:#dc2626}
+.emerg-warning{background:#fef2f2;color:#991b1b;padding:8px 10px;border-radius:8px;font-size:11px;margin-bottom:12px;text-align:center}
+.emerg-section{margin-top:14px}
+.emerg-section-title{font-size:13px;font-weight:700;color:#374151;margin-bottom:6px}
+.emerg-card{background:#fff7ed;border:2px solid #fdba74;border-radius:12px;padding:12px;margin-bottom:8px}
+.emerg-card.urgent{background:#fef2f2;border-color:#fca5a5}
+.emerg-card.recommend{background:#f0fdf4;border-color:#86efac}
+.emerg-name{font-weight:700;color:#1f2937;font-size:14px;margin-bottom:2px}
+.emerg-detail{font-size:12px;color:#6b7280;margin-bottom:6px;line-height:1.5}
+.emerg-buttons{display:flex;gap:6px}
+.emerg-call-btn{flex:1;background:#dc2626;color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:600;text-align:center}
+.emerg-map-btn{background:#3b82f6;color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:600;text-align:center}
+</style>
+</head>
+<body>
+<div id="setupOverlay" class="overlay" style="display:none"></div>
+<div id="roomOverlay" class="overlay" style="display:none"></div>
+<div class="header">
+<div class="header-inner">
+<h1>✨ 도쿄 4박 5일 체크리스트</h1>
+<div class="header-sub">5/20~24 · 제국호텔(2박) → VIA INN 아카사카(2박) · 임신 17주 🤰</div>
+<div class="progress-card">
+<div class="progress-row"><div class="progress-label">🏆 전체 진행률</div><div><span class="progress-pct" id="overallPct">0%</span><span class="progress-count" id="overallCount">(0/0)</span></div></div>
+<div class="progress-bar-bg"><div class="progress-bar-fill" id="overallFill" style="width:0%"></div></div>
+<div class="sync-bar"><div id="syncStatus"><span class="sync-dot off"></span>오프라인 모드</div><div id="roomInfo"></div></div>
+<div id="completeMsg"></div>
+</div></div></div>
+<div class="container">
+<div class="map-tip">🗺️ 파란색 지도 아이콘 → 구글맵 길찾기</div>
+<div class="sync-tip" id="syncTip" style="display:none">💚 실시간 동기화 중 · 부부 공유 체크리스트</div>
+<div id="daysContainer"></div>
+<div class="heart-msg"><div style="font-size:28px">💖</div><div class="heart-msg-title">안전하고 즐거운 여행 되세요!</div><div class="heart-msg-body">임신 17주차, 엄마와 아가 모두<br>건강한 여행 되시길 응원해요 🌸</div></div>
+<button class="reset-btn" id="resetBtn">↻ 처음부터 다시 시작</button>
+<div id="resetConfirmBox"></div>
+</div>
+<div class="price-popup" id="pricePopup">
+<div class="price-popup-content">
+<h3>💰 비용 기록</h3>
+<div class="price-item-text" id="priceItemText"></div>
+<div id="priceExisting"></div>
+<div class="price-cat-row" id="priceCatRow"></div>
+<div style="display:flex;gap:6px;margin-bottom:10px">
+<button type="button" class="curr-tab active" data-curr="JPY" id="pCurrJPY" style="flex:1;padding:8px;border-radius:8px;border:2px solid #10b981;background:#ecfdf5;color:#065f46;font-weight:700;cursor:pointer;font-family:inherit">¥ 엔화</button>
+<button type="button" class="curr-tab" data-curr="KRW" id="pCurrKRW" style="flex:1;padding:8px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;color:#374151;font-weight:600;cursor:pointer;font-family:inherit">₩ 원화</button>
+</div>
+<div class="price-input-row">
+<span id="pCurrSym">¥</span>
+<input id="priceAmt" type="number" placeholder="금액 입력" inputmode="numeric" autocomplete="off">
+</div>
+<div id="pAmtPreview" style="text-align:right;font-size:11px;color:#6b7280;margin-bottom:8px;min-height:14px"></div>
+<div class="price-actions">
+<button class="price-cancel" id="priceCancel">취소</button>
+<button class="price-save" id="priceSave">💾 저장</button>
+</div>
+</div>
+</div>
+
+<button class="emergency-btn" id="emergBtn" title="응급 연락">🚨</button>
+<button class="budget-btn" id="budgetBtn" title="가계부">💰</button>
+<button class="settings-btn" id="settingsBtn" title="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+
+<div class="emerg-modal" id="emergModal">
+<div class="emerg-content">
+<h2>🚨 응급 연락처 - 임산부</h2>
+<div class="emerg-warning">⚠️ 출혈, 강한 복통, 양수 누출, 태동 없음 = 즉시 119!</div>
+
+<div class="emerg-section">
+<div class="emerg-section-title">📞 즉시 응급 (24시간)</div>
+<div class="emerg-card urgent">
+<div class="emerg-name">🚑 일본 119 (구급차)</div>
+<div class="emerg-detail">일본어: 救急車をお願いします (큐큐샤오 오네가이시마스)<br>영어 통역도 지원 가능</div>
+<div class="emerg-buttons"><a class="emerg-call-btn" href="tel:119">📞 119 즉시 전화</a></div>
+</div>
+</div>
+
+<div class="emerg-section">
+<div class="emerg-section-title">🏥 산부인과 응급 (24시간 분만 가능)</div>
+<div class="emerg-card recommend">
+<div class="emerg-name">🌟 산노 병원 (Sanno Hospital)</div>
+<div class="emerg-detail">아카사카 위치 (호텔 도보 10분!) ⭐<br>황실이 이용한 산부인과, 무통분만 24/7<br>영어 통역 가능 (낮시간), 24시간 응급 백업</div>
+<div class="emerg-buttons">
+<a class="emerg-call-btn" href="tel:+81334023151">📞 03-3402-3151</a>
+<a class="emerg-map-btn" href="https://www.google.com/maps/dir/?api=1&destination=Sanno+Hospital+Akasaka+Tokyo&travelmode=transit" target="_blank">🗺️ 길찾기</a>
+</div>
+</div>
+<div class="emerg-card">
+<div class="emerg-name">아이이쿠 병원 (Aiiku Hospital)</div>
+<div class="emerg-detail">미나미 아자부, 연 1,500명+ 분만<br>일본 황실 히사히토 왕자 출생지 (2006)<br>영문 홈페이지 제공</div>
+<div class="emerg-buttons">
+<a class="emerg-call-btn" href="tel:+81334732301">📞 03-3473-8321</a>
+<a class="emerg-map-btn" href="https://www.google.com/maps/dir/?api=1&destination=Aiiku+Hospital+Tokyo&travelmode=transit" target="_blank">🗺️</a>
+</div>
+</div>
+<div class="emerg-card">
+<div class="emerg-name">St. Luke's International Hospital</div>
+<div class="emerg-detail">쓰키지 (제국호텔에서 가까움)<br>1933년 설립, 영어 가능한 의료진 다수<br>응급실 + 산부인과 보유</div>
+<div class="emerg-buttons">
+<a class="emerg-call-btn" href="tel:+81335415151">📞 03-3541-5151</a>
+<a class="emerg-map-btn" href="https://www.google.com/maps/dir/?api=1&destination=St.+Luke%27s+International+Hospital+Tsukiji&travelmode=transit" target="_blank">🗺️</a>
+</div>
+</div>
+</div>
+
+<div class="emerg-section">
+<div class="emerg-section-title">👨‍⚕️ 영어 가능 산부인과 의사</div>
+<div class="emerg-card">
+<div class="emerg-name">Dr. Hideki Sakamoto (사카모토)</div>
+<div class="emerg-detail">시바 코엔 (도쿄 메디컬 클리닉)<br>예일대 펠로우, 영어/스페인어 가능<br>산노/아이이쿠 병원 출장 가능</div>
+<div class="emerg-buttons"><a class="emerg-call-btn" href="tel:+81334363028">📞 03-3436-3028</a></div>
+</div>
+</div>
+
+<div class="emerg-section">
+<div class="emerg-section-title">🇰🇷 한국 영사관 & 보험</div>
+<div class="emerg-card">
+<div class="emerg-name">주일 한국 대사관 영사과</div>
+<div class="emerg-detail">의료 통역 지원, 응급 상황 도움<br>24시간 영사 콜센터 가능</div>
+<div class="emerg-buttons">
+<a class="emerg-call-btn" href="tel:+81334527611">📞 03-3452-7611</a>
+<a class="emerg-call-btn" href="tel:+82221003000" style="background:#1e40af">📞 영사콜센터</a>
+</div>
+</div>
+<div class="emerg-card">
+<div class="emerg-name">⚠️ 여행자 보험사 연락</div>
+<div class="emerg-detail">병원 가기 전 보험사 먼저 연락!<br>의료비 청구 위해 진단서/영수증 필수</div>
+</div>
+</div>
+
+<div class="emerg-section">
+<div class="emerg-section-title">🗣️ 응급 일본어 표현</div>
+<div class="emerg-card" style="background:#f0f9ff;border-color:#7dd3fc">
+<div class="emerg-detail" style="color:#1e40af">
+<b>"妊娠中です"</b> (닌신츄데스)<br>= 임신 중이에요<br><br>
+<b>"出血しています"</b> (슛케츠시테이마스)<br>= 출혈이 있어요<br><br>
+<b>"お腹が痛いです"</b> (오나카가 이타이데스)<br>= 배가 아파요<br><br>
+<b>"救急車を呼んでください"</b> (큐큐샤오 욘데쿠다사이)<br>= 구급차 불러주세요
+</div>
+</div>
+</div>
+
+<button class="budget-close" onclick="document.getElementById('emergModal').classList.remove('open')">닫기</button>
+</div>
+</div>
+
+<div class="budget-modal" id="budgetModal">
+<div class="budget-content">
+<h2>💰 도쿄 여행 가계부</h2>
+<div class="budget-summary">
+<div class="budget-summary-card">
+<div class="label">총 사용</div>
+<div style="display:flex;flex-direction:column;gap:3px;margin-top:4px">
+<div style="background:#fef2f2;color:#dc2626;font-weight:700;font-size:14px;padding:4px 8px;border-radius:6px;border:1px solid #fecaca" id="totalSpent">¥0</div>
+<div style="background:#fef3c7;color:#92400e;font-weight:600;font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid #fde68a" id="totalSpentKrw">₩0</div>
+</div>
+</div>
+<div class="budget-summary-card">
+<div class="label">잔액 (예산 ¥306,000)</div>
+<div style="display:flex;flex-direction:column;gap:3px;margin-top:4px">
+<div style="background:#ecfdf5;color:#10b981;font-weight:700;font-size:14px;padding:4px 8px;border-radius:6px;border:1px solid #a7f3d0" id="remainBudget">¥306,000</div>
+<div style="background:#dbeafe;color:#1e40af;font-weight:600;font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid #93c5fd" id="remainBudgetKrw">₩2,845,800</div>
+</div>
+</div>
+</div>
+
+<div class="budget-categories" id="categoryGrid"></div>
+
+<div class="budget-form">
+<label>🏷️ 카테고리</label>
+<select id="bCat">
+<option value="flight">✈️ 비행기표</option>
+<option value="transport">🚃 이동비</option>
+<option value="hotel">🏨 숙소</option>
+<option value="food">🍴 밥</option>
+<option value="shopping">🛍️ 쇼핑</option>
+<option value="attraction">🎫 관광/입장료</option>
+<option value="baby">👶 애기용품</option>
+<option value="other">📦 기타</option>
+</select>
+<label>📝 내용</label>
+<input id="bDesc" placeholder="예: 우나기 점심, 아카짱 혼포 기저귀">
+<label>💴 금액</label>
+<div style="display:flex;gap:6px;margin-bottom:10px">
+<button type="button" class="curr-tab active" data-curr="JPY" id="bCurrJPY" style="flex:1;padding:8px;border-radius:8px;border:2px solid #10b981;background:#ecfdf5;color:#065f46;font-weight:700;cursor:pointer;font-family:inherit">¥ 엔화</button>
+<button type="button" class="curr-tab" data-curr="KRW" id="bCurrKRW" style="flex:1;padding:8px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;color:#374151;font-weight:600;cursor:pointer;font-family:inherit">₩ 원화</button>
+</div>
+<div style="display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #e5e7eb;border-radius:8px;padding:0 10px">
+<span id="bCurrSym" style="font-size:18px;font-weight:700;color:#10b981">¥</span>
+<input id="bAmt" type="number" placeholder="금액 입력" inputmode="numeric" style="flex:1;padding:10px 0;border:none;font-size:15px;font-weight:600;outline:none;font-family:inherit;background:transparent">
+</div>
+<div id="bAmtPreview" style="text-align:right;font-size:11px;color:#6b7280;margin-top:4px;min-height:14px"></div>
+<button class="budget-add-btn" id="bAddBtn">➕ 기록 추가</button>
+</div>
+
+<div class="emerg-section-title">📋 사용 내역 (최근순)</div>
+<div class="budget-list" id="budgetList"></div>
+
+<button class="budget-close" onclick="document.getElementById('budgetModal').classList.remove('open')">닫기</button>
+</div>
+</div>
+<script>
+const LOCAL_KEY='tokyo-checklist-v3';const CONFIG_KEY='tokyo-sync-config';let checked={};let openDay='day0';let syncInterval=null;let config=null;
+function mapUrl(d){return`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(d)}&travelmode=transit`}
+const days=[
+{id:'day0',title:'출국 전 준비',date:'~ 5/19',emoji:'📋',color:0,sections:[
+{title:'📋 필수 준비',items:[
+{id:'p1',text:'여권 유효기간 6개월 이상 확인'},
+{id:'p2',text:'여행자보험 가입 (임신 합병증 커버 확인)'},
+{id:'p3',text:'임산부 수첩(모자건강수첩) 사본 준비'},
+{id:'p4',text:'산부인과 연락처 & 긴급 연락망 저장'},
+{id:'p5',text:'영문 산모수첩 복사본 지참'}]},
+{title:'📱 앱 & 예약',items:[
+{id:'p6',text:'아카짱 혼포 앱 다운로드 + 회원가입'},
+{id:'p7',text:'구글 번역 앱 설치 (카메라 번역)'},
+{id:'p8',text:'⭐ 제국호텔 예약 확인 (번호: 3533-4705-8196)'},
+{id:'p8b',text:'⭐ VIA INN AKASAKA 예약 확인'},
+{id:'p9',text:'⭐ 나가타쵸 카네사카 5/21 12:30 예약 확정 ✅'},
+{id:'p10',text:'찬코 키리시마 5/22 18:00 예약'},
+{id:'p11',text:'도쿄 스카이트리 5/22 18:30 티켓 예매'},
+{id:'p12',text:'우시미츠 5/23 12:30 예약 (인스타 DM)'}]},
+{title:'🎒 짐 싸기',items:[
+{id:'p13',text:'종아리 마사지기 + USB-C 충전기'},
+{id:'p14',text:'일본 11자 콘센트 변환 어댑터'},
+{id:'p15',text:'압박 스타킹 (비행기용)'},
+{id:'p16',text:'비상 간식 (견과, 젤리, 크래커)'},
+{id:'p17',text:'물병 / 텀블러'},
+{id:'p18',text:'컨택리스 신용카드 (Visa/Mastercard)'},
+{id:'p19',text:'트래블카드 충전 ¥250,000~280,000'},
+{id:'p20',text:'비상 현금 ¥10,000 준비'},
+{id:'p21',text:'편한 워킹슈즈'},
+{id:'p22',text:'겉옷 (5월 밤 서늘함 대비)'},
+{id:'p23',text:'휴지, 물티슈, 손소독제'}]}]},
+{id:'day1',title:'Day 1 · 도착 & 긴자',date:'5/20 (수)',emoji:'✈️',color:1,sections:[
+{title:'🛬 공항 도착 (10:00)',items:[
+{id:'d1-1',text:'나리타 공항 도착',map:'Narita International Airport Terminal 1'},
+{id:'d1-2',text:'입국 심사 통과'},
+{id:'d1-3',text:'짐 찾기 & 세관 통과'},
+{id:'d1-4',text:'ANA/JAL 카운터 마터니티 마크 요청 🎀',map:'ANA Counter Narita Airport Terminal 1'},
+{id:'d1-5',text:'B1층 JR EAST Travel Service Center',map:'JR EAST Travel Service Center Narita Airport Terminal 1'},
+{id:'d1-6',text:'Welcome Suica 2장 구매 (각 ¥5,000 충전)'},
+{id:'d1-7',text:'화장실 & 간단한 간식'}]},
+{title:'🚆 공항 → 제국호텔 (11:27 출발)',items:[
+{id:'d1-8',text:'케이세이 액세스 익스프레스 탑승',map:'Keisei Narita Airport Terminal 1 Station'},
+{id:'d1-9',text:'신바시역 도착 (12:33)',map:'Shimbashi Station Tokyo'},
+{id:'d1-10',text:'제국호텔 도쿄 도보 이동 (7분)',map:'Imperial Hotel Tokyo, Uchisaiwaicho, Chiyoda City'},
+{id:'d1-11',text:'호텔 도착 & 짐 맡기기'}]},
+{title:'🍱 우나기노나루세 점심 (14:00)',resv:[{id:'rv-d1-lunch-r',type:'예약'},{id:'rv-d1-lunch-w',type:'줄서기'}],items:[
+{id:'d1-12',text:'카렛타 시오도메 B1층 이동',map:'Caretta Shiodome Tokyo'},
+{id:'d1-13',text:'우나기노나루세 카렛타시오도메점',map:'鰻のなる瀬 カレッタ汐留店'},
+{id:'d1-14',text:'장어덮밥 우나주 마츠(松) 주문'}]},
+{title:'🌆 오후 관광',items:[
+{id:'d1-15',text:'Caretta 시오도메 46F 무료 전망대',map:'Caretta Shiodome Sky View 46F'},
+{id:'d1-16',text:'⛩️ 고쿄 동원 산책 (무료, 16:00 입장 마감)',map:'Imperial Palace East Gardens Tokyo'},
+{id:'d1-17',text:'제국호텔 체크인 (14:00~)',map:'Imperial Hotel Tokyo'},
+{id:'d1-17b',text:'⭐ 예약번호: 3533-4705-8196'},
+{id:'d1-17c',text:'⭐ 베이비문 요청 반영 확인 (고층, 임산부 배려)'},
+{id:'d1-17e',text:'⭐ Imperial Club International 무료 가입 요청'},
+{id:'d1-17f',text:'🏊 수영장 위치 + 운영시간 확인 (무료, 본관7F)'},
+{id:'d1-17g',text:'👞 구두닦이 서비스 신청 (무료, 매일 가능!)'},
+{id:'d1-17h',text:'🫖 객실 네스프레소 + 일본차 즐기기'},
+{id:'d1-17i',text:'☂️ 우산 무료 대여 위치 확인'},
+{id:'d1-18',text:'🦵 종아리 마사지기 10~15분 (약한 강도)'}]},
+{title:'🍖 돈카츠 저녁 (19:00 예약)',resv:[{id:'rv-d1-dinner-r',type:'예약'},{id:'rv-d1-dinner-w',type:'줄서기'}],items:[
+{id:'d1-19',text:'니혼바시 돈카츠 하지메 하나레',map:'日本橋とんかつ一 はなれ'},
+{id:'d1-20',text:'돈카츠 세트 + 3가지 소금 즐기기'},
+{id:'d1-21',text:'호텔 복귀 & 일찍 취침',map:'Imperial Hotel Tokyo'}]}]},
+{id:'day2',title:'Day 2 · 쓰키지 & 애기용품',date:'5/21 (목)',emoji:'🛍️',color:2,sections:[
+{title:'🏊 새벽 수영 ⭐ (06:30~07:30, 선택)',items:[
+{id:'d2-0a',text:'🏊 제국호텔 수영장 30분 (임산부 안전운동)'},
+{id:'d2-0b',text:'⚠️ 사우나/핫텁은 패스 (체온 상승 위험)'},
+{id:'d2-0c',text:'객실 복귀 + 네스프레소 + 신문'}]},
+{title:'🥢 쓰키지 조식 + 채플 (08:00)',resv:[{id:'rv-d2-morning-r',type:'예약'},{id:'rv-d2-morning-w',type:'줄서기'}],items:[
+{id:'d2-1',text:'호텔 출발 (07:30)'},
+{id:'d2-2',text:'쓰키지 외시장 도착',map:'Tsukiji Outer Market Tokyo'},
+{id:'d2-3',text:'Marutake 타마고야키',map:'Marutake Tamagoyaki Tsukiji'},
+{id:'d2-4',text:'Tsukiji Yamacho 타마고 꼬치',map:'Tsukiji Yamacho 山長'},
+{id:'d2-5',text:'구운 가리비 or 장어꼬치'},
+{id:'d2-6',text:'⚠️ 현금 ¥3,000 준비'},
+{id:'d2-6b',text:"⛪ St. Luke's 채플 방문 (도보 5분)",map:"St. Luke's Chapel Akashicho Tokyo"},
+{id:'d2-6c',text:'🪟 스테인드글라스 + 파이프오르간 감상'},
+{id:'d2-6d',text:'🙏 임산부 응급실 위치 확인 (안심용)'}]},
+{title:'🍣 나가타쵸 카네사카 점심 (12:30 예약 ✅)',resv:[{id:'rv-d2-lunch-r',type:'예약'},{id:'rv-d2-lunch-w',type:'줄서기'}],items:[
+{id:'d2-7',text:'토요스 출발 → 나가타쵸역 (유라쿠초선 25분)',map:'Nagatacho Station Tokyo'},
+{id:'d2-8',text:'⭐ 나가타쵸 스시 카네사카',map:'永田町 鮨 かねさか Nagatacho Sushi Kanesaka'},
+{id:'d2-9',text:'⚠️ 임신 중이라 가열 네타 위주로 요청'},
+{id:'d2-10',text:'오마카세 코스 즐기기 🍣'}]},
+{title:'👶 아카짱 혼포 쇼핑 (14:15)',items:[
+{id:'d2-11',text:'긴자역 → 토요스역 (유라쿠초선)',map:'Toyosu Station Tokyo'},
+{id:'d2-12',text:'라라포트 토요스 3층 도착',map:'LaLaport Toyosu Tokyo'},
+{id:'d2-13',text:'아카짱 혼포 라라포트 토요스점',map:'Akachan Honpo LaLaport Toyosu'},
+{id:'d2-14',text:'⭐ 프리마마 기프트 세트 요청'},
+{id:'d2-15',text:'마터니티 마크 키체인 받기 🎀'},
+{id:'d2-16',text:'기저귀 / 물티슈 쇼핑'},
+{id:'d2-17',text:'아기옷 (뉴본~3개월)'},
+{id:'d2-18',text:'수유용품 / 젖병'},
+{id:'d2-19',text:'Tax Free 카운터에서 여권 제시'},
+{id:'d2-20',text:'제국호텔 복귀',map:'Imperial Hotel Tokyo'}]},
+{title:'🍤 텐동 저녁 (18:00)',resv:[{id:'rv-d2-dinner-r',type:'예약'},{id:'rv-d2-dinner-w',type:'줄서기'}],items:[
+{id:'d2-21',text:'텐동 이츠키 긴자 (서3-1 Inz1 2F)',map:'Tendon Itsuki Ginza 銀座 いつき'},
+{id:'d2-22',text:'⭐ 평점 4.3! 할랄 텐푸라 + 가성비 ⭐'},
+{id:'d2-23',text:'스페셜 텐동 ¥1,400 (새우 2 + 치킨 2 + 계란 + 야채)'},
+{id:'d2-24',text:'⚠️ 좌석 적어서 줄 설 수 있음'}]},
+{title:'🍢 야키톤 2차 (19:30~)',resv:[{id:'rv-d2-2nd-r',type:'예약'},{id:'rv-d2-2nd-w',type:'줄서기'}],items:[
+{id:'d2-24a',text:'야키톤 다마야상점 긴자 코리도 거리점 ⭐4.8',map:'やきとん たまや商店 銀座コリドー街店'},
+{id:'d2-24b',text:'텐동 이츠키에서 도보 3분 (긴자 6-2-2)'},
+{id:'d2-24c',text:'🐷 돼지 꼬치 모듬 (간/등심/삼겹/등)'},
+{id:'d2-24d',text:'🍅 리뷰 1위: 미니토마토+돼지 베이컨말이!'},
+{id:'d2-24e',text:'🥩 간(레바) 꼬치도 추천'},
+{id:'d2-24f',text:'⚠️ 임신 중이라 충분히 익혀 먹기'},
+{id:'d2-24g',text:'🍻 남편: 해피아워 맥주 반값 / 아내: 우롱차'}]},
+{title:'🛁 호텔 복귀',items:[
+{id:'d2-25',text:'제국호텔 복귀 (도보 5분!)',map:'Imperial Hotel Tokyo'},
+{id:'d2-26',text:'🦵 종아리 마사지기 사용'}]}]},
+{id:'day3',title:'Day 3 · 영적 + 아사쿠사 + 야경',date:'5/22 (금)',emoji:'⛪',color:3,sections:[
+{title:'☕ 아침 & 체크아웃 (~10:30)',items:[
+{id:'d3-1',text:'🏊 마지막 수영 (제국호텔, 체크아웃 전!)'},
+{id:'d3-1b',text:'호텔 룸서비스 또는 빠른 조식'},
+{id:'d3-2b',text:'🧴 객실 어메니티 챙기기 (입욕제, 차 등 새 것은 OK)'},
+{id:'d3-3',text:'제국호텔 체크아웃 (10:30) & 짐 맡기기',map:'Imperial Hotel Tokyo'}]},
+{title:'🍜 에비마루 라멘 점심 (11:45)',resv:[{id:'rv-d3-lunch-r',type:'예약'},{id:'rv-d3-lunch-w',type:'줄서기'}],items:[
+{id:'d3-4',text:'긴자 → 니시칸다역 (지하철 15분)',map:'Nishi-Kanda Station Tokyo'},
+{id:'d3-5',text:'⏳ 11:00 도착해서 줄서기 (대기 1시간 가능)'},
+{id:'d3-5b',text:'에비마루 라멘',map:'Ebimaru Ramen 西神田'},
+{id:'d3-5c',text:'남편 줄서기, 아내 근처 카페 휴식'},
+{id:'d3-6',text:'랍스터 라멘 + 리조토 세트 즐기기 🍜'},
+{id:'d3-6b',text:'제국호텔 잠깐 들러서 짐 찾기',map:'Imperial Hotel Tokyo'},
+{id:'d3-6c',text:'가부키자 외관 구경 (시간 되면)',map:'Kabukiza Theatre Ginza Tokyo'}]},
+{title:'🏨 VIA INN 아카사카 체크인 (14:30)',items:[
+{id:'d3-7',text:'택시로 아카사카 이동 (15분, ¥2,500)',map:'Via Inn Prime Akasaka'},
+{id:'d3-8',text:'VIA INN PRIME AKASAKA 체크인 (15:00)'},
+{id:'d3-9',text:'⭐ 프런트에 임신 중 알리기 (대욕장 사고 대비)'},
+{id:'d3-10',text:'🛁 대욕장 위치 확인 (Akane no Yu) + 운영시간'},
+{id:'d3-11',text:'🛒 1층 7-Eleven 위치 확인 (24시간!)'},
+{id:'d3-12',text:'🪒 로비 셀프 어메니티 코너 챙기기'},
+{id:'d3-13',text:'30분 휴식 + 짐 정리'}]},
+{title:'⛪ 아사쿠사 가톨릭 교회 방문 (16:00)',items:[
+{id:'d3-14',text:'아카사카미츠케 → 아사쿠사바시역 (25분)',map:'Asakusabashi Station Tokyo'},
+{id:'d3-15',text:'⛪ 아사쿠사 가톨릭 교회 (성 바울)',map:'St. Paul Catholic Asakusa Church 浅草教会'},
+{id:'d3-16',text:'⛪ 1599년 일본 최초 에도 복음 전파의 역사 ✝️'},
+{id:'d3-17',text:'🙏 잠시 기도 + 묵상 시간 (새 생명 축복)'},
+{id:'d3-18',text:'📖 1623년 28명 순교자 기념 석판 보기'},
+{id:'d3-19',text:'🌹 성모 마리아 동굴 모형 + 정원 산책'}]},
+{title:'🏯 아사쿠사 핵심 관광 (16:45)',items:[
+{id:'d3-20',text:'아사쿠사바시 → 아사쿠사 (도보 15분 or 1정거장)',map:'Asakusa Station Tokyo'},
+{id:'d3-21',text:'센소지 외관 + 카미나리몬',map:'Senso-ji Temple Asakusa Tokyo'},
+{id:'d3-22',text:'나카미세 상점가 (간식 + 기념품)',map:'Nakamise Shopping Street Asakusa'},
+{id:'d3-23',text:'닝교야키 / 아게만주 맛보기'},
+{id:'d3-24',text:'아사쿠사 문화관광센터 8F 일몰 뷰 (17:30)',map:'Asakusa Culture Tourist Information Center'}]},
+{title:'✨ 도쿄 스카이트리 야경 (18:30)',items:[
+{id:'d3-25',text:'아사쿠사 → 도쿄 스카이트리 (도보 20분 or 1정거장)',map:'Tokyo Skytree Sumida City Tokyo'},
+{id:'d3-26',text:'⚠️ 임산부 우선 엘리베이터 요청'},
+{id:'d3-27',text:'텐보데크 350m 전망 ✨'},
+{id:'d3-28',text:'야경 인생샷 📸'}]},
+{title:'🥩 우시미츠 와규 덮밥 저녁 (20:00)',resv:[{id:'rv-d3-dinner-r',type:'예약'},{id:'rv-d3-dinner-w',type:'줄서기'}],items:[
+{id:'d3-29',text:'스카이트리 → 아사쿠사 복귀 (도보 20분)',map:'Asakusa Station Tokyo'},
+{id:'d3-30',text:'우시미츠 와규 덮밥 🥩',map:'Ushimitsu Asakusa 牛美津'}]},
+{title:'🍢 모리호 야키토리 2차 (21:30)',resv:[{id:'rv-d3-2nd-r',type:'예약'},{id:'rv-d3-2nd-w',type:'줄서기'}],items:[
+{id:'d3-30a',text:'아사쿠사 → 아카사카 (긴자선 25분)',map:'Akasaka Station Tokyo'},
+{id:'d3-30b',text:'숯불 야키토리 모리호 (아카사카 2-20-18)',map:'2 Chome-20-18 Akasaka Minato Tokyo'},
+{id:'d3-30c',text:'호텔에서 도보 5분! ⭐'},
+{id:'d3-30d',text:'🐔 닭 꼬치 모듬 (모모/네기마/카와/츠쿠네)'},
+{id:'d3-30e',text:'🔥 숯불 향 즐기기'},
+{id:'d3-30f',text:'⚠️ 임산부: 잘 익혀먹고 레바(간) 피하기'},
+{id:'d3-30g',text:'🫖 아내: 우롱차 / 남편: 사케 한 잔'}]},
+{title:'🛁 호텔 복귀 & 야간 입욕',items:[
+{id:'d3-31',text:'모리호 → VIA INN 호텔 (도보 5분)',map:'Via Inn Prime Akasaka'},
+{id:'d3-32',text:'🛁 대욕장에서 피로 풀기 (실키 배스 체험!) ⭐'},
+{id:'d3-33',text:'🦵 종아리 마사지기 사용'}]}]},
+{id:'day4',title:'Day 4 · 요코하마 & 가와사키 데이',date:'5/23 (토)',emoji:'🚃',color:4,sections:[
+{title:'🌅 새벽 노천탕 ⭐ (06:00~07:00)',items:[
+{id:'d4-0a',text:'⏰ 새벽 6시 기상'},
+{id:'d4-0b',text:'🌳 노천탕 (露天風呂) 입욕 - 한산한 시간!'},
+{id:'d4-0c',text:'☁️ 실키 배스 (絹の湯) 체험 - 미세 거품 우윳빛'},
+{id:'d4-0d',text:'⚠️ 한 번 입욕 10분 이내, 물 충분히 마시기'},
+{id:'d4-0e',text:'💆 다리 부종 풀기 (실키 배스 효과 최고)'},
+{id:'d4-0f',text:'객실 복귀 + 휴식'}]},
+{title:'🍱 아침 (도쿄역 에키벤) & 출발 (07:00)',items:[
+{id:'d4-1',text:'⏰ 호텔 출발 (07:00)'},
+{id:'d4-1b',text:'🚃 지하철로 도쿄역 이동 (15분)',map:'Tokyo Station'},
+{id:'d4-2',text:'🍱 도쿄역 에키벤야 마쓰리',map:'Ekiben-ya Matsuri Tokyo Station'},
+{id:'d4-2b',text:'⏰ 5:30AM 오픈! 매일 영업'},
+{id:'d4-2c',text:'🥩 추천: 규벤(와규 도시락) ¥1,500'},
+{id:'d4-2d',text:'🔥 추천: 자체 발열 도시락 (끈 당기면 따뜻!)'},
+{id:'d4-2e',text:'☕ 음료도 같이 구매 (커피/차)'},
+{id:'d4-3',text:'🚄 요코하마행 기차 탑승 → 안에서 에키벤! (30분)'}]},
+{title:'🏞️ 요코하마 미나토미라이 오전 (09:30)',items:[
+{id:'d4-4',text:'사쿠라기쵸역 도착',map:'Sakuragicho Station Yokohama'},
+{id:'d4-5',text:'🏞️ 린코 파크 산책 (해변, 무료)',map:'Rinko Park Yokohama'},
+{id:'d4-6',text:'🚠 YOKOHAMA AIR CABIN (옵션, ¥1,000)',map:'YOKOHAMA AIR CABIN Sakuragicho'},
+{id:'d4-7',text:'🍜 컵누들 박물관 (¥500 + 컵라면 만들기 ¥500)',map:'Cup Noodles Museum Yokohama'}]},
+{title:'🍲 오타나와노렌 점심 (12:30)',resv:[{id:'rv-d4-lunch-r',type:'예약'},{id:'rv-d4-lunch-w',type:'줄서기'}],items:[
+{id:'d4-8',text:'⭐ 사전 예약 필수! 전화 045-261-0636'},
+{id:'d4-9',text:'오타나와노렌 본점',map:'お多奈和のれん 横浜 Otanawanoren Yokohama'},
+{id:'d4-10',text:'🍲 스키야키 코스 즐기기'},
+{id:'d4-11',text:'⚠️ 임신 중이라 잘 익혀서 먹기'}]},
+{title:'🏮 차이나타운 + 항구 (14:30)',items:[
+{id:'d4-12',text:'🚶 요코하마 차이나타운 산책',map:'Yokohama Chinatown'},
+{id:'d4-13',text:'🍱 망고 빙수 / 군만두 길거리 음식'},
+{id:'d4-14',text:'🏛️ 레드 브릭 창고 구경',map:'Yokohama Red Brick Warehouse'},
+{id:'d4-15',text:'🌳 야마시타 공원 휴식 (해변)',map:'Yamashita Park Yokohama'},
+{id:'d4-16',text:'☕ 카페에서 잠시 쉬기 (임산부 휴식!)'}]},
+{title:'🏗️ 랜드마크 타워 (옵션, 17:00)',items:[
+{id:'d4-17',text:'🏗️ 요코하마 랜드마크 타워 전망대',map:'Yokohama Landmark Tower'},
+{id:'d4-18',text:'69층 전망 (¥1,000, 후지산 보임!)'},
+{id:'d4-19',text:'☀️ 일몰 뷰 감상 (선택)'}]},
+{title:'🥩 가와사키 야키니쿠 저녁 (18:50)',resv:[{id:'rv-d4-dinner-r',type:'예약'},{id:'rv-d4-dinner-w',type:'줄서기'}],items:[
+{id:'d4-20',text:'요코하마 → 가와사키 (JR, 8분)',map:'Kawasaki Station JR'},
+{id:'d4-21',text:'⚠️ 1시간 일찍 도착해서 줄서기!'},
+{id:'d4-22',text:'🥩 징기스칸 츠루야 가와사키점',map:'ジンギスカン鶴屋 川崎'},
+{id:'d4-23',text:'⚠️ 19시 입장 마감, 21시 영업종료'},
+{id:'d4-24',text:'⚠️ 임산부: 양고기 잘 익혀먹기'},
+{id:'d4-25',text:'🍖 시그니처 양고기 + 야채 즐기기'}]},
+{title:'🛁 호텔 복귀 & 마지막 밤',items:[
+{id:'d4-26',text:'가와사키 → 아카사카 (JR+긴자선, 30분)',map:'Via Inn Prime Akasaka'},
+{id:'d4-27',text:'🛒 1층 7-Eleven에서 디저트/음료'},
+{id:'d4-28',text:'🛁 대욕장 마지막 밤 입욕 (실내+노천+실키 다 체험!) ⭐'},
+{id:'d4-29',text:'🦵 종아리 마사지기 (필수!)'}]}]},
+{id:'day5',title:'Day 5 · 출국',date:'5/24 (일)',emoji:'🛫',color:5,sections:[
+{title:'🌅 출국 전 마지막 노천탕 ⭐ (06:30~07:30)',items:[
+{id:'d5-0a',text:'⏰ 새벽 6시 30분 기상'},
+{id:'d5-0b',text:'🌅 노천탕 일출 즐기기 - 한국 가기 전 마지막 추억'},
+{id:'d5-0c',text:'☁️ 실키 배스 마지막 입욕'},
+{id:'d5-0d',text:'⚠️ 출국날이라 너무 길게 X (15분 이내)'},
+{id:'d5-0e',text:'객실 복귀 + 샤워'}]},
+{title:'🛫 출국 준비 (07:30~)',items:[
+{id:'d5-1',text:'1층 7-Eleven에서 간단 조식 + 비행기 간식'},
+{id:'d5-2',text:'짐 최종 정리'},
+{id:'d5-3',text:'호텔 체크아웃 (09:30)'}]},
+{title:'🚃 공항 이동 (09:45~)',items:[
+{id:'d5-4',text:'아카사카미츠케역 도착',map:'Akasaka-mitsuke Station Tokyo'},
+{id:'d5-5',text:'긴자선 → 아사쿠사역 (25분)',map:'Asakusa Station Tokyo Metro'},
+{id:'d5-6',text:'아사쿠사역에서 Access Express 나리타행 탑승'},
+{id:'d5-7',text:'약 60분 열차 이동'},
+{id:'d5-8',text:'⚠️ Suica 일관 사용 (혼용 금지)'}]},
+{title:'✈️ 공항 도착 (11:15~)',items:[
+{id:'d5-9',text:'나리타 공항 도착',map:'Narita International Airport Terminal 1'},
+{id:'d5-10',text:'체크인 카운터 (11:30)'},
+{id:'d5-11',text:'짐 부치기'},
+{id:'d5-12',text:'Suica 잔액 확인 / 편의점 소진'},
+{id:'d5-13',text:'보안 검색 (12:00)'},
+{id:'d5-14',text:'면세점 쇼핑'},
+{id:'d5-15',text:'게이트 도착 (13:00)'},
+{id:'d5-16',text:'🛫 출발! (13:55)'},
+{id:'d5-17',text:'🇰🇷 무사히 한국 도착!'}]}]},
+{id:'info',title:'🚨 비상 연락처 & 팁',date:'참고',emoji:'🚨',color:6,sections:[
+{title:'🏥 응급 연락처',items:[
+{id:'e1',text:"St. Luke's Hospital: 03-3541-5151",map:"St. Luke's International Hospital Tsukiji"},
+{id:'e2',text:'Seibo Hospital: 03-3951-1111',map:'Seibo Hospital Tokyo Shinjuku'},
+{id:'e3',text:'한국대사관 영사과: 03-3452-7611',map:'Embassy of the Republic of Korea Tokyo'},
+{id:'e4',text:'일본 경찰: 110 / 구급차: 119'}]},
+{title:'🗣️ 유용한 일본어',items:[
+{id:'j1',text:'妊娠中です (닌신츄데스) - 임신 중'},
+{id:'j2',text:'マタニティマーク、ありますか?'},
+{id:'j3',text:'座ってもいいですか? (앉아도 될까요)'},
+{id:'j4',text:'生ものは抜いてください (날것 빼주세요)'},
+{id:'j5',text:'助けてください (도와주세요)'}]},
+{title:'💰 예산 관리',items:[
+{id:'b1',text:'트래블카드 ¥250,000~280,000 확인'},
+{id:'b2',text:'현금 ¥60,000 (세븐은행 ATM)'},
+{id:'b3',text:'⚠️ 카드 결제 시 JPY 선택 필수'},
+{id:'b4',text:'Tax Free (¥5,500 이상, 여권)'},
+{id:'b5',text:'동전 지갑 챙기기'}]}]}
+];
+const allItems=days.flatMap(d=>d.sections.flatMap(s=>s.items));const total=allItems.length;
+function loadLocal(){try{const s=localStorage.getItem(LOCAL_KEY);if(s)checked=JSON.parse(s)}catch(e){}}
+function saveLocal(){try{localStorage.setItem(LOCAL_KEY,JSON.stringify(checked))}catch(e){}}
+function loadConfig(){try{const s=localStorage.getItem(CONFIG_KEY);if(s)config=JSON.parse(s)}catch(e){}}
+function saveConfig(){try{localStorage.setItem(CONFIG_KEY,JSON.stringify(config))}catch(e){}}
+async function cloudFetch(){if(!config||!config.url||!config.key||!config.room)return null;try{const r=await fetch(`${config.url}/rest/v1/rooms?code=eq.${config.room}&select=data`,{headers:{'apikey':config.key,'Authorization':`Bearer ${config.key}`}});if(!r.ok)return null;const d=await r.json();return d[0]?.data||null}catch(e){return null}}
+async function cloudPush(data){if(!config||!config.url||!config.key||!config.room)return false;try{const r=await fetch(`${config.url}/rest/v1/rooms?code=eq.${config.room}`,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':config.key,'Authorization':`Bearer ${config.key}`,'Prefer':'return=minimal'},body:JSON.stringify({data,updated_at:new Date().toISOString()})});return r.ok}catch(e){return false}}
+async function cloudCreateRoom(code){if(!config||!config.url||!config.key)return false;try{const r=await fetch(`${config.url}/rest/v1/rooms`,{method:'POST',headers:{'Content-Type':'application/json','apikey':config.key,'Authorization':`Bearer ${config.key}`,'Prefer':'return=minimal'},body:JSON.stringify({code,data:checked})});return r.ok}catch(e){return false}}
+async function syncFromCloud(){const cloud=await cloudFetch();if(cloud!==null){checked={...cloud};saveLocal();render();updateSyncUI(true)}else{updateSyncUI(false)}}
+async function syncToCloud(){const ok=await cloudPush(checked);updateSyncUI(ok)}
+function startSync(){if(syncInterval)clearInterval(syncInterval);syncInterval=setInterval(syncFromCloud,3000);syncFromCloud()}
+function stopSync(){if(syncInterval){clearInterval(syncInterval);syncInterval=null}updateSyncUI(false)}
+function updateSyncUI(online){const el=document.getElementById('syncStatus');const tip=document.getElementById('syncTip');const ri=document.getElementById('roomInfo');if(config&&config.room){el.innerHTML=online?'<span class="sync-dot on"></span>동기화 중':'<span class="sync-dot off"></span>연결 시도 중...';ri.textContent='방코드: '+config.room;tip.style.display='block'}else{el.innerHTML='<span class="sync-dot off"></span>오프라인 모드';ri.textContent='';tip.style.display='none'}}
+async function toggleCheck(id){checked[id]=!checked[id];if(!checked[id])delete checked[id];saveLocal();render();if(config&&config.room)await syncToCloud()}
+function toggleDay(id){
+  const wasOpen=openDay===id;
+  openDay=wasOpen?null:id;
+  render();
+  // 새로 열린 Day가 있으면 그 카드의 최상단으로 스크롤
+  if(!wasOpen&&id){
+    setTimeout(()=>{
+      const card=document.querySelector(`.day-card[data-day="${id}"]`);
+      if(card){
+        const headerH=document.querySelector('.header').offsetHeight;
+        const cardTop=card.getBoundingClientRect().top+window.pageYOffset;
+        window.scrollTo({top:cardTop-headerH-10,behavior:'smooth'});
+      }
+    },80);
+  }
+}
+function showSetup(){const o=document.getElementById('setupOverlay');o.style.display='block';o.innerHTML=`<div class="setup-box"><h2>⚙️ 동기화 설정</h2><p>부부가 각자 폰에서 실시간으로<br>체크리스트를 공유할 수 있어요!</p><div id="setupError" class="error-msg"></div><label><span class="step-num">1</span> Supabase URL</label><input id="sbUrl" placeholder="https://xxxx.supabase.co" value="${config?.url||''}"><label><span class="step-num">2</span> Supabase anon Key</label><input id="sbKey" placeholder="eyJhbGci..." value="${config?.key||''}"><button class="btn-primary" id="setupSaveBtn">저장하고 다음으로</button><div class="divider"></div><button class="btn-secondary" id="setupSkipBtn">⏭ 동기화 없이 사용 (오프라인)</button>${config?.url?'<button class="btn-secondary" style="margin-top:8px;color:#ef4444" id="setupDisconnectBtn">🔌 동기화 해제</button>':''}</div>`;document.getElementById('setupSaveBtn').onclick=()=>{const url=document.getElementById('sbUrl').value.trim().replace(/\/$/,'');const key=document.getElementById('sbKey').value.trim();if(!url||!key){document.getElementById('setupError').textContent='URL과 Key를 모두 입력해주세요!';document.getElementById('setupError').style.display='block';return}config=config||{};config.url=url;config.key=key;saveConfig();o.style.display='none';showRoom()};document.getElementById('setupSkipBtn').onclick=()=>{o.style.display='none'};const dc=document.getElementById('setupDisconnectBtn');if(dc)dc.onclick=()=>{config=null;localStorage.removeItem(CONFIG_KEY);stopSync();o.style.display='none';updateSyncUI(false)}}
+function showRoom(){const o=document.getElementById('roomOverlay');o.style.display='block';o.innerHTML=`<div class="setup-box"><h2>💑 부부 방 만들기</h2><p>한 명이 방을 만들고, 다른 한 명이<br>같은 코드로 참여하세요!</p><div id="roomError" class="error-msg"></div><button class="btn-primary" id="createRoomBtn">🏠 새 방 만들기 (처음이면)</button><div class="divider"></div><label>또는 방 코드 입력</label><input id="joinCode" placeholder="예: A3B7K2" maxlength="6" style="text-transform:uppercase;text-align:center;font-size:18px;letter-spacing:4px"><button class="btn-primary" id="joinRoomBtn" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">🔗 참여하기</button><button class="btn-secondary" id="roomBackBtn" style="margin-top:8px">← 뒤로</button></div>`;document.getElementById('createRoomBtn').onclick=async()=>{const code=Math.random().toString(36).substr(2,6).toUpperCase();const ok=await cloudCreateRoom(code);if(!ok){document.getElementById('roomError').textContent='방 만들기 실패. URL/Key를 확인해주세요.';document.getElementById('roomError').style.display='block';return}config.room=code;saveConfig();o.innerHTML=`<div class="setup-box"><h2>✅ 방이 만들어졌어요!</h2><p>아래 코드를 아내(남편)에게<br>보내주세요!</p><div class="room-code-display">${code}</div><button class="copy-btn" onclick="navigator.clipboard?.writeText('${code}');this.textContent='✅ 복사됨!'">📋 코드 복사</button><button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('roomOverlay').style.display='none';startSync()">🎉 시작하기!</button></div>`};document.getElementById('joinRoomBtn').onclick=async()=>{const code=document.getElementById('joinCode').value.trim().toUpperCase();if(!code||code.length<4){document.getElementById('roomError').textContent='방 코드를 입력해주세요!';document.getElementById('roomError').style.display='block';return}config.room=code;saveConfig();const cloud=await cloudFetch();if(cloud===null){document.getElementById('roomError').textContent='방을 찾을 수 없어요. 코드를 확인해주세요.';document.getElementById('roomError').style.display='block';config.room=null;saveConfig();return}checked={...cloud};saveLocal();render();o.innerHTML=`<div class="setup-box"><h2>✅ 연결됐어요!</h2><p>이제 부부 체크리스트가<br>실시간으로 동기화됩니다 💑</p><div class="room-code-display small">방 코드: ${code}</div><button class="btn-primary" onclick="document.getElementById('roomOverlay').style.display='none';startSync()">🎉 시작하기!</button></div>`};document.getElementById('roomBackBtn').onclick=()=>{o.style.display='none';showSetup()}}
+function checkSvg(){return'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>'}
+function checkSvgSmall(){return'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>'}
+function chevronSvg(){return'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>'}
+function mapSvg(){return'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>'}
+function dayStats(day){const items=day.sections.flatMap(s=>s.items);const done=items.filter(i=>checked[i.id]).length;return{done,total:items.length,pct:items.length?Math.round(done/items.length*100):0}}
+// 돈 쓸 항목인지 판단 - 화이트리스트 방식
+function hasCost(text){
+  // 명시적 제외 (이런 단어가 있으면 무조건 false)
+  const EXCLUDE=['⚠️','🦵','🛁','🏊','🌅','🌳','☁️','💆','🙏','💯','🌟','📞','🆘','💪','🆔','📋','📱','🎫 확인',
+  '위치 확인','운영시간','대욕장','노천탕','실키 배스','수영','종아리','마사지','휴식','산책','일찍 취침','새벽','일출','기상','일어나','정리','짐 찾기','짐 부치기','짐 맡기','짐 보관','짐 최종','보안 검색','입국 심사','세관','준비','챙기기','요청','알리기','받기','체험','감상','관람','구경','인생샷','사진','기도','묵상','즐기기','맛보기','순례','만남','이름 확인','예약 이름','마터니티 마크','임산부 우선','마지막 수영','마지막 밤','마무리','꿀잠','산책로','자유 시간','자유시간','정원','✕','도보 5분','도보 3분','도보 7분','도보 10분','도보 20분','도보 15분','외관','등롱 아래','시간 되면','30분 휴식','일찍 도착','줄서기','줄 설','남편 줄서기','아내 근처 카페','이름 확인','예약 확인','시간 알리기','입욕','확인','피하기','임산부:','임산부 ','잘 익혀','피하기'];
+  for(const ex of EXCLUDE){
+    if(text.includes(ex))return false;
+  }
+  // 화이트리스트 (이런 단어가 있으면 true)
+  const COST_KEYWORDS=[
+    // 식사/카페 이모지
+    '🍱','🍴','🍣','🍜','🍖','🥩','🍲','🍤','🍳','🥢','☕','🍵','🍰','🍦','🍩','🥐','🍞','🍢','🍶','🫖','🍻',
+    // 식사 종류
+    '점심','저녁','조식','브런치','디저트',
+    // 일본 음식
+    '라멘','돈카츠','장어','우나기','스시','텐동','찬코','와규','덮밥','카츠동','우동','소바','몬자','빙수','야키토리','야키톤','꼬치','꼬지','츠쿠네','네기마','모모','카와','레바','츠쿠네','사사미',
+    // 카페/음료
+    '카페','커피','팬케이크','크루아상','메론빵','수플레','아메리카노','라떼','우롱차','사케','맥주','음료','한 잔','한잔',
+    'ramen','tendon','sushi','udon','cafe','coffee','breakfast','yakitori',
+    // 식당 이름
+    '컵누들 박물관','우시미츠','츠루야','오타나와노렌','이츠키','에비마루','우나기노나루세','카네사카','하지메 하나레','마루타케','타마고야키','야마쵸','가리비','장어꼬치','다마야','모리호','森魂',
+    // 쇼핑
+    '🛍️','🛒','아카짱 혼포','쇼핑','기저귀','아기옷','수유용품','젖병','구매','사기','구입',
+    // 입장료/관광
+    '🎫','✨','🏗️','🎢','🏛️',
+    '전망대','입장','티켓','예매','스카이트리 야경','스카이트리 (예약','랜드마크 타워','air cabin','컵누들','46f',
+    // 교통 (이동 = 돈 듦)
+    '🚖','🚃','🚆','🚄','🚇',
+    '택시로','suica','welcome suica','케이세이','액세스 익스프레스','access express','지하철','전철','긴자선','히비야선','오에도선','마루노우치선','유라쿠초선','아사쿠사선','jr ','jr선','케이힌토호쿠','이동 (','환승 (','구매 (각','왕복','편도','엔)',
+    // 비행기/숙소
+    '✈️','🛫','비행기 간식','비행기표','항공권','호텔비','숙박료'
+  ];
+  for(const kw of COST_KEYWORDS){
+    if(text.toLowerCase().includes(kw.toLowerCase()))return true;
+  }
+  return false;
+}
+
+// 카테고리 자동 추론
+function guessCategory(text){
+  const t=text.toLowerCase();
+  if(/(라멘|돈카츠|장어|우나기|스시|텐동|찬코|와규|덮밥|점심|저녁|조식|아침|브런치|카페|커피|팬케이크|크루아상|메론빵|수플레|빙수|디저트|간식|☕|🍱|🍴|🍣|🍜|🍖|🥩|🍲|🍤|🍳|🥢|🥐|🍞|🍰|🍦|cafe|coffee|ramen|sushi|tendon|udon|breakfast)/i.test(text))return'food';
+  if(/(아카짱|마터니티|기저귀|아기|애기|👶|🎀)/i.test(text))return'baby';
+  if(/(쇼핑|기념품|tax free|어메니티|🛍️|🛒|구매)/i.test(text))return'shopping';
+  if(/(택시|지하철|역|환승|버스|기차|access express|jr|suica|🚖|🚃|🚆|🚄)/i.test(text))return'transport';
+  if(/(체크인|호텔|숙박|🏨)/i.test(text))return'hotel';
+  if(/(전망대|박물관|관광|입장|티켓|예매|skytree|스카이트리|랜드마크|air cabin|컵누들|🎫|🏛️|✨|🏗️)/i.test(text))return'attraction';
+  if(/(비행기|항공|flight|✈️|🛫)/i.test(text))return'flight';
+  return'other';
+}
+
+function render(){
+  const doneCount=allItems.filter(i=>checked[i.id]).length;
+  const pct=Math.round(doneCount/total*100);
+  document.getElementById('overallPct').textContent=pct+'%';
+  document.getElementById('overallCount').textContent='('+doneCount+'/'+total+')';
+  document.getElementById('overallFill').style.width=pct+'%';
+  document.getElementById('completeMsg').innerHTML=pct===100?'<div class="complete-msg">🎉 완벽한 여행! 축하해요! 🎉</div>':'';
+  
+  // 항목별 가계부 매핑 (item.id별로 등록된 가격 찾기)
+  const itemPrices={};
+  budget.forEach(b=>{if(b.itemId)itemPrices[b.itemId]=(itemPrices[b.itemId]||0)+(parseInt(b.amount)||0)});
+  
+  const c=document.getElementById('daysContainer');
+  c.innerHTML=days.map(day=>{
+    const s=dayStats(day),isOpen=openDay===day.id;
+    return`<div class="day-card ${isOpen?'open':''}" data-day="${day.id}"><div class="day-header day-color-${day.color}" data-day="${day.id}"><div class="day-header-row"><div class="day-icon">${day.emoji}</div><div class="day-info"><div class="day-title">${day.title}</div><div class="day-date">${day.date}</div></div><div class="day-pct-block"><div class="day-count">${s.done}/${s.total}</div><div class="day-pct">${s.pct}%</div></div><div class="day-chevron ${isOpen?'open':''}">${chevronSvg()}</div></div><div class="day-progress"><div class="day-progress-fill" style="width:${s.pct}%"></div></div></div><div class="day-content ${isOpen?'open':''}">${day.sections.map(sec=>{const rvs=sec.resv?(Array.isArray(sec.resv)?sec.resv:[sec.resv]):[];const rv=rvs.map(r=>`<span class="resv-tag type-${r.type} ${checked[r.id]?'done':''}" data-resv="${r.id}"><span class="resv-box">${checkSvgSmall()}</span>${checked[r.id]?'✅ '+r.type+' 완료':r.type}</span>`).join('');return`<div class="section"><div class="section-title">${sec.title}${rv}</div>${sec.items.map(item=>{
+      const ic=!!checked[item.id];
+      const mb=item.map?`<a class="map-btn" href="${mapUrl(item.map)}" target="_blank" rel="noopener">${mapSvg()}</a>`:'';
+      const itemTotal=itemPrices[item.id]||0;
+      const hasPrice=itemTotal>0;
+      const showPrice=hasCost(item.text)||hasPrice;
+      const priceBtn=showPrice?`<button class="price-btn ${hasPrice?'has-price':''}" data-price-item="${item.id}" data-price-text="${item.text.replace(/"/g,'&quot;')}">¥${hasPrice?'':'+'}${hasPrice?(itemTotal>=10000?Math.round(itemTotal/1000)+'k':itemTotal):''}</button>`:'';
+      return`<div class="check-item ${ic?'checked':''}"><div class="check-content" data-item="${item.id}"><div class="check-box">${checkSvg()}</div><div class="check-text">${item.text}</div></div>${priceBtn}${mb}</div>`
+    }).join('')}</div>`}).join('')}</div></div>`
+  }).join('');
+  
+  c.querySelectorAll('.day-header').forEach(el=>{el.addEventListener('click',()=>toggleDay(el.dataset.day))});
+  c.querySelectorAll('.check-content').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();toggleCheck(el.dataset.item)})});
+  c.querySelectorAll('.price-btn').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();openPricePopup(el.dataset.priceItem,el.dataset.priceText)})});
+  c.querySelectorAll('.resv-tag').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();const rid=el.dataset.resv;if(checked[rid])delete checked[rid];else checked[rid]=true;saveLocal();render();if(config?.room)cloudPush()})});
+}
+
+// 가격 입력 팝업
+let currentPriceItem=null;
+let currentPriceCat='food';
+
+function openPricePopup(itemId,itemText){
+  currentPriceItem=itemId;
+  currentPriceCat=guessCategory(itemText);
+  document.getElementById('priceItemText').textContent=itemText;
+  document.getElementById('priceAmt').value='';
+  document.getElementById('pAmtPreview').textContent='';
+  // 통화 JPY로 초기화
+  pCurrency='JPY';
+  document.getElementById('pCurrJPY').click();
+  
+  // 기존 등록된 가격 표시
+  const existing=budget.filter(b=>b.itemId===itemId);
+  const existingEl=document.getElementById('priceExisting');
+  if(existing.length>0){
+    const total=existing.reduce((s,b)=>s+(parseInt(b.amount)||0),0);
+    existingEl.innerHTML=`<div class="price-existing">💾 이미 ${fmt(total)} 등록됨 (추가 입력 가능)</div>`;
+  }else{
+    existingEl.innerHTML='';
+  }
+  
+  // 카테고리 버튼
+  const catRow=document.getElementById('priceCatRow');
+  catRow.innerHTML=Object.entries(CAT_INFO).map(([k,info])=>`<button class="price-cat-btn ${k===currentPriceCat?'active':''}" data-cat="${k}">${info.icon}<span class="price-cat-name">${info.name}</span></button>`).join('');
+  catRow.querySelectorAll('.price-cat-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      currentPriceCat=b.dataset.cat;
+      catRow.querySelectorAll('.price-cat-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+  
+  document.getElementById('pricePopup').classList.add('open');
+  setTimeout(()=>document.getElementById('priceAmt').focus(),100);
+}
+
+document.getElementById('priceCancel').addEventListener('click',()=>{
+  document.getElementById('pricePopup').classList.remove('open');
+});
+
+document.getElementById('priceSave').addEventListener('click',async()=>{
+  const amtRaw=document.getElementById('priceAmt').value.trim();
+  if(!amtRaw||isNaN(amtRaw)||parseInt(amtRaw)<=0){alert('금액을 입력해주세요!');return}
+  // 통화에 따라 변환 (원화면 엔화로)
+  let amt=parseInt(amtRaw);
+  if(pCurrency==='KRW')amt=krwToJpy(amt);
+  budget.push({
+    id:Date.now()+'-'+Math.random().toString(36).substr(2,5),
+    category:currentPriceCat,
+    description:document.getElementById('priceItemText').textContent,
+    amount:amt,
+    timestamp:Date.now(),
+    itemId:currentPriceItem
+  });
+  await saveBudget();
+  document.getElementById('pricePopup').classList.remove('open');
+  document.getElementById('pAmtPreview').textContent='';
+  render();
+});
+
+// Enter 키로 저장
+document.getElementById('priceAmt').addEventListener('keypress',e=>{
+  if(e.key==='Enter')document.getElementById('priceSave').click();
+});
+
+// 배경 클릭 시 닫기
+document.getElementById('pricePopup').addEventListener('click',e=>{
+  if(e.target.id==='pricePopup')document.getElementById('pricePopup').classList.remove('open');
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{document.getElementById('resetConfirmBox').innerHTML=`<div class="reset-confirm"><p>정말 모든 체크를 초기화할까요?</p><button class="btn-confirm" id="resetYes">초기화</button><button class="btn-cancel" id="resetNo">취소</button></div>`;document.getElementById('resetYes').addEventListener('click',async()=>{checked={};saveLocal();if(config&&config.room)await syncToCloud();document.getElementById('resetConfirmBox').innerHTML='';render()});document.getElementById('resetNo').addEventListener('click',()=>{document.getElementById('resetConfirmBox').innerHTML=''})});
+document.getElementById('settingsBtn').addEventListener('click',showSetup);
+
+// ===== Emergency Modal =====
+document.getElementById('emergBtn').addEventListener('click',()=>{
+  document.getElementById('emergModal').classList.add('open');
+});
+
+// ===== Budget Tracker =====
+const BUDGET_KEY='tokyo-budget-v1';
+let budget=[];
+const TOTAL_BUDGET=306000;
+const CAT_INFO={
+  flight:{icon:'✈️',name:'비행기표'},
+  transport:{icon:'🚃',name:'이동비'},
+  hotel:{icon:'🏨',name:'숙소'},
+  food:{icon:'🍴',name:'밥'},
+  shopping:{icon:'🛍️',name:'쇼핑'},
+  attraction:{icon:'🎫',name:'관광'},
+  baby:{icon:'👶',name:'애기용품'},
+  other:{icon:'📦',name:'기타'}
+};
+
+function loadBudget(){try{const s=localStorage.getItem(BUDGET_KEY);if(s)budget=JSON.parse(s)}catch(e){}}
+function saveBudgetLocal(){try{localStorage.setItem(BUDGET_KEY,JSON.stringify(budget))}catch(e){}}
+async function saveBudgetCloud(){
+  if(!config||!config.url||!config.key||!config.room)return;
+  try{
+    await fetch(`${config.url}/rest/v1/rooms?code=eq.${config.room}`,{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','apikey':config.key,'Authorization':`Bearer ${config.key}`,'Prefer':'return=minimal'},
+      body:JSON.stringify({data:{checked,budget},updated_at:new Date().toISOString()})
+    });
+  }catch(e){}
+}
+async function saveBudget(){saveBudgetLocal();await saveBudgetCloud()}
+
+function fmt(n){return'¥'+Math.round(n).toLocaleString()}
+function fmtKrw(n){return'₩'+Math.round(n).toLocaleString()}
+const JPY_TO_KRW=9.3; // 1엔 = 약 9.3원 (2026년 4월 기준)
+function jpyToKrw(jpy){return Math.round(jpy*JPY_TO_KRW)}
+function krwToJpy(krw){return Math.round(krw/JPY_TO_KRW)}
+
+// 통화 토글 상태
+let bCurrency='JPY'; // 가계부 폼
+let pCurrency='JPY'; // 가격 팝업
+
+function setupCurrencyToggle(prefix,onChange){
+  const jpyBtn=document.getElementById(prefix+'CurrJPY');
+  const krwBtn=document.getElementById(prefix+'CurrKRW');
+  const symEl=document.getElementById(prefix+'CurrSym');
+  if(!jpyBtn||!krwBtn)return;
+  function setActive(curr){
+    if(curr==='JPY'){
+      jpyBtn.style.background='#ecfdf5';jpyBtn.style.borderColor='#10b981';jpyBtn.style.color='#065f46';
+      krwBtn.style.background='#fff';krwBtn.style.borderColor='#e5e7eb';krwBtn.style.color='#374151';
+      if(symEl)symEl.textContent='¥';
+      if(symEl)symEl.style.color='#10b981';
+    }else{
+      krwBtn.style.background='#fef3c7';krwBtn.style.borderColor='#f59e0b';krwBtn.style.color='#92400e';
+      jpyBtn.style.background='#fff';jpyBtn.style.borderColor='#e5e7eb';jpyBtn.style.color='#374151';
+      if(symEl)symEl.textContent='₩';
+      if(symEl)symEl.style.color='#f59e0b';
+    }
+    onChange(curr);
+  }
+  jpyBtn.addEventListener('click',()=>setActive('JPY'));
+  krwBtn.addEventListener('click',()=>setActive('KRW'));
+}
+
+// 폼 통화 토글 setup
+setupCurrencyToggle('b',(c)=>{
+  bCurrency=c;
+  updateBPreview();
+});
+setupCurrencyToggle('p',(c)=>{
+  pCurrency=c;
+  updatePPreview();
+});
+
+function updateBPreview(){
+  const v=parseFloat(document.getElementById('bAmt').value)||0;
+  const el=document.getElementById('bAmtPreview');
+  if(v<=0){el.textContent='';return}
+  if(bCurrency==='JPY'){
+    el.textContent='≈ '+fmtKrw(jpyToKrw(v))+' (자동 계산)';
+  }else{
+    el.textContent='≈ '+fmt(krwToJpy(v))+' 으로 저장됨';
+  }
+}
+
+function updatePPreview(){
+  const v=parseFloat(document.getElementById('priceAmt').value)||0;
+  const el=document.getElementById('pAmtPreview');
+  if(v<=0){el.textContent='';return}
+  if(pCurrency==='JPY'){
+    el.textContent='≈ '+fmtKrw(jpyToKrw(v));
+  }else{
+    el.textContent='≈ '+fmt(krwToJpy(v))+' 으로 저장됨';
+  }
+}
+
+document.getElementById('bAmt').addEventListener('input',updateBPreview);
+document.getElementById('priceAmt').addEventListener('input',updatePPreview);
+
+function renderBudget(){
+  const total=budget.reduce((s,b)=>s+(parseInt(b.amount)||0),0);
+  const remain=TOTAL_BUDGET-total;
+  document.getElementById('totalSpent').textContent=fmt(total);
+  document.getElementById('totalSpentKrw').textContent=fmtKrw(jpyToKrw(total));
+  const rEl=document.getElementById('remainBudget');
+  rEl.textContent=fmt(remain);
+  if(remain<0){
+    rEl.style.background='#fef2f2';rEl.style.color='#dc2626';rEl.style.borderColor='#fecaca';
+  }else if(remain<50000){
+    rEl.style.background='#fef3c7';rEl.style.color='#f59e0b';rEl.style.borderColor='#fde68a';
+  }else{
+    rEl.style.background='#ecfdf5';rEl.style.color='#10b981';rEl.style.borderColor='#a7f3d0';
+  }
+  document.getElementById('remainBudgetKrw').textContent=fmtKrw(jpyToKrw(remain));
+  
+  const catTotals={};
+  Object.keys(CAT_INFO).forEach(k=>{catTotals[k]=0});
+  budget.forEach(b=>{catTotals[b.category]=(catTotals[b.category]||0)+(parseInt(b.amount)||0)});
+  
+  const grid=document.getElementById('categoryGrid');
+  grid.innerHTML=Object.entries(CAT_INFO).map(([k,info])=>`<div class="cat-card"><div class="cat-icon">${info.icon}</div><div style="font-size:10px;color:#6b7280">${info.name}</div><div class="cat-amount">${fmt(catTotals[k])}</div></div>`).join('');
+  
+  const list=document.getElementById('budgetList');
+  if(budget.length===0){
+    list.innerHTML='<div style="text-align:center;color:#9ca3af;padding:20px;font-size:13px">아직 기록이 없어요. 위에서 추가하세요!</div>';
+    return;
+  }
+  const sorted=[...budget].sort((a,b)=>b.timestamp-a.timestamp);
+  const itemsHtml=sorted.map(b=>{
+    const info=CAT_INFO[b.category]||CAT_INFO.other;
+    const date=new Date(b.timestamp);
+    const dateStr=`${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2,'0')}`;
+    const amtJpy=parseInt(b.amount)||0;
+    return`<div class="budget-item"><div class="budget-item-icon">${info.icon}</div><div class="budget-item-info"><div class="budget-item-name">${b.description||info.name}</div><div class="budget-item-meta">${info.name} · ${dateStr}</div></div><div class="budget-item-amount"><div class="jpy-box">${fmt(amtJpy)}</div><div class="krw-box">${fmtKrw(jpyToKrw(amtJpy))}</div></div><button class="budget-item-delete" data-id="${b.id}">✕</button></div>`
+  }).join('');
+  const totalRow=`<div class="budget-total-row"><div class="total-label">💯 합계 (${budget.length}건)</div><div class="total-amounts"><div class="total-jpy">${fmt(total)}</div><div class="total-krw">${fmtKrw(jpyToKrw(total))}</div></div></div>`;
+  list.innerHTML=itemsHtml+totalRow;
+  list.querySelectorAll('.budget-item-delete').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      if(confirm('이 기록을 삭제할까요?')){
+        budget=budget.filter(b=>b.id!==btn.dataset.id);
+        await saveBudget();
+        renderBudget();
+        render();
+      }
+    });
+  });
+}
+
+document.getElementById('budgetBtn').addEventListener('click',()=>{
+  document.getElementById('budgetModal').classList.add('open');
+  renderBudget();
+});
+
+document.getElementById('bAddBtn').addEventListener('click',async()=>{
+  const cat=document.getElementById('bCat').value;
+  const desc=document.getElementById('bDesc').value.trim();
+  const amtRaw=document.getElementById('bAmt').value.trim();
+  if(!amtRaw||isNaN(amtRaw)){alert('금액을 입력해주세요!');return}
+  // 통화에 따라 변환 (원화면 엔화로)
+  let amt=parseInt(amtRaw);
+  if(bCurrency==='KRW')amt=krwToJpy(amt);
+  budget.push({id:Date.now()+'-'+Math.random().toString(36).substr(2,5),category:cat,description:desc,amount:amt,timestamp:Date.now()});
+  await saveBudget();
+  document.getElementById('bDesc').value='';
+  document.getElementById('bAmt').value='';
+  document.getElementById('bAmtPreview').textContent='';
+  renderBudget();
+  render();
+});
+
+// 동기화 함수 오버라이드 (체크리스트 + 가계부 함께)
+syncFromCloud=async function(){
+  const cloud=await cloudFetch();
+  if(cloud!==null){
+    if(cloud.checked!==undefined){
+      checked={...cloud.checked};
+      budget=Array.isArray(cloud.budget)?cloud.budget:[];
+      saveBudgetLocal();
+    }else{
+      checked={...cloud};
+    }
+    saveLocal();
+    render();
+    if(document.getElementById('budgetModal').classList.contains('open'))renderBudget();
+    updateSyncUI(true);
+  }else{updateSyncUI(false)}
+};
+
+syncToCloud=async function(){
+  if(!config||!config.url||!config.key||!config.room)return;
+  try{
+    const r=await fetch(`${config.url}/rest/v1/rooms?code=eq.${config.room}`,{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','apikey':config.key,'Authorization':`Bearer ${config.key}`,'Prefer':'return=minimal'},
+      body:JSON.stringify({data:{checked,budget},updated_at:new Date().toISOString()})
+    });
+    updateSyncUI(r.ok);
+  }catch(e){updateSyncUI(false)}
+};
+
+function updateHeaderHeight(){const h=document.querySelector('.header');if(h){document.documentElement.style.setProperty('--header-h',h.offsetHeight+'px')}}
+window.addEventListener('resize',updateHeaderHeight);
+window.addEventListener('load',updateHeaderHeight);
+loadLocal();loadConfig();loadBudget();render();
+setTimeout(updateHeaderHeight,100);
+if(config&&config.url&&config.key&&config.room){startSync()}else{updateSyncUI(false)}
+</script>
+</body>
+</html>
