@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#f472b6">
+<title>👶 아카짱 혼포 쇼핑리스트</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;background:linear-gradient(135deg,#fdf2f8 0%,#fce7f3 50%,#fbcfe8 100%);min-height:100vh;color:#1f2937;padding-bottom:80px;line-height:1.5}
+.header{background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.header-inner{max-width:600px;margin:0 auto}
+.header h1{font-size:16px;font-weight:700;margin-bottom:2px}
+.header-sub{font-size:11px;opacity:.9;margin-bottom:8px}
+.back-btn{display:inline-flex;align-items:center;gap:4px;color:#fff;text-decoration:none;font-size:12px;font-weight:600;opacity:.9;margin-bottom:6px}
+.back-btn:active{opacity:.6}
+.progress-card{background:rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:10px;padding:8px 10px}
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.progress-label{font-size:12px;font-weight:600}
+.progress-pct{font-size:18px;font-weight:700}
+.progress-count{font-size:10px;opacity:.8}
+.progress-bar-bg{height:6px;background:rgba(255,255,255,.3);border-radius:999px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(to right,#fde047,#fff);transition:width .5s;border-radius:999px}
+.container{max-width:600px;margin:0 auto;padding:12px}
+.category{background:#fff;border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.cat-header{padding:12px 16px;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f3f4f6}
+.cat-header:active{background:#fdf2f8}
+.cat-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.cat-count{font-size:11px;color:#9ca3af;font-weight:600}
+.cat-chevron{transition:transform .2s;color:#9ca3af}
+.cat-chevron.open{transform:rotate(180deg)}
+.cat-body{display:none;padding:8px 12px 12px}
+.cat-body.open{display:block}
+.item{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:10px;background:#f9fafb;border:2px solid #e5e7eb;margin-bottom:6px;cursor:pointer;user-select:none;transition:all .15s}
+.item:active{transform:scale(.98)}
+.item.checked{background:#f0fdf4;border-color:#86efac}
+.item-box{width:22px;height:22px;border-radius:50%;border:2px solid #d1d5db;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .15s}
+.item.checked .item-box{background:#22c55e;border-color:#22c55e}
+.item-box svg{opacity:0;transition:opacity .15s}.item.checked .item-box svg{opacity:1}
+.item-info{flex:1;min-width:0}
+.item-name{font-size:14px;font-weight:600;color:#1f2937;margin-bottom:1px}
+.item.checked .item-name{color:#6b7280;text-decoration:line-through}
+.item-desc{font-size:11px;color:#6b7280;line-height:1.4}
+.price-compare{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;align-items:center}
+.price-jp{background:#fef2f2;color:#dc2626;font-weight:700;font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid #fecaca}
+.price-kr{background:#dbeafe;color:#1e40af;font-weight:700;font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid #bfdbfe}
+.price-save{background:#d1fae5;color:#065f46;font-weight:700;font-size:10px;padding:2px 6px;border-radius:6px;border:1px solid #6ee7b7}
+.price-same{background:#fef3c7;color:#92400e;font-weight:700;font-size:10px;padding:2px 6px;border-radius:6px;border:1px solid #fde68a}
+.kr-link{display:inline-flex;align-items:center;gap:2px;background:#f43f5e;color:#fff;font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;text-decoration:none;margin-left:2px}
+.kr-link:active{opacity:.7}
+.item-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;margin-right:4px}
+.badge-must{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.badge-recommend{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe}
+.badge-option{background:#f3f4f6;color:#6b7280;border:1px solid #e5e7eb}
+.tip-box{background:#fff7ed;border:2px solid #fdba74;border-radius:12px;padding:12px;margin-bottom:12px;font-size:12px;color:#92400e;line-height:1.6}
+.tip-box b{color:#c2410c}
+.complete-msg{text-align:center;padding:20px;font-size:15px;font-weight:700;color:#ec4899}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="header-inner">
+<a class="back-btn" href="index.html">← 체크리스트로 돌아가기</a>
+<h1>👶 아카짱 혼포 쇼핑리스트</h1>
+<div class="header-sub">라라포트 토요스점 · 3층 · Tax Free ¥5,500~ · 환율 ¥100≈₩930</div>
+<div class="progress-card">
+<div class="progress-row">
+<div class="progress-label">🛒 쇼핑 진행률</div>
+<div><span class="progress-pct" id="pct">0%</span> <span class="progress-count" id="cnt">(0/0)</span></div>
+</div>
+<div class="progress-bar-bg"><div class="progress-bar-fill" id="fill" style="width:0%"></div></div>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="tip-box">
+<b>💡 쇼핑 팁</b><br>
+· 입장 시 <b>프리마마 기프트 세트</b> 요청 (무료 샘플!)<br>
+· <b>마터니티 마크 키체인</b> 무료 배포<br>
+· ¥5,500 이상 구매 시 <b>Tax Free</b> (여권 필수)<br>
+· 🔴 = 일본이 저렴 / 🟡 = 비슷 → 현장에서 바로 판단!<br>
+· 네이버 앱 <b>스마트렌즈</b>로 사진 찍으면 한국 가격 즉시 비교 가능
+</div>
+<div id="listContainer"></div>
+<div id="completeMsg"></div>
+</div>
+
+<script>
+const STORAGE_KEY='akachan-checklist-v1';
+let checked={};
+
+const categories=[
+{title:'🍼 수유 & 젖병',emoji:'🍼',items:[
+{id:'ak11',name:'피죤 모유실감 3세대 PPSU 젖병 (160ml)',desc:'신생아 젖꼭지 SS 포함, 광구 타입',badge:'must',jpPrice:'¥1,619',krPrice:'₩14,200~',save:'약 ₩1,000 절약',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EB%AA%A8%EC%9C%A0%EC%8B%A4%EA%B0%90+3%EC%84%B8%EB%8C%80+160ml'},
+{id:'ak12',name:'피죤 모유실감 3세대 PPSU 젖병 (240ml)',desc:'M 젖꼭지, 3개월 이후 사용',badge:'must',jpPrice:'¥1,749',krPrice:'₩16,900~',save:'약 ₩800 절약',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EB%AA%A8%EC%9C%A0%EC%8B%A4%EA%B0%90+3%EC%84%B8%EB%8C%80+240ml'},
+{id:'ak13',name:'젖꼭지 교체용 SS/S (2개입)',desc:'월령별 사이즈, 한국보다 확실히 저렴',badge:'must',jpPrice:'¥971',krPrice:'₩12,900~',save:'약 ₩3,800 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EB%AA%A8%EC%9C%A0%EC%8B%A4%EA%B0%90+%EC%A0%96%EA%BC%AD%EC%A7%80+3%EC%84%B8%EB%8C%80'},
+{id:'ak14',name:'젖병 세정제 + 회전 솔 세트',desc:'피죤 or 콤비, 브러시+세정제',badge:'must',jpPrice:'¥800~',krPrice:'₩12,000~',save:'약 ₩4,500 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EC%A0%96%EB%B3%91+%EC%84%B8%EC%A0%95%EC%A0%9C+%EC%86%94'},
+{id:'ak15',name:'수유패드 (모유패드) 102매',desc:'피죤 프리미엄 피트, 1회용',badge:'recommend',jpPrice:'¥980',krPrice:'₩13,000~',save:'약 ₩3,800 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EC%88%98%EC%9C%A0%ED%8C%A8%EB%93%9C'},
+{id:'ak16',name:'분유 큐브 (여행용)',desc:'메이지 호호에미 큐브, 소포장',badge:'option',jpPrice:'¥500~',krPrice:'₩9,000~',save:'약 ₩4,300 절약!',coupang:'https://www.coupang.com/np/search?q=%EB%A9%94%EC%9D%B4%EC%A7%80+%ED%98%B8%ED%98%B8%EC%97%90%EB%AF%B8+%ED%81%90%EB%B8%8C'}
+]},
+{title:'👕 아기옷 (신생아~3개월)',emoji:'👕',items:[
+{id:'ak6',name:'속내의 (하다기) 콤비 2~3장 세트',desc:'순면 100%, 50~60 사이즈',badge:'must',jpPrice:'¥1,500~',krPrice:'₩15,000~',save:'약 ₩1,000 절약',coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%EC%86%8D%EB%82%B4%EC%9D%98+%EC%9D%BC%EB%B3%B8'},
+{id:'ak7',name:'커버올 / 우주복',desc:'스냅버튼, 50~60 사이즈',badge:'must',jpPrice:'¥1,000~',krPrice:'₩15,000~',save:'약 ₩5,500 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%EC%9A%B0%EC%A3%BC%EB%B3%B5'},
+{id:'ak8',name:'스타이 (턱받이) 3장 세트',desc:'방수 소재 추천',badge:'recommend',jpPrice:'¥500~',krPrice:'₩7,000~',save:'약 ₩2,300 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%ED%84%B1%EB%B0%9B%EC%9D%B4'},
+{id:'ak9',name:'양말 & 미트(긁힘방지) 세트',desc:'신생아 긁힘 방지 장갑 + 양말',badge:'recommend',jpPrice:'¥400~',krPrice:'₩5,000~',save:'약 ₩1,200 절약',coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%EC%86%90%EC%8B%B8%EA%B0%9C+%EC%96%91%EB%A7%90'},
+{id:'ak10',name:'모자 (보넷)',desc:'외출용, 자외선 차단',badge:'option',jpPrice:'¥500~',krPrice:'₩8,000~',save:'약 ₩3,300 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%EB%B3%B4%EB%84%B7+%EB%AA%A8%EC%9E%90'}
+]},
+{title:'🧴 스킨케어 & 목욕',emoji:'🧴',items:[
+{id:'ak17',name:'아라우 베이비 바디소프 (거품 펌프)',desc:'무첨가 비누, 신생아부터 OK',badge:'must',jpPrice:'¥600~',krPrice:'₩12,000~',save:'약 ₩6,400 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%95%84%EB%9D%BC%EC%9A%B0+%EB%B2%A0%EC%9D%B4%EB%B9%84+%EB%B0%94%EB%94%94%EC%86%8C%ED%94%84'},
+{id:'ak18',name:'피죤 베이비 로션',desc:'신생아부터 사용, 보습력 최고',badge:'must',jpPrice:'¥700~',krPrice:'₩11,000~',save:'약 ₩4,400 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EB%B2%A0%EC%9D%B4%EB%B9%84+%EB%A1%9C%EC%85%98'},
+{id:'ak19',name:'아토피타 입욕제',desc:'목욕물에 타는 보습 입욕제',badge:'recommend',jpPrice:'¥800~',krPrice:'₩15,000~',save:'약 ₩7,500 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%95%84%ED%86%A0%ED%94%BC%ED%83%80+%EC%9E%85%EC%9A%95%EC%A0%9C'},
+{id:'ak40',name:'스키나베브 입욕제',desc:'헹굼 필요 없는 간편 입욕제! 유튜브 추천템',badge:'must',jpPrice:'¥1,785~',krPrice:'₩22,800~',save:'약 ₩6,200 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%8A%A4%ED%82%A4%EB%82%98%EB%B2%A0%EB%B8%8C+%EC%9E%85%EC%9A%95%EC%A0%9C'},
+{id:'ak41',name:'신생아 열패치',desc:'순한 젤 타입, 아기 피부에 적합',badge:'recommend',jpPrice:'¥548~',krPrice:'₩11,000~',save:'약 ₩5,900 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%EC%97%B4%ED%8C%A8%EC%B9%98'},
+{id:'ak20',name:'피죤 오일 면봉',desc:'코딱지/귀지 제거, 오일 함유 유튜브 추천템',badge:'must',jpPrice:'¥290~',krPrice:'₩10,000~',save:'약 ₩7,300 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EC%98%A4%EC%9D%BC+%EB%A9%B4%EB%B4%89'},
+{id:'ak21',name:'피죤 베이비 손톱가위',desc:'신생아용, 둥근 끝',badge:'must',jpPrice:'¥600~',krPrice:'₩9,000~',save:'약 ₩3,400 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EC%8B%A0%EC%83%9D%EC%95%84+%EC%86%90%ED%86%B1%EA%B0%80%EC%9C%84'},
+{id:'ak22',name:'베이비 체온계',desc:'비접촉식 or 겨드랑이형',badge:'option',jpPrice:'¥1,500~',krPrice:'₩15,000~',same:true,coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%EC%B2%B4%EC%98%A8%EA%B3%84'}
+]},
+{title:'🧷 구강 & 위생',emoji:'🧷',items:[
+{id:'ak31',name:'아기 하피카 칫솔 케이스 세트',desc:'0세부터 물만으로 OK!',badge:'must',jpPrice:'¥647',krPrice:'₩7,000~',save:'약 ₩900 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%95%98%ED%94%BC%EC%B9%B4+%EC%95%84%EA%B8%B0+%EC%B9%AB%EC%86%94'},
+{id:'ak42',name:'하미코 아기 칫솔',desc:'유튜브 추천템, 부드러운 모',badge:'recommend',jpPrice:'¥660',krPrice:'₩12,000~',save:'약 ₩5,800 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%95%98%EB%AF%B8%EC%BD%94+%EC%95%84%EA%B8%B0+%EC%B9%AB%EC%86%94'},
+{id:'ak32',name:'베이비 덴탈 치실',desc:'컬러풀 베이비용, 40개입',badge:'recommend',jpPrice:'¥193',krPrice:'₩3,500~',save:'약 ₩1,700 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%95%84%EA%B8%B0+%EC%B9%98%EC%8B%A4'},
+{id:'ak33',name:'구강 청결 티슈 (20개입)',desc:'이가 나기 전 잇몸 닦기용',badge:'recommend',jpPrice:'¥283',krPrice:'₩4,000~',save:'약 ₩1,300 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%95%84%EA%B8%B0+%EA%B5%AC%EA%B0%95+%ED%8B%B0%EC%8A%88'},
+{id:'ak34',name:'물티슈 (휴대용 소포장)',desc:'피죤 10매x6팩, 외출용',badge:'recommend',jpPrice:'¥300~',krPrice:'₩5,000~',save:'약 ₩2,200 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EC%95%84%EA%B8%B0+%EB%AC%BC%ED%8B%B0%EC%8A%88'}
+]},
+{title:'🛏️ 생활용품',emoji:'🛏️',items:[
+{id:'ak23',name:'거즈 손수건 (10매 세트)',desc:'수유, 목욕, 다용도 필수!',badge:'must',jpPrice:'¥800~',krPrice:'₩12,000~',save:'약 ₩4,500 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%8B%A0%EC%83%9D%EC%95%84+%EA%B1%B0%EC%A6%88+%EC%86%90%EC%88%98%EA%B1%B4'},
+{id:'ak24',name:'방수 시트',desc:'기저귀 교체 시 매트 대용',badge:'recommend',jpPrice:'¥600~',krPrice:'₩8,000~',save:'약 ₩2,400 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%95%84%EA%B8%B0+%EB%B0%A9%EC%88%98+%EC%8B%9C%ED%8A%B8'},
+{id:'ak25',name:'이유식 스푼 세트',desc:'피죤 단계별 3종 세트',badge:'option',jpPrice:'¥400~',krPrice:'₩7,000~',save:'약 ₩3,200 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%94%BC%EC%A3%A4+%EC%9D%B4%EC%9C%A0%EC%8B%9D+%EC%8A%A4%ED%91%BC'},
+{id:'ak26',name:'호빵맨 간식통',desc:'뚜껑 열어도 안 쏟아지는 실리콘 마개! 유튜브 추천템',badge:'must',jpPrice:'¥677~',krPrice:'₩14,000~',save:'약 ₩7,700 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%98%B8%EB%B9%B5%EB%A7%A8+%EA%B0%84%EC%8B%9D%ED%86%B5'},
+{id:'ak43',name:'호빵맨 이유식통',desc:'캐릭터 밀폐용기, 외출용',badge:'recommend',jpPrice:'¥600~',krPrice:'₩10,000~',save:'약 ₩4,400 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%98%B8%EB%B9%B5%EB%A7%A8+%EC%9D%B4%EC%9C%A0%EC%8B%9D%ED%86%B5'}
+]},
+{title:'🌟 유튜브 추천템 (영상 pick)',emoji:'🌟',items:[
+{id:'ak50',name:'미피 써모스 보온병',desc:'캐릭터 보온병, 유튜브 추천 인기템!',badge:'must',jpPrice:'¥3,780',krPrice:'₩55,000~',save:'약 ₩19,800 절약!',coupang:'https://www.coupang.com/np/search?q=%EB%AF%B8%ED%94%BC+%EC%8D%A8%EB%AA%A8%EC%8A%A4+%EB%B3%B4%EC%98%A8%EB%B3%91'},
+{id:'ak51',name:'호빵맨 컵쌓기',desc:'아기 장난감, 감각 발달',badge:'recommend',jpPrice:'¥1,400',krPrice:'₩20,000~',save:'약 ₩6,900 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%98%B8%EB%B9%B5%EB%A7%A8+%EC%BB%B5%EC%8C%93%EA%B8%B0'},
+{id:'ak52',name:'호빵맨 딸랑이',desc:'신생아 선호도 1위 장난감',badge:'must',jpPrice:'¥935~',krPrice:'₩19,000~',save:'약 ₩10,300 절약!',coupang:'https://www.coupang.com/np/search?q=%ED%98%B8%EB%B9%B5%EB%A7%A8+%EB%94%B8%EB%9E%91%EC%9D%B4'},
+{id:'ak53',name:'에디슨 치발기',desc:'잇몸 마사지, 이앓이 완화',badge:'recommend',jpPrice:'¥500~',krPrice:'₩8,000~',save:'약 ₩3,300 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%97%90%EB%94%94%EC%8A%A8+%EC%B9%98%EB%B0%9C%EA%B8%B0'},
+{id:'ak54',name:'미키마우스 쪽쪽이',desc:'디즈니 캐릭터 공갈 젖꼭지',badge:'recommend',jpPrice:'¥500~',krPrice:'₩9,000~',save:'약 ₩4,300 절약!',coupang:'https://www.coupang.com/np/search?q=%EB%AF%B8%ED%82%A4%EB%A7%88%EC%9A%B0%EC%8A%A4+%EC%AA%BD%EC%AA%BD%EC%9D%B4'},
+{id:'ak55',name:'쪽쪽이 클립',desc:'쪽쪽이 분실 방지 클립',badge:'recommend',jpPrice:'¥400~',krPrice:'₩6,000~',save:'약 ₩2,200 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%AA%BD%EC%AA%BD%EC%9D%B4+%ED%81%B4%EB%A6%BD'},
+{id:'ak56',name:'리첼 이유식 스푼',desc:'온도 따라 색 변하는 안전 스푼! 유튜브 강추',badge:'must',jpPrice:'¥1,720~',krPrice:'₩30,000~',save:'약 ₩14,000 절약!',coupang:'https://www.coupang.com/np/search?q=%EB%A6%AC%EC%B2%BC+%EC%9D%B4%EC%9C%A0%EC%8B%9D+%EC%8A%A4%ED%91%BC'},
+{id:'ak57',name:'머리쿵 방지 쿠션',desc:'뒤로 넘어져도 안전! 캐릭터 디자인',badge:'must',jpPrice:'¥2,150~',krPrice:'₩33,000~',save:'약 ₩13,000 절약!',coupang:'https://www.coupang.com/np/search?q=%EB%A8%B8%EB%A6%AC%EC%BF%B5+%EB%B0%A9%EC%A7%80+%EC%BF%A0%EC%85%98'},
+{id:'ak58',name:'과즙망',desc:'과일 넣고 즙만 먹이는 신박템!',badge:'recommend',jpPrice:'¥400~',krPrice:'₩5,000~',save:'약 ₩1,200 절약',coupang:'https://www.coupang.com/np/search?q=%EC%95%84%EA%B8%B0+%EA%B3%BC%EC%A6%99%EB%A7%9D'},
+{id:'ak59',name:'베이비 뵨 턱받이',desc:'실리콘 포켓, 음식물 받이',badge:'recommend',jpPrice:'¥1,500~',krPrice:'₩25,000~',save:'약 ₩11,000 절약!',coupang:'https://www.coupang.com/np/search?q=%EB%B2%A0%EC%9D%B4%EB%B9%84%EB%B5%A8+%ED%84%B1%EB%B0%9B%EC%9D%B4'},
+{id:'ak60',name:'헝겊책 (소프트북)',desc:'촉감 발달, 바스락 소리',badge:'option',jpPrice:'¥800~',krPrice:'₩12,000~',save:'약 ₩4,500 절약!',coupang:'https://www.coupang.com/np/search?q=%EC%95%84%EA%B8%B0+%ED%97%9D%EA%B2%85%EC%B1%85'},
+{id:'ak61',name:'미키마우스 담요클립',desc:'유모차 담요 고정 클립',badge:'option',jpPrice:'¥600~',krPrice:'₩10,000~',save:'약 ₩4,400 절약!',coupang:'https://www.coupang.com/np/search?q=%EB%AF%B8%ED%82%A4%EB%A7%88%EC%9A%B0%EC%8A%A4+%EB%8B%B4%EC%9A%94%ED%81%B4%EB%A6%BD'}
+]}
+];
+
+function load(){try{const s=localStorage.getItem(STORAGE_KEY);if(s)checked=JSON.parse(s)}catch(e){}}
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(checked))}catch(e){}}
+
+function checkSvg(){return'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>'}
+function chevSvg(){return'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>'}
+
+const allItems=categories.flatMap(c=>c.items);
+let openCats={};
+
+function toggle(id){
+  if(checked[id])delete checked[id];else checked[id]=true;
+  save();render();
+}
+function toggleCat(idx){
+  openCats[idx]=!openCats[idx];render();
+}
+
+function render(){
+  const done=allItems.filter(i=>checked[i.id]).length;
+  const total=allItems.length;
+  const pct=Math.round(done/total*100);
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('cnt').textContent='('+done+'/'+total+')';
+  document.getElementById('fill').style.width=pct+'%';
+  document.getElementById('completeMsg').innerHTML=pct===100?'<div class="complete-msg">🎉 쇼핑 완료! 수고했어요! 🎉</div>':'';
+
+  const c=document.getElementById('listContainer');
+  c.innerHTML=categories.map((cat,idx)=>{
+    const isOpen=openCats[idx]!==false;
+    const catDone=cat.items.filter(i=>checked[i.id]).length;
+    return`<div class="category">
+      <div class="cat-header" data-cat="${idx}">
+        <div class="cat-title">${cat.emoji} ${cat.title} <span class="cat-count">${catDone}/${cat.items.length}</span></div>
+        <div class="cat-chevron ${isOpen?'open':''}">${chevSvg()}</div>
+      </div>
+      <div class="cat-body ${isOpen?'open':''}">
+        ${cat.items.map(item=>{
+          const ic=!!checked[item.id];
+          const badgeCls=item.badge==='must'?'badge-must':item.badge==='recommend'?'badge-recommend':'badge-option';
+          const badgeText=item.badge==='must'?'필수':item.badge==='recommend'?'추천':'선택';
+          const saveTag=item.same?`<span class="price-same">비슷</span>`:(item.save?`<span class="price-save">${item.save}</span>`:'');
+          const coupangLink=item.coupang?`<a class="kr-link" href="${item.coupang}" target="_blank" onclick="event.stopPropagation()">쿠팡 비교</a>`:'';
+          return`<div class="item ${ic?'checked':''}" data-id="${item.id}">
+            <div class="item-box">${checkSvg()}</div>
+            <div class="item-info">
+              <div class="item-name"><span class="item-badge ${badgeCls}">${badgeText}</span>${item.name}</div>
+              <div class="item-desc">${item.desc}</div>
+              <div class="price-compare">
+                <span class="price-jp">🇯🇵 ${item.jpPrice}</span>
+                <span class="price-kr">🇰🇷 ${item.krPrice}</span>
+                ${saveTag}
+                ${coupangLink}
+              </div>
+            </div>
+          </div>`
+        }).join('')}
+      </div>
+    </div>`
+  }).join('');
+
+  c.querySelectorAll('.cat-header').forEach(el=>{
+    el.addEventListener('click',()=>toggleCat(parseInt(el.dataset.cat)));
+  });
+  c.querySelectorAll('.item').forEach(el=>{
+    el.addEventListener('click',()=>toggle(el.dataset.id));
+  });
+}
+
+load();render();
+</script>
+</body>
+</html>

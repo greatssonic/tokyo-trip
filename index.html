@@ -57,6 +57,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretend
 .check-item.checked .check-text{color:#6b7280;text-decoration:line-through}
 .map-btn{flex-shrink:0;width:38px;height:38px;border-radius:10px;background:#3b82f6;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .15s}
 .map-btn:active{transform:scale(.92);background:#2563eb}.map-btn svg{width:18px;height:18px}
+.link-btn{flex-shrink:0;width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;transition:all .15s}
+.link-btn:active{transform:scale(.92)}
 .price-btn{flex-shrink:0;width:38px;height:38px;border-radius:10px;background:#10b981;color:#fff;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;transition:all .15s;font-size:14px;font-weight:700;font-family:inherit;position:relative}
 .price-btn:active{transform:scale(.92);background:#059669}
 .price-btn.has-price{background:#0891b2}
@@ -461,6 +463,7 @@ const days=[
 {id:'d2-11',text:'긴자역 → 토요스역 (유라쿠초선)',map:'Toyosu Station Tokyo'},
 {id:'d2-12',text:'라라포트 토요스 3층 도착',map:'LaLaport Toyosu Tokyo'},
 {id:'d2-13',text:'아카짱 혼포 라라포트 토요스점',map:'Akachan Honpo LaLaport Toyosu'},
+{id:'d2-13b',text:'📋 쇼핑리스트 열기 →',link:'akachan.html'},
 {id:'d2-14',text:'⭐ 프리마마 기프트 세트 요청'},
 {id:'d2-15',text:'마터니티 마크 키체인 받기 🎀'},
 {id:'d2-16',text:'기저귀 / 물티슈 쇼핑'},
@@ -740,11 +743,12 @@ function render(){
     return`<div class="day-card ${isOpen?'open':''}" data-day="${day.id}"><div class="day-header day-color-${day.color}" data-day="${day.id}"><div class="day-header-row"><div class="day-icon">${day.emoji}</div><div class="day-info"><div class="day-title">${day.title}</div><div class="day-date">${day.date}</div></div><div class="day-pct-block"><div class="day-count">${s.done}/${s.total}</div><div class="day-pct">${s.pct}%</div></div><div class="day-chevron ${isOpen?'open':''}">${chevronSvg()}</div></div><div class="day-progress"><div class="day-progress-fill" style="width:${s.pct}%"></div></div></div><div class="day-content ${isOpen?'open':''}">${day.sections.map(sec=>{const rvs=sec.resv?(Array.isArray(sec.resv)?sec.resv:[sec.resv]):[];const rv=rvs.map(r=>`<span class="resv-tag type-${r.type} ${checked[r.id]?'done':''}" data-resv="${r.id}"><span class="resv-box">${checkSvgSmall()}</span>${checked[r.id]?'✅ '+r.type+' 완료':r.type}</span>`).join('');return`<div class="section"><div class="section-title">${sec.title}${rv}</div>${sec.items.map(item=>{
       const ic=!!checked[item.id];
       const mb=item.map?`<a class="map-btn" href="${mapUrl(item.map)}" target="_blank" rel="noopener">${mapSvg()}</a>`:'';
+      const lb=item.link?`<a class="link-btn" href="${item.link}">📋</a>`:'';
       const itemTotal=itemPrices[item.id]||0;
       const hasPrice=itemTotal>0;
       const showPrice=hasCost(item.text)||hasPrice;
       const priceBtn=showPrice?`<button class="price-btn ${hasPrice?'has-price':''}" data-price-item="${item.id}" data-price-text="${item.text.replace(/"/g,'&quot;')}">¥${hasPrice?'':'+'}${hasPrice?(itemTotal>=10000?Math.round(itemTotal/1000)+'k':itemTotal):''}</button>`:'';
-      return`<div class="check-item ${ic?'checked':''}"><div class="check-content" data-item="${item.id}"><div class="check-box">${checkSvg()}</div><div class="check-text">${item.text}</div></div>${priceBtn}${mb}</div>`
+      return`<div class="check-item ${ic?'checked':''}"><div class="check-content" data-item="${item.id}"><div class="check-box">${checkSvg()}</div><div class="check-text">${item.text}</div></div>${priceBtn}${lb}${mb}</div>`
     }).join('')}</div>`}).join('')}</div></div>`
   }).join('');
   
