@@ -755,7 +755,7 @@ function render(){
   c.querySelectorAll('.day-header').forEach(el=>{el.addEventListener('click',()=>toggleDay(el.dataset.day))});
   c.querySelectorAll('.check-content').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();toggleCheck(el.dataset.item)})});
   c.querySelectorAll('.price-btn').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();openPricePopup(el.dataset.priceItem,el.dataset.priceText)})});
-  c.querySelectorAll('.resv-tag').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();const rid=el.dataset.resv;if(checked[rid])delete checked[rid];else checked[rid]=true;saveLocal();render();if(config?.room)cloudPush()})});
+  c.querySelectorAll('.resv-tag').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();const rid=el.dataset.resv;if(checked[rid])delete checked[rid];else checked[rid]=true;saveLocal();render();if(config?.room)syncToCloud()})});
 }
 
 // 가격 입력 팝업
