@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ef4444">
+<title>🍽️ 음식점 일본어 가이드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;background:linear-gradient(135deg,#fef2f2 0%,#fff7ed 50%,#fffbeb 100%);min-height:100vh;color:#1f2937;padding-bottom:80px;line-height:1.5}
+.header{background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.header-inner{max-width:600px;margin:0 auto}
+.header h1{font-size:16px;font-weight:700;margin-bottom:2px}
+.header-sub{font-size:11px;opacity:.9}
+.back-btn{display:inline-flex;align-items:center;gap:4px;color:#fff;text-decoration:none;font-size:12px;font-weight:600;opacity:.9;margin-bottom:6px}
+.back-btn:active{opacity:.6}
+.container{max-width:600px;margin:0 auto;padding:12px}
+.tab-bar{display:flex;gap:4px;overflow-x:auto;padding:8px 0;-webkit-overflow-scrolling:touch}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab{padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;border:2px solid #e5e7eb;background:#fff;color:#374151;transition:all .15s;flex-shrink:0}
+.tab:active{transform:scale(.95)}
+.tab.active{background:#dc2626;color:#fff;border-color:#dc2626}
+.section{display:none;margin-top:8px}
+.section.active{display:block}
+.card{background:#fff;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card-header{padding:12px 16px;font-size:14px;font-weight:700;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:8px}
+.card-body{padding:10px 14px}
+.phrase{padding:10px;border-radius:10px;background:#f9fafb;border:2px solid #e5e7eb;margin-bottom:6px;cursor:pointer;user-select:none;transition:all .15s}
+.phrase:active{background:#fef2f2;border-color:#fca5a5;transform:scale(.98)}
+.phrase-jp{font-size:18px;font-weight:700;color:#dc2626;margin-bottom:2px}
+.phrase-read{font-size:13px;color:#6b7280;margin-bottom:2px}
+.phrase-kr{font-size:13px;color:#1f2937;font-weight:600}
+.phrase-note{font-size:10px;color:#9ca3af;margin-top:2px}
+.rest-header{background:linear-gradient(135deg,#1f2937,#374151);color:#fff;padding:14px 16px;border-radius:14px 14px 0 0}
+.rest-name{font-size:16px;font-weight:700}
+.rest-info{font-size:11px;opacity:.8;margin-top:2px}
+.menu-item{display:flex;justify-content:space-between;align-items:flex-start;padding:10px;border-radius:10px;background:#f9fafb;border:2px solid #e5e7eb;margin-bottom:6px}
+.menu-left{flex:1}
+.menu-jp{font-size:16px;font-weight:700;color:#dc2626}
+.menu-read{font-size:12px;color:#6b7280}
+.menu-kr{font-size:13px;font-weight:600;color:#1f2937}
+.menu-desc{font-size:10px;color:#9ca3af;margin-top:2px}
+.menu-price{font-size:13px;font-weight:700;color:#059669;flex-shrink:0;margin-left:8px}
+.preg-warn{background:#fef3c7;border:2px solid #fde68a;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:11px;color:#92400e}
+.tip{background:#dbeafe;border:2px solid #93c5fd;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:11px;color:#1e40af}
+.divider{height:1px;background:#e5e7eb;margin:8px 0}
+.copy-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:100;display:none;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="header-inner">
+<a class="back-btn" href="index.html">← 체크리스트로 돌아가기</a>
+<h1>🍽️ 음식점 일본어 가이드</h1>
+<div class="header-sub">터치하면 클립보드 복사 · 직원에게 화면을 보여주세요!</div>
+</div>
+</div>
+<div class="container">
+<div class="tab-bar" id="tabBar"></div>
+<div id="sections"></div>
+</div>
+<div class="copy-toast" id="toast">📋 복사됨!</div>
+
+<script>
+const tabs=[
+{id:'common',label:'🗣️ 기본 회화'},
+{id:'preg',label:'🤰 임산부'},
+{id:'unagi',label:'🍱 우나기노나루세'},
+{id:'tonkatsu',label:'🍖 돈카츠 하지메'},
+{id:'tsukiji',label:'🥢 쓰키지'},
+{id:'kanesaka',label:'🍣 카네사카'},
+{id:'tendon',label:'🍤 텐동 이츠키'},
+{id:'yakiton',label:'🍢 야키톤 다마야'},
+{id:'ebimaru',label:'🍜 에비마루'},
+{id:'ushimitsu',label:'🥩 우시미츠'},
+{id:'moriho',label:'🐔 모리호'},
+{id:'otanawa',label:'🍲 오타나와노렌'},
+{id:'tsuru',label:'🐑 징기스칸 츠루야'}
+];
+
+const data={
+common:{title:'🗣️ 기본 음식점 회화',groups:[
+{name:'🚪 입장',phrases:[
+{jp:'二名です',read:'니메이데스',kr:'2명이에요'},
+{jp:'予約した○○です',read:'요야쿠시타 ○○데스',kr:'예약한 ○○입니다'},
+{jp:'予約なしですが、入れますか？',read:'요야쿠 나시데스가, 하이레마스카?',kr:'예약 없는데 들어갈 수 있나요?'},
+{jp:'待ち時間はどのくらいですか？',read:'마치지칸와 도노쿠라이데스카?',kr:'대기시간 얼마나 되나요?'},
+{jp:'カウンター席でもいいです',read:'카운타-세키데모 이이데스',kr:'카운터석도 괜찮아요'}
+]},
+{name:'📋 주문',phrases:[
+{jp:'すみません、注文お願いします',read:'스미마셍, 츄몽 오네가이시마스',kr:'저기요, 주문할게요'},
+{jp:'おすすめは何ですか？',read:'오스스메와 난데스카?',kr:'추천 메뉴가 뭔가요?'},
+{jp:'これをください',read:'코레오 쿠다사이',kr:'이거 주세요 (메뉴 가리키며)'},
+{jp:'同じものをもう一つ',read:'오나지모노오 모-히토츠',kr:'같은 거 하나 더요'},
+{jp:'○○を二つください',read:'○○오 후타츠 쿠다사이',kr:'○○ 두 개 주세요'},
+{jp:'ビールを先にお願いします',read:'비-루오 사키니 오네가이시마스',kr:'맥주 먼저 준비해주세요'},
+{jp:'お水ください',read:'오미즈 쿠다사이',kr:'물 주세요'},
+{jp:'取り皿ください',read:'토리자라 쿠다사이',kr:'빈 접시(앞접시) 주세요'}
+]},
+{name:'🍽️ 식사 중',phrases:[
+{jp:'もう少し温めてもらえますか？',read:'모-스코시 아타타메테 모라에마스카?',kr:'좀 더 데워주실 수 있나요?'},
+{jp:'おしぼりもう一枚ください',read:'오시보리 모-이치마이 쿠다사이',kr:'물수건 하나 더 주세요'},
+{jp:'これは何ですか？',read:'코레와 난데스카?',kr:'이건 뭔가요?'},
+{jp:'とても美味しいです！',read:'토테모 오이시이데스!',kr:'정말 맛있어요!'},
+{jp:'写真を撮ってもいいですか？',read:'샤신오 톳테모 이이데스카?',kr:'사진 찍어도 되나요?'},
+{jp:'お箸ください',read:'오하시 쿠다사이',kr:'젓가락 주세요'},
+{jp:'スプーンください',read:'스푼 쿠다사이',kr:'숟가락 주세요'},
+{jp:'ナプキンください',read:'나프킨 쿠다사이',kr:'냅킨 주세요'}
+]},
+{name:'💰 계산',phrases:[
+{jp:'お会計お願いします',read:'오카이케- 오네가이시마스',kr:'계산해주세요'},
+{jp:'カードで払えますか？',read:'카-도데 하라에마스카?',kr:'카드 결제 되나요?'},
+{jp:'別々にお願いします',read:'베츠베츠니 오네가이시마스',kr:'따로따로 계산해주세요'},
+{jp:'領収書ください',read:'료-슈-쇼 쿠다사이',kr:'영수증 주세요'},
+{jp:'免税できますか？',read:'멘제- 데키마스카?',kr:'면세 되나요?'},
+{jp:'ごちそうさまでした',read:'고치소-사마데시타',kr:'잘 먹었습니다 (나갈 때)'}
+]}
+]},
+preg:{title:'🤰 임산부 필수 표현',groups:[
+{name:'⚠️ 꼭 알아야 할 표현',phrases:[
+{jp:'妊娠中です',read:'닌신츄-데스',kr:'임신 중이에요'},
+{jp:'妊娠17週です',read:'닌신 쥬-나나슈-데스',kr:'임신 17주예요'},
+{jp:'生ものは食べられません',read:'나마모노와 타베라레마셍',kr:'날것은 못 먹어요'},
+{jp:'生ものを抜いてください',read:'나마모노오 누이테 쿠다사이',kr:'날것은 빼주세요'},
+{jp:'よく焼いてください',read:'요쿠 야이테 쿠다사이',kr:'잘 익혀주세요'},
+{jp:'火を通したものでお願いします',read:'히오 토-시타모노데 오네가이시마스',kr:'가열한 것으로 부탁드립니다'},
+{jp:'アルコールなしでお願いします',read:'아루코-루 나시데 오네가이시마스',kr:'술 없이 부탁합니다'},
+{jp:'カフェインなしの飲み物はありますか？',read:'카페인 나시노 노미모노와 아리마스카?',kr:'카페인 없는 음료 있나요?'},
+{jp:'ウーロン茶ください',read:'우-롱차 쿠다사이',kr:'우롱차 주세요'},
+{jp:'座ってもいいですか？',read:'스왓테모 이이데스카?',kr:'앉아도 될까요?'},
+{jp:'トイレはどこですか？',read:'토이레와 도코데스카?',kr:'화장실 어디예요?'}
+]}
+]},
+unagi:{title:'🍱 우나기노나루세',restaurant:{name:'鰻のなる瀬 カレッタ汐留店',info:'Day 1 점심 14:00 · 카렛타 시오도메 B1층'},menu:[
+{jp:'うな重 松',read:'우나쥬- 마츠',kr:'장어덮밥 마츠 (특상)',price:'¥3,800~'},
+{jp:'うな重 竹',read:'우나쥬- 타케',kr:'장어덮밥 타케 (상)',price:'¥3,000~'},
+{jp:'うな重 梅',read:'우나쥬- 우메',kr:'장어덮밥 우메 (보통)',price:'¥2,500~'},
+{jp:'ひつまぶし',read:'히츠마부시',kr:'히츠마부시 (3가지 먹는법)',price:'¥3,500~'},
+{jp:'肝吸い',read:'키모스이',kr:'장어 간 맑은국',price:'¥200~'},
+{jp:'うなぎの白焼き',read:'우나기노 시로야키',kr:'장어 소금구이 (양념X)',price:'¥2,000~'}
+],extra:[
+{jp:'うなぎをもう少しよく焼いてください',read:'우나기오 모-스코시 요쿠 야이테 쿠다사이',kr:'장어를 좀 더 익혀주세요'},
+{jp:'ご飯大盛りできますか？',read:'고항 오-모리 데키마스카?',kr:'밥 곱배기 되나요?'},
+{jp:'山椒ください',read:'산쇼- 쿠다사이',kr:'산초 가루 주세요'}
+]},
+tonkatsu:{title:'🍖 돈카츠 하지메 하나레',restaurant:{name:'日本橋とんかつ一 はなれ',info:'Day 1 저녁 19:00 예약'},menu:[
+{jp:'特上ロースかつ',read:'토쿠조- 로-스카츠',kr:'특상 등심 돈카츠',price:'¥3,000~'},
+{jp:'特上ヒレかつ',read:'토쿠조- 히레카츠',kr:'특상 안심 돈카츠',price:'¥3,200~'},
+{jp:'ロースかつ定食',read:'로-스카츠 테이쇼쿠',kr:'등심 돈카츠 정식',price:'¥2,000~'},
+{jp:'ヒレかつ定食',read:'히레카츠 테이쇼쿠',kr:'안심 돈카츠 정식',price:'¥2,200~'},
+{jp:'エビフライ',read:'에비후라이',kr:'새우튀김',price:'¥800~'},
+{jp:'ご飯おかわり',read:'고항 오카와리',kr:'밥 리필',price:'무료'}
+],extra:[
+{jp:'三種の塩で食べたいです',read:'산슈노 시오데 타베타이데스',kr:'3가지 소금으로 먹고 싶어요'},
+{jp:'キャベツおかわりできますか？',read:'캬베츠 오카와리 데키마스카?',kr:'양배추 리필 되나요?'},
+{jp:'からしください',read:'카라시 쿠다사이',kr:'겨자 주세요'}
+]},
+tsukiji:{title:'🥢 쓰키지 외시장',restaurant:{name:'築地場外市場',info:'Day 2 조식 08:00 · 현금 준비!'},menu:[
+{jp:'玉子焼き',read:'타마고야키',kr:'계란말이',price:'¥100~300'},
+{jp:'玉子焼き串',read:'타마고야키 쿠시',kr:'계란말이 꼬치',price:'¥100~'},
+{jp:'焼きホタテ',read:'야키호타테',kr:'구운 가리비',price:'¥500~'},
+{jp:'うなぎ串',read:'우나기 쿠시',kr:'장어 꼬치',price:'¥500~'},
+{jp:'いちご大福',read:'이치고 다이후쿠',kr:'딸기 대복',price:'¥400~'},
+{jp:'メロンパン',read:'메론빵',kr:'메론빵',price:'¥300~'}
+],extra:[
+{jp:'一つください',read:'히토츠 쿠다사이',kr:'하나 주세요'},
+{jp:'二つください',read:'후타츠 쿠다사이',kr:'두 개 주세요'},
+{jp:'いくらですか？',read:'이쿠라데스카?',kr:'얼마예요?'},
+{jp:'現金だけですか？',read:'겐킨다케데스카?',kr:'현금만 되나요?'}
+]},
+kanesaka:{title:'🍣 나가타쵸 카네사카',restaurant:{name:'永田町 鮨 かねさか',info:'Day 2 점심 12:30 예약 확정 ✅'},menu:[
+{jp:'おまかせコース',read:'오마카세 코-스',kr:'오마카세 코스 (셰프 추천)',price:'¥15,000~'},
+{jp:'握り',read:'니기리',kr:'니기리 스시',price:'코스 내'},
+{jp:'お吸い物',read:'오스이모노',kr:'맑은국',price:'코스 내'},
+{jp:'玉子',read:'타마고',kr:'계란 스시',price:'코스 내'},
+{jp:'デザート',read:'데자-토',kr:'디저트',price:'코스 내'}
+],warn:'임신 중 → 가열 네타(익힌 것) 위주 요청!',extra:[
+{jp:'妊娠中なので、火を通したネタを中心にお願いします',read:'닌신츄-나노데, 히오 토-시타 네타오 츄-신니 오네가이시마스',kr:'임신 중이라 익힌 네타 위주로 부탁드립니다'},
+{jp:'炙りにしてもらえますか？',read:'아부리니 시테 모라에마스카?',kr:'살짝 구워주실 수 있나요?'},
+{jp:'シャリ少なめでお願いします',read:'샤리 스쿠나메데 오네가이시마스',kr:'밥 적게 부탁합니다'},
+{jp:'お寿司をもう二貫ください',read:'오스시오 모- 니캉 쿠다사이',kr:'스시 두 개(점) 더 주세요'},
+{jp:'ガリください',read:'가리 쿠다사이',kr:'생강(가리) 주세요'}
+]},
+tendon:{title:'🍤 텐동 이츠키',restaurant:{name:'銀座 いつき',info:'Day 2 저녁 18:00 · 좌석 적어서 줄 설 수 있음'},menu:[
+{jp:'スペシャル天丼',read:'스페샤루 텐동',kr:'스페셜 텐동 (새우2+치킨2+계란+야채)',price:'¥1,400'},
+{jp:'海老天丼',read:'에비 텐동',kr:'새우 텐동',price:'¥1,200'},
+{jp:'野菜天丼',read:'야사이 텐동',kr:'야채 텐동',price:'¥1,000'},
+{jp:'味噌汁',read:'미소시루',kr:'된장국',price:'¥100~'}
+],extra:[
+{jp:'天ぷらをよく揚げてください',read:'텐푸라오 요쿠 아게테 쿠다사이',kr:'튀김을 잘 익혀주세요'},
+{jp:'ご飯少なめで',read:'고항 스쿠나메데',kr:'밥 적게요'}
+]},
+yakiton:{title:'🍢 야키톤 다마야',restaurant:{name:'やきとん たまや商店 銀座コリドー街店',info:'Day 2 2차 19:30~ · ⭐4.8'},menu:[
+{jp:'おまかせ盛り合わせ',read:'오마카세 모리아와세',kr:'모듬 꼬치',price:'¥1,000~'},
+{jp:'レバー',read:'레바-',kr:'간 꼬치',price:'¥200~'},
+{jp:'カシラ',read:'카시라',kr:'볼살 꼬치',price:'¥200~'},
+{jp:'ハラミ',read:'하라미',kr:'안창살 꼬치',price:'¥200~'},
+{jp:'トマトベーコン巻き',read:'토마토 베-콘 마키',kr:'미니토마토 베이컨말이 (리뷰1위!)',price:'¥300~'},
+{jp:'タン',read:'탕',kr:'혀 꼬치',price:'¥250~'},
+{jp:'生ビール',read:'나마비-루',kr:'생맥주',price:'¥500~'},
+{jp:'ウーロン茶',read:'우-롱차',kr:'우롱차',price:'¥300~'}
+],warn:'임신 중 → 충분히 익혀 먹기, 레바(간)는 피하기',extra:[
+{jp:'よく焼きでお願いします',read:'요쿠야키데 오네가이시마스',kr:'잘 익혀주세요'},
+{jp:'塩でお願いします',read:'시오데 오네가이시마스',kr:'소금으로 해주세요'},
+{jp:'タレでお願いします',read:'타레데 오네가이시마스',kr:'양념(타레)으로 해주세요'},
+{jp:'ハッピーアワーまだやっていますか？',read:'핫피-아와- 마다 얏테이마스카?',kr:'해피아워 아직 하나요?'}
+]},
+ebimaru:{title:'🍜 에비마루 라멘',restaurant:{name:'Ebimaru Ramen 西神田',info:'Day 3 점심 11:45 · 대기 1시간 가능'},menu:[
+{jp:'ロブスターラーメン',read:'로부스타- 라-멘',kr:'랍스터 라멘',price:'¥1,500~'},
+{jp:'リゾットセット',read:'리좃토 셋토',kr:'리조또 세트 (국물에 밥)',price:'¥300~'},
+{jp:'味玉',read:'아지타마',kr:'맛달걀 토핑',price:'¥150~'},
+{jp:'チャーシュー追加',read:'챠-슈- 츠이카',kr:'차슈 추가',price:'¥300~'}
+],extra:[
+{jp:'麺の硬さは普通で',read:'멘노 카타사와 후츠-데',kr:'면 굳기는 보통으로'},
+{jp:'麺を柔らかめで',read:'멘오 야와라카메데',kr:'면 부드럽게 해주세요'},
+{jp:'スープ熱めでお願いします',read:'스-프 아츠메데 오네가이시마스',kr:'국물 뜨겁게 해주세요'}
+]},
+ushimitsu:{title:'🥩 우시미츠',restaurant:{name:'牛美津 Ushimitsu',info:'Day 3 저녁 20:00 · 아사쿠사'},menu:[
+{jp:'和牛丼',read:'와규-동',kr:'와규 덮밥',price:'¥2,500~'},
+{jp:'特選和牛丼',read:'토쿠센 와규-동',kr:'특선 와규 덮밥',price:'¥3,500~'},
+{jp:'サラダ',read:'사라다',kr:'샐러드',price:'¥500~'},
+{jp:'味噌汁',read:'미소시루',kr:'된장국',price:'¥200~'}
+],extra:[
+{jp:'お肉をよく焼いてください',read:'오니쿠오 요쿠 야이테 쿠다사이',kr:'고기를 잘 익혀주세요'},
+{jp:'ミディアムウェルでお願いします',read:'미디아무 웨루데 오네가이시마스',kr:'미디엄웰로 부탁합니다'}
+]},
+moriho:{title:'🐔 모리호 야키토리',restaurant:{name:'숯불 야키토리 모리호',info:'Day 3 2차 21:30 · 아카사카, 호텔 도보 5분'},menu:[
+{jp:'焼き鳥盛り合わせ',read:'야키토리 모리아와세',kr:'야키토리 모듬',price:'¥1,000~'},
+{jp:'もも',read:'모모',kr:'닭다리살',price:'¥200~'},
+{jp:'ねぎま',read:'네기마',kr:'파닭 꼬치',price:'¥200~'},
+{jp:'つくね',read:'츠쿠네',kr:'닭완자 꼬치',price:'¥200~'},
+{jp:'かわ',read:'카와',kr:'닭껍질 꼬치',price:'¥200~'},
+{jp:'ささみ',read:'사사미',kr:'닭가슴살 (와사비)',price:'¥200~'},
+{jp:'日本酒',read:'니혼슈',kr:'사케',price:'¥500~'},
+{jp:'ウーロン茶',read:'우-롱차',kr:'우롱차',price:'¥300~'}
+],warn:'임산부: 잘 익혀먹고 레바(간) 피하기',extra:[
+{jp:'レバーは抜いてください',read:'레바-와 누이테 쿠다사이',kr:'간(레바)은 빼주세요'},
+{jp:'よく焼きでお願いします',read:'요쿠야키데 오네가이시마스',kr:'잘 익혀주세요'},
+{jp:'日本酒のおすすめはありますか？',read:'니혼슈노 오스스메와 아리마스카?',kr:'추천 사케 있나요?'}
+]},
+otanawa:{title:'🍲 오타나와노렌',restaurant:{name:'お多奈和のれん 横浜',info:'Day 4 점심 12:30 · 전화예약 045-261-0636'},menu:[
+{jp:'すき焼きコース',read:'스키야키 코-스',kr:'스키야키 코스',price:'¥5,000~'},
+{jp:'しゃぶしゃぶコース',read:'샤부샤부 코-스',kr:'샤부샤부 코스',price:'¥5,000~'},
+{jp:'和牛ロース',read:'와규 로-스',kr:'와규 등심',price:'코스 내'},
+{jp:'うどん',read:'우동',kr:'우동 (마무리)',price:'코스 내'}
+],extra:[
+{jp:'お肉をよく煮てください',read:'오니쿠오 요쿠 니테 쿠다사이',kr:'고기를 잘 끓여주세요'},
+{jp:'卵は使わないでください',read:'타마고와 츠카와나이데 쿠다사이',kr:'달걀은 안 쓸게요 (날달걀 걱정 시)'}
+]},
+tsuru:{title:'🐑 징기스칸 츠루야',restaurant:{name:'ジンギスカン鶴屋 川崎',info:'Day 4 저녁 · 19시 입장마감, 21시 영업종료'},menu:[
+{jp:'ジンギスカンセット',read:'징기스캉 셋토',kr:'징기스칸 세트 (양고기+야채)',price:'¥1,500~'},
+{jp:'ラム',read:'라무',kr:'양고기 (어린양)',price:'¥800~'},
+{jp:'マトン',read:'마통',kr:'양고기 (성양)',price:'¥700~'},
+{jp:'野菜盛り合わせ',read:'야사이 모리아와세',kr:'야채 모듬',price:'¥500~'},
+{jp:'ライス',read:'라이스',kr:'밥',price:'¥200~'},
+{jp:'生ビール',read:'나마비-루',kr:'생맥주',price:'¥500~'}
+],warn:'임산부: 양고기 반드시 잘 익혀먹기!',extra:[
+{jp:'よく焼いてから食べます',read:'요쿠 야이테카라 타베마스',kr:'잘 익혀서 먹을게요'},
+{jp:'お肉を追加してください',read:'오니쿠오 츠이카시테 쿠다사이',kr:'고기 추가해주세요'},
+{jp:'タレをもう少しください',read:'타레오 모-스코시 쿠다사이',kr:'양념 좀 더 주세요'}
+]}
+};
+
+let activeTab='common';
+
+function showToast(text){
+  const t=document.getElementById('toast');
+  t.textContent='📋 '+text+' 복사됨!';
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',1500);
+}
+
+function copyPhrase(jp){
+  if(navigator.clipboard)navigator.clipboard.writeText(jp);
+  showToast(jp);
+}
+
+function renderPhrase(p){
+  return`<div class="phrase" onclick="copyPhrase('${p.jp.replace(/'/g,"\\'")}')">
+    <div class="phrase-jp">${p.jp}</div>
+    <div class="phrase-read">${p.read}</div>
+    <div class="phrase-kr">${p.kr}</div>
+    ${p.note?'<div class="phrase-note">'+p.note+'</div>':''}
+  </div>`;
+}
+
+function renderMenu(m){
+  return`<div class="menu-item">
+    <div class="menu-left">
+      <div class="menu-jp">${m.jp}</div>
+      <div class="menu-read">${m.read}</div>
+      <div class="menu-kr">${m.kr}</div>
+    </div>
+    <div class="menu-price">${m.price}</div>
+  </div>`;
+}
+
+function render(){
+  const tabBar=document.getElementById('tabBar');
+  tabBar.innerHTML=tabs.map(t=>`<div class="tab ${activeTab===t.id?'active':''}" data-tab="${t.id}">${t.label}</div>`).join('');
+  tabBar.querySelectorAll('.tab').forEach(el=>{
+    el.addEventListener('click',()=>{activeTab=el.dataset.tab;render()});
+  });
+
+  const sec=document.getElementById('sections');
+  const d=data[activeTab];
+  if(!d){sec.innerHTML='';return;}
+
+  let html='';
+
+  if(d.groups){
+    html+=d.groups.map(g=>`<div class="card">
+      <div class="card-header">${g.name}</div>
+      <div class="card-body">${g.phrases.map(renderPhrase).join('')}</div>
+    </div>`).join('');
+  }
+
+  if(d.restaurant){
+    html+=`<div class="card">
+      <div class="rest-header"><div class="rest-name">${d.restaurant.name}</div><div class="rest-info">${d.restaurant.info}</div></div>
+      <div class="card-body">
+        ${d.warn?'<div class="preg-warn">🤰 '+d.warn+'</div>':''}
+        <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:6px">📋 메뉴</div>
+        ${d.menu.map(renderMenu).join('')}
+        ${d.extra?'<div class="divider"></div><div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:6px">🗣️ 유용한 표현</div>'+d.extra.map(renderPhrase).join(''):''}
+      </div>
+    </div>`;
+  }
+
+  sec.innerHTML=html;
+}
+
+render();
+</script>
+</body>
+</html>
