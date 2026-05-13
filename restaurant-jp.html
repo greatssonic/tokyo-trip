@@ -25,8 +25,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretend
 .card{background:#fff;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .card-header{padding:12px 16px;font-size:14px;font-weight:700;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:8px}
 .card-body{padding:10px 14px}
-.phrase{padding:10px;border-radius:10px;background:#f9fafb;border:2px solid #e5e7eb;margin-bottom:6px;cursor:pointer;user-select:none;transition:all .15s}
-.phrase:active{background:#fef2f2;border-color:#fca5a5;transform:scale(.98)}
+.phrase{padding:10px;border-radius:10px;background:#f9fafb;border:2px solid #e5e7eb;margin-bottom:6px;user-select:none;transition:all .15s;display:flex;align-items:flex-start;gap:8px}
+.phrase-content{flex:1;cursor:pointer}
+.phrase-content:active{opacity:.7}
+.speak-btn{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;transition:all .15s;margin-top:2px}
+.speak-btn:active{transform:scale(.88);background:#1d4ed8}
+.speak-btn.speaking{background:linear-gradient(135deg,#ef4444,#dc2626);animation:pulse-speak 1s infinite}
 .phrase-jp{font-size:18px;font-weight:700;color:#dc2626;margin-bottom:2px}
 .phrase-read{font-size:13px;color:#6b7280;margin-bottom:2px}
 .phrase-kr{font-size:13px;color:#1f2937;font-weight:600}
@@ -44,6 +48,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretend
 .preg-warn{background:#fef3c7;border:2px solid #fde68a;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:11px;color:#92400e}
 .tip{background:#dbeafe;border:2px solid #93c5fd;border-radius:10px;padding:8px 12px;margin-bottom:8px;font-size:11px;color:#1e40af}
 .divider{height:1px;background:#e5e7eb;margin:8px 0}
+@keyframes pulse-speak{0%,100%{opacity:1}50%{opacity:.6}}
 .copy-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:100;display:none;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 </style>
 </head>
@@ -275,12 +280,26 @@ function copyPhrase(jp){
   showToast(jp);
 }
 
+function speakJP(jp,btn){
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(jp);
+  u.lang='ja-JP';u.rate=0.8;u.pitch=1;
+  btn.classList.add('speaking');
+  u.onend=()=>btn.classList.remove('speaking');
+  u.onerror=()=>btn.classList.remove('speaking');
+  window.speechSynthesis.speak(u);
+}
+
 function renderPhrase(p){
-  return`<div class="phrase" onclick="copyPhrase('${p.jp.replace(/'/g,"\\'")}')">
-    <div class="phrase-jp">${p.jp}</div>
-    <div class="phrase-read">${p.read}</div>
-    <div class="phrase-kr">${p.kr}</div>
-    ${p.note?'<div class="phrase-note">'+p.note+'</div>':''}
+  const escaped=p.jp.replace(/'/g,"\\'");
+  return`<div class="phrase">
+    <div class="phrase-content" onclick="copyPhrase('${escaped}')">
+      <div class="phrase-jp">${p.jp}</div>
+      <div class="phrase-read">${p.read}</div>
+      <div class="phrase-kr">${p.kr}</div>
+      ${p.note?'<div class="phrase-note">'+p.note+'</div>':''}
+    </div>
+    <button class="speak-btn" onclick="speakJP('${escaped}',this)" title="발음 듣기">🔊</button>
   </div>`;
 }
 
