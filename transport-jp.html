@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#2563eb">
+<title>🚃 이동수단 일본어 가이드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 50%,#e0e7ff 100%);min-height:100vh;color:#1f2937;padding-bottom:80px;line-height:1.5}
+.header{background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.header-inner{max-width:600px;margin:0 auto}
+.header h1{font-size:16px;font-weight:700;margin-bottom:2px}
+.header-sub{font-size:11px;opacity:.9}
+.back-btn{display:inline-flex;align-items:center;gap:4px;color:#fff;text-decoration:none;font-size:12px;font-weight:600;opacity:.9;margin-bottom:6px}
+.back-btn:active{opacity:.6}
+.container{max-width:600px;margin:0 auto;padding:12px}
+.tab-bar{display:flex;gap:4px;overflow-x:auto;padding:8px 0;-webkit-overflow-scrolling:touch}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab{padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;border:2px solid #e5e7eb;background:#fff;color:#374151;transition:all .15s;flex-shrink:0}
+.tab:active{transform:scale(.95)}
+.tab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+.section{display:none;margin-top:8px}
+.section.active{display:block}
+.card{background:#fff;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card-header{padding:12px 16px;font-size:14px;font-weight:700;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:8px}
+.card-body{padding:10px 14px}
+.phrase{padding:10px;border-radius:10px;background:#f9fafb;border:2px solid #e5e7eb;margin-bottom:6px;cursor:pointer;user-select:none;transition:all .15s}
+.phrase:active{background:#eff6ff;border-color:#93c5fd;transform:scale(.98)}
+.phrase-jp{font-size:18px;font-weight:700;color:#1d4ed8;margin-bottom:2px}
+.phrase-read{font-size:13px;color:#6b7280;margin-bottom:2px}
+.phrase-kr{font-size:13px;color:#1f2937;font-weight:600}
+.phrase-note{font-size:10px;color:#9ca3af;margin-top:2px}
+.tip{background:#fef3c7;border:2px solid #fde68a;border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:12px;color:#92400e;line-height:1.6}
+.tip b{color:#c2410c}
+.info-box{background:#dbeafe;border:2px solid #93c5fd;border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:12px;color:#1e40af;line-height:1.6}
+.warn-box{background:#fef2f2;border:2px solid #fca5a5;border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:12px;color:#991b1b;line-height:1.6}
+.route-card{background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:8px}
+.route-title{font-size:13px;font-weight:700;color:#1f2937;margin-bottom:6px}
+.route-step{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px}
+.route-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:#fff;font-weight:700}
+.route-icon.train{background:#22c55e}
+.route-icon.walk{background:#f59e0b}
+.route-icon.taxi{background:#3b82f6}
+.route-icon.bus{background:#8b5cf6}
+.route-detail{flex:1}
+.route-detail b{color:#1f2937}
+.route-time{color:#6b7280;font-size:11px}
+.copy-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:100;display:none;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="header-inner">
+<a class="back-btn" href="index.html">← 체크리스트로 돌아가기</a>
+<h1>🚃 이동수단 일본어 가이드</h1>
+<div class="header-sub">터치하면 클립보드 복사 · 직원에게 화면을 보여주세요!</div>
+</div>
+</div>
+<div class="container">
+<div class="tab-bar" id="tabBar"></div>
+<div id="sections"></div>
+</div>
+<div class="copy-toast" id="toast">📋 복사됨!</div>
+
+<script>
+const tabs=[
+{id:'common',label:'🗣️ 기본 표현'},
+{id:'station',label:'🚉 역에서'},
+{id:'train',label:'🚃 지하철/기차'},
+{id:'taxi',label:'🚕 택시'},
+{id:'suica',label:'💳 Suica'},
+{id:'routes',label:'🗺️ 주요 경로'},
+{id:'emergency',label:'🆘 긴급'}
+];
+
+const data={
+common:{groups:[
+{name:'🗣️ 기본 이동 표현',phrases:[
+{jp:'すみません',read:'스미마셍',kr:'실례합니다 / 저기요'},
+{jp:'○○駅はどこですか？',read:'○○에키와 도코데스카?',kr:'○○역은 어디에요?'},
+{jp:'○○に行きたいです',read:'○○니 이키타이데스',kr:'○○에 가고 싶어요'},
+{jp:'ここはどこですか？',read:'코코와 도코데스카?',kr:'여기가 어디예요?'},
+{jp:'どのくらいかかりますか？',read:'도노쿠라이 카카리마스카?',kr:'얼마나 걸려요?'},
+{jp:'歩いて何分ですか？',read:'아루이테 난푼데스카?',kr:'걸어서 몇 분이에요?'},
+{jp:'近いですか？',read:'치카이데스카?',kr:'가까워요?'},
+{jp:'遠いですか？',read:'토-이데스카?',kr:'멀어요?'},
+{jp:'右ですか？左ですか？',read:'미기데스카? 히다리데스카?',kr:'오른쪽이에요? 왼쪽이에요?'},
+{jp:'まっすぐですか？',read:'맛스구데스카?',kr:'직진이에요?'}
+]},
+{name:'🔢 숫자 (요금/시간)',phrases:[
+{jp:'一 (1) 二 (2) 三 (3)',read:'이치, 니, 산',kr:'1, 2, 3'},
+{jp:'四 (4) 五 (5) 六 (6)',read:'시/용, 고, 로쿠',kr:'4, 5, 6'},
+{jp:'七 (7) 八 (8) 九 (9)',read:'시치/나나, 하치, 큐-',kr:'7, 8, 9'},
+{jp:'十 (10) 百 (100) 千 (1000)',read:'쥬-, 햐쿠, 센',kr:'10, 100, 1000'},
+{jp:'五分 (5분) 十分 (10분)',read:'고훈, 짓푼',kr:'5분, 10분'},
+{jp:'三十分 (30분)',read:'산짓푼',kr:'30분'},
+{jp:'一時間 (1시간)',read:'이치지칸',kr:'1시간'}
+]}
+]},
+station:{groups:[
+{name:'🚉 역 안에서',phrases:[
+{jp:'○○線はどこですか？',read:'○○센와 도코데스카?',kr:'○○선은 어디예요?'},
+{jp:'○○行きはどのホームですか？',read:'○○유키와 도노 호-무데스카?',kr:'○○행은 어느 승강장이에요?'},
+{jp:'この電車は○○に止まりますか？',read:'코노 덴샤와 ○○니 토마리마스카?',kr:'이 전차는 ○○에 서나요?'},
+{jp:'乗り換えはどこですか？',read:'노리카에와 도코데스카?',kr:'환승은 어디서 해요?'},
+{jp:'○○駅まで何駅ですか？',read:'○○에키마데 난에키데스카?',kr:'○○역까지 몇 정거장이에요?'},
+{jp:'出口はどこですか？',read:'데구치와 도코데스카?',kr:'출구 어디예요?'},
+{jp:'A出口はどちらですか？',read:'에- 데구치와 도치라데스카?',kr:'A출구는 어느 쪽이에요?'},
+{jp:'エレベーターはありますか？',read:'에레베-타-와 아리마스카?',kr:'엘리베이터 있나요?'},
+{jp:'トイレはどこですか？',read:'토이레와 도코데스카?',kr:'화장실 어디예요?'},
+{jp:'コインロッカーはありますか？',read:'코인롯카-와 아리마스카?',kr:'코인 락커 있나요?'}
+]},
+{name:'🎫 표 구매 / 충전',phrases:[
+{jp:'切符売り場はどこですか？',read:'킷푸 우리바와 도코데스카?',kr:'매표소 어디예요?'},
+{jp:'○○までいくらですか？',read:'○○마데 이쿠라데스카?',kr:'○○까지 얼마예요?'},
+{jp:'片道でお願いします',read:'카타미치데 오네가이시마스',kr:'편도로 부탁합니다'},
+{jp:'往復でお願いします',read:'오-후쿠데 오네가이시마스',kr:'왕복으로 부탁합니다'},
+{jp:'大人二枚ください',read:'오토나 니마이 쿠다사이',kr:'어른 2장 주세요'},
+{jp:'チャージしたいです',read:'챠-지 시타이데스',kr:'충전하고 싶어요'},
+{jp:'五千円チャージしてください',read:'고센엔 챠-지시테 쿠다사이',kr:'5천엔 충전해주세요'}
+]}
+]},
+train:{groups:[
+{name:'🚃 전차/기차 안에서',phrases:[
+{jp:'次の駅は何ですか？',read:'츠기노 에키와 난데스카?',kr:'다음 역이 뭐예요?'},
+{jp:'○○駅に着いたら教えてください',read:'○○에키니 츠이타라 오시에테 쿠다사이',kr:'○○역에 도착하면 알려주세요'},
+{jp:'急行ですか？各停ですか？',read:'큐-코-데스카? 카쿠테-데스카?',kr:'급행이에요? 각역정차에요?'},
+{jp:'この電車は○○に行きますか？',read:'코노 덴샤와 ○○니 이키마스카?',kr:'이 전차는 ○○에 가나요?'},
+{jp:'反対方向ですか？',read:'한타이 호-코-데스카?',kr:'반대 방향인가요?'},
+{jp:'降ります',read:'오리마스',kr:'내려요 (내릴 때)'},
+{jp:'すみません、通してください',read:'스미마셍, 토-시테 쿠다사이',kr:'실례합니다, 지나갈게요'},
+{jp:'席を譲っていただけますか？',read:'세키오 유즛테 이타다케마스카?',kr:'자리 양보해주실 수 있나요?',note:'임산부 마크 보여주며'}
+]},
+{name:'🤰 임산부 우선석',phrases:[
+{jp:'妊娠中です、座ってもいいですか？',read:'닌신츄-데스, 스왓테모 이이데스카?',kr:'임신 중인데 앉아도 될까요?'},
+{jp:'優先席はどこですか？',read:'유-센세키와 도코데스카?',kr:'우선석은 어디예요?'},
+{jp:'マタニティマークがあります',read:'마타니티 마-쿠가 아리마스',kr:'마터니티 마크 있어요 (보여주며)'},
+{jp:'少し気分が悪いです',read:'스코시 키분가 와루이데스',kr:'좀 기분이 안 좋아요 (어지러울 때)'}
+]}
+]},
+taxi:{groups:[
+{name:'🚕 택시 기본',phrases:[
+{jp:'タクシー乗り場はどこですか？',read:'타쿠시- 노리바와 도코데스카?',kr:'택시 승강장 어디예요?'},
+{jp:'○○までお願いします',read:'○○마데 오네가이시마스',kr:'○○까지 부탁합니다'},
+{jp:'この住所までお願いします',read:'코노 쥬-쇼마데 오네가이시마스',kr:'이 주소까지 부탁합니다 (화면 보여주며)'},
+{jp:'だいたいいくらですか？',read:'다이타이 이쿠라데스카?',kr:'대략 얼마 정도예요?'},
+{jp:'何分くらいかかりますか？',read:'난푼쿠라이 카카리마스카?',kr:'몇 분 정도 걸려요?'},
+{jp:'急いでいます',read:'이소이데이마스',kr:'급해요'},
+{jp:'ゆっくりでいいです',read:'윳쿠리데 이이데스',kr:'천천히 가도 괜찮아요'}
+]},
+{name:'🚕 택시 안에서',phrases:[
+{jp:'ここで降ろしてください',read:'코코데 오로시테 쿠다사이',kr:'여기서 내려주세요'},
+{jp:'もう少し先でお願いします',read:'모-스코시 사키데 오네가이시마스',kr:'좀 더 앞에서 내려주세요'},
+{jp:'右に曲がってください',read:'미기니 마갓테 쿠다사이',kr:'오른쪽으로 꺾어주세요'},
+{jp:'左に曲がってください',read:'히다리니 마갓테 쿠다사이',kr:'왼쪽으로 꺾어주세요'},
+{jp:'まっすぐお願いします',read:'맛스구 오네가이시마스',kr:'직진해주세요'},
+{jp:'止めてください',read:'토메테 쿠다사이',kr:'세워주세요'},
+{jp:'カードで払えますか？',read:'카-도데 하라에마스카?',kr:'카드 결제 되나요?'},
+{jp:'領収書ください',read:'료-슈-쇼 쿠다사이',kr:'영수증 주세요'},
+{jp:'トランクを開けてください',read:'토란쿠오 아케테 쿠다사이',kr:'트렁크 열어주세요'},
+{jp:'エアコンを強くしてください',read:'에아콘오 츠요쿠시테 쿠다사이',kr:'에어컨 세게 해주세요'},
+{jp:'窓を開けてもいいですか？',read:'마도오 아케테모 이이데스카?',kr:'창문 열어도 되나요?'}
+]},
+{name:'📍 주요 목적지 (택시용)',phrases:[
+{jp:'帝国ホテルまでお願いします',read:'테이코쿠 호테루마데 오네가이시마스',kr:'제국호텔까지 부탁합니다'},
+{jp:'VIA INN 赤坂までお願いします',read:'비아인 아카사카마데 오네가이시마스',kr:'VIA INN 아카사카까지 부탁합니다'},
+{jp:'東京駅までお願いします',read:'토-쿄-에키마데 오네가이시마스',kr:'도쿄역까지 부탁합니다'},
+{jp:'成田空港までお願いします',read:'나리타 쿠-코-마데 오네가이시마스',kr:'나리타 공항까지 부탁합니다'},
+{jp:'浅草までお願いします',read:'아사쿠사마데 오네가이시마스',kr:'아사쿠사까지 부탁합니다'},
+{jp:'銀座までお願いします',read:'긴자마데 오네가이시마스',kr:'긴자까지 부탁합니다'},
+{jp:'横浜までお願いします',read:'요코하마마데 오네가이시마스',kr:'요코하마까지 부탁합니다'}
+]}
+]},
+suica:{groups:[
+{name:'💳 Suica 관련',tip:'Welcome Suica는 28일간 유효, 잔액 환불 불가! 편의점에서 소진하세요.',phrases:[
+{jp:'Welcome Suicaをください',read:'웰컴 스이카오 쿠다사이',kr:'Welcome Suica 주세요'},
+{jp:'二枚お願いします',read:'니마이 오네가이시마스',kr:'2장 부탁합니다'},
+{jp:'五千円チャージしてください',read:'고센엔 챠-지시테 쿠다사이',kr:'5천엔 충전해주세요'},
+{jp:'一万円チャージしてください',read:'이치만엔 챠-지시테 쿠다사이',kr:'1만엔 충전해주세요'},
+{jp:'残高を確認したいです',read:'잔다카오 카쿠닌시타이데스',kr:'잔액 확인하고 싶어요'},
+{jp:'チャージはどこでできますか？',read:'챠-지와 도코데 데키마스카?',kr:'충전은 어디서 할 수 있나요?'},
+{jp:'Suicaで払えますか？',read:'스이카데 하라에마스카?',kr:'Suica로 결제 되나요?',note:'편의점, 자판기, 식당 등에서도 사용 가능'}
+]},
+{name:'⚠️ Suica 주의사항',warn:'JR ↔ 사철/지하철 혼용 개찰 주의! 들어간 회사의 역에서 나와야 합니다.',phrases:[
+{jp:'精算機はどこですか？',read:'세-산키와 도코데스카?',kr:'정산기 어디예요? (요금 부족 시)'},
+{jp:'残高不足です',read:'잔다카 부소쿠데스',kr:'잔액 부족이에요'},
+{jp:'改札を通れません',read:'카이사츠오 토-레마셍',kr:'개찰구를 통과할 수 없어요'},
+{jp:'間違えて入りました',read:'마치갓테 하이리마시타',kr:'잘못 들어왔어요'}
+]}
+]},
+routes:{groups:[
+{name:'📍 Day별 주요 이동 경로',routes:[
+{title:'Day 1 · 나리타 → 제국호텔',steps:[
+{icon:'train',text:'나리타공항 → 케이세이 액세스 익스프레스',time:'11:27 출발'},
+{icon:'train',text:'신바시역 도착',time:'12:33 도착 (약 66분)'},
+{icon:'walk',text:'신바시역 → 제국호텔',time:'도보 7분'}
+]},
+{title:'Day 2 · 제국호텔 → 쓰키지 → 토요스',steps:[
+{icon:'walk',text:'제국호텔 → 쓰키지 외시장',time:'도보 20분 or 택시 5분'},
+{icon:'train',text:'쓰키지 → 토요스역 (유라쿠초선)',time:'약 10분'},
+{icon:'walk',text:'토요스역 → 라라포트 토요스',time:'도보 5분'}
+]},
+{title:'Day 3 · 제국호텔 → VIA INN 아카사카',steps:[
+{icon:'taxi',text:'제국호텔 → VIA INN 아카사카',time:'택시 15분, ¥2,500 예상'},
+{icon:'train',text:'아카사카미츠케 → 아사쿠사바시 (긴자선+소부선)',time:'약 25분'},
+{icon:'walk',text:'아사쿠사 → 스카이트리',time:'도보 20분 or 1정거장'}
+]},
+{title:'Day 4 · 아카사카 → 요코하마 → 가와사키',steps:[
+{icon:'train',text:'아카사카 → 도쿄역 (지하철)',time:'약 15분'},
+{icon:'train',text:'도쿄역 → 사쿠라기쵸역 (JR)',time:'약 30분'},
+{icon:'train',text:'요코하마 → 가와사키 (JR)',time:'약 8분'},
+{icon:'train',text:'가와사키 → 아카사카 (JR+긴자선)',time:'약 30분'}
+]},
+{title:'Day 5 · 아카사카 → 나리타공항',steps:[
+{icon:'train',text:'아카사카미츠케 → 아사쿠사역 (긴자선)',time:'약 25분'},
+{icon:'train',text:'아사쿠사역 → 나리타공항 (Access Express)',time:'약 60분'},
+{icon:'walk',text:'공항 도착 → 체크인',time:'11:15 예상'}
+]}
+]}
+]},
+emergency:{groups:[
+{name:'🆘 긴급 상황',phrases:[
+{jp:'助けてください',read:'타스케테 쿠다사이',kr:'도와주세요!'},
+{jp:'駅員さんを呼んでください',read:'에키인상오 욘데 쿠다사이',kr:'역무원 불러주세요'},
+{jp:'気分が悪いです',read:'키분가 와루이데스',kr:'몸이 안 좋아요'},
+{jp:'妊婦です、救急車を呼んでください',read:'닌푸데스, 큐-큐-샤오 욘데 쿠다사이',kr:'임산부입니다, 구급차 불러주세요'},
+{jp:'病院に行きたいです',read:'뵤-인니 이키타이데스',kr:'병원에 가고 싶어요'},
+{jp:'忘れ物をしました',read:'와스레모노오 시마시타',kr:'분실물이 있어요'},
+{jp:'財布をなくしました',read:'사이후오 나쿠시마시타',kr:'지갑을 잃어버렸어요'},
+{jp:'スマホを電車に置いてきました',read:'스마호오 덴샤니 오이테키마시타',kr:'핸드폰을 전차에 두고 왔어요'},
+{jp:'交番はどこですか？',read:'코-방와 도코데스카?',kr:'파출소 어디예요?'},
+{jp:'大使館に連絡したいです',read:'타이시칸니 렌라쿠시타이데스',kr:'대사관에 연락하고 싶어요'}
+]}
+]}
+};
+
+let activeTab='common';
+
+function showToast(text){
+  const t=document.getElementById('toast');
+  t.textContent='📋 '+text+' 복사됨!';
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',1500);
+}
+
+function copyPhrase(jp){
+  if(navigator.clipboard)navigator.clipboard.writeText(jp);
+  showToast(jp);
+}
+
+function renderPhrase(p){
+  return`<div class="phrase" onclick="copyPhrase('${p.jp.replace(/'/g,"\\'")}')">
+    <div class="phrase-jp">${p.jp}</div>
+    <div class="phrase-read">${p.read}</div>
+    <div class="phrase-kr">${p.kr}</div>
+    ${p.note?'<div class="phrase-note">💡 '+p.note+'</div>':''}
+  </div>`;
+}
+
+function renderRoute(r){
+  return`<div class="route-card">
+    <div class="route-title">📍 ${r.title}</div>
+    ${r.steps.map(s=>`<div class="route-step">
+      <div class="route-icon ${s.icon}">${s.icon==='train'?'🚃':s.icon==='walk'?'🚶':s.icon==='taxi'?'🚕':'🚌'}</div>
+      <div class="route-detail"><b>${s.text}</b><br><span class="route-time">${s.time}</span></div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function render(){
+  const tabBar=document.getElementById('tabBar');
+  tabBar.innerHTML=tabs.map(t=>`<div class="tab ${activeTab===t.id?'active':''}" data-tab="${t.id}">${t.label}</div>`).join('');
+  tabBar.querySelectorAll('.tab').forEach(el=>{
+    el.addEventListener('click',()=>{activeTab=el.dataset.tab;render()});
+  });
+
+  const sec=document.getElementById('sections');
+  const d=data[activeTab];
+  if(!d){sec.innerHTML='';return;}
+
+  let html='';
+  d.groups.forEach(g=>{
+    html+=`<div class="card">
+      <div class="card-header">${g.name}</div>
+      <div class="card-body">
+        ${g.tip?'<div class="tip">💡 <b>팁:</b> '+g.tip+'</div>':''}
+        ${g.warn?'<div class="warn-box">⚠️ '+g.warn+'</div>':''}
+        ${g.phrases?g.phrases.map(renderPhrase).join(''):''}
+        ${g.routes?g.routes.map(renderRoute).join(''):''}
+      </div>
+    </div>`;
+  });
+
+  sec.innerHTML=html;
+}
+
+render();
+</script>
+</body>
+</html>
