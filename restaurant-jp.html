@@ -280,18 +280,27 @@ function copyPhrase(jp){
   showToast(jp);
 }
 
-let currentAudio=null;
+let jaVoice=null;
+function loadVoice(){
+  const voices=window.speechSynthesis.getVoices();
+  const ja=voices.filter(v=>v.lang.startsWith('ja'));
+  jaVoice=ja.find(v=>/female|woman|haruka|kyoko|o-ren/i.test(v.name))||ja.find(v=>v.localService)||ja[0]||null;
+}
+window.speechSynthesis.onvoiceschanged=loadVoice;
+loadVoice();
+
 function speakJP(jp,btn){
-  if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.speak-btn.speaking').forEach(b=>b.classList.remove('speaking'));}
-  const url='https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q='+encodeURIComponent(jp);
-  const a=new Audio(url);
-  currentAudio=a;
+  window.speechSynthesis.cancel();
+  document.querySelectorAll('.speak-btn.speaking').forEach(b=>b.classList.remove('speaking'));
+  const u=new SpeechSynthesisUtterance(jp);
+  u.lang='ja-JP';
+  u.rate=0.75;
+  u.pitch=1.1;
+  if(jaVoice)u.voice=jaVoice;
   btn.classList.add('speaking');
-  a.onended=()=>{btn.classList.remove('speaking');currentAudio=null;};
-  a.onerror=()=>{btn.classList.remove('speaking');currentAudio=null;
-    const u=new SpeechSynthesisUtterance(jp);u.lang='ja-JP';u.rate=0.8;
-    window.speechSynthesis.speak(u);};
-  a.play();
+  u.onend=()=>btn.classList.remove('speaking');
+  u.onerror=()=>btn.classList.remove('speaking');
+  window.speechSynthesis.speak(u);
 }
 
 function renderPhrase(p){
