@@ -254,14 +254,18 @@ function copyPhrase(jp){
   showToast(jp);
 }
 
+let currentAudio=null;
 function speakJP(jp,btn){
-  window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(jp);
-  u.lang='ja-JP';u.rate=0.8;u.pitch=1;
+  if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.speak-btn.speaking').forEach(b=>b.classList.remove('speaking'));}
+  const url='https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q='+encodeURIComponent(jp);
+  const a=new Audio(url);
+  currentAudio=a;
   btn.classList.add('speaking');
-  u.onend=()=>btn.classList.remove('speaking');
-  u.onerror=()=>btn.classList.remove('speaking');
-  window.speechSynthesis.speak(u);
+  a.onended=()=>{btn.classList.remove('speaking');currentAudio=null;};
+  a.onerror=()=>{btn.classList.remove('speaking');currentAudio=null;
+    const u=new SpeechSynthesisUtterance(jp);u.lang='ja-JP';u.rate=0.8;
+    window.speechSynthesis.speak(u);};
+  a.play();
 }
 
 function renderPhrase(p){
