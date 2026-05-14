@@ -186,6 +186,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretend
 .emerg-buttons{display:flex;gap:6px}
 .emerg-call-btn{flex:1;background:#dc2626;color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:600;text-align:center}
 .emerg-map-btn{background:#3b82f6;color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:600;text-align:center}
+.sakura-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.petal{position:absolute;top:-20px;opacity:.5;animation:petFall linear forwards}
+@keyframes petFall{0%{transform:translateX(0) rotate(0deg);opacity:.6}80%{opacity:.4}100%{transform:translateX(60px) rotate(720deg);opacity:0}}
+.music-btn{position:fixed;bottom:16px;left:16px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;border:none;cursor:pointer;box-shadow:0 2px 10px rgba(236,72,153,.3);z-index:50;display:flex;align-items:center;justify-content:center;font-size:20px}
+.music-btn:active{transform:scale(.92)}
+.music-btn.off{background:#9ca3af;box-shadow:none}
 </style>
 </head>
 <body>
@@ -1047,6 +1053,83 @@ window.addEventListener('load',updateHeaderHeight);
 loadLocal();loadConfig();loadBudget();render();
 setTimeout(updateHeaderHeight,100);
 if(config&&config.url&&config.key&&config.room){startSync()}else{updateSyncUI(false)}
+// 벚꽃 효과
+(function(){
+const wrap=document.createElement('div');wrap.className='sakura-wrap';document.body.appendChild(wrap);
+const colors=['#ffb7c5','#ffc0cb','#ff9eb5','#ffd1dc','#fff0f5'];
+function makePetal(){
+  const p=document.createElement('div');p.className='petal';
+  const size=8+Math.random()*10;
+  const left=Math.random()*100;
+  const dur=6+Math.random()*8;
+  const delay=Math.random()*3;
+  const color=colors[Math.floor(Math.random()*colors.length)];
+  p.style.cssText=`left:${left}%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${delay}s;`;
+  p.innerHTML=`<svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="8" ry="5" fill="${color}" transform="rotate(${Math.random()*360} 10 10)"/></svg>`;
+  wrap.appendChild(p);
+  setTimeout(()=>p.remove(),(dur+delay)*1000);
+}
+setInterval(()=>{for(let i=0;i<2;i++)makePetal()},800);
+})();
+
+// 배경 음악 (Web Audio API로 일본풍 멜로디 자동 생성)
+(function(){
+let actx=null,playing=false,gainNode=null,intervals=[];
+const btn=document.createElement('button');
+btn.className='music-btn off';btn.id='musicBtn';btn.textContent='🎵';btn.title='배경음악';
+document.body.appendChild(btn);
+
+function createMusic(){
+  actx=new(window.AudioContext||window.webkitAudioContext)();
+  gainNode=actx.createGain();gainNode.gain.value=0.08;gainNode.connect(actx.destination);
+  // 일본 요나누키 음계 (pentatonic) 기반 멜로디
+  const notes=[261.6,293.7,329.6,392.0,440.0,523.3,587.3,659.3,784.0];
+  let noteIdx=0;
+  function playNote(){
+    if(!playing)return;
+    const osc=actx.createOscillator();
+    const env=actx.createGain();
+    osc.type='sine';
+    const idx=Math.floor(Math.random()*notes.length);
+    osc.frequency.value=notes[idx];
+    env.gain.setValueAtTime(0,actx.currentTime);
+    env.gain.linearRampToValueAtTime(0.3,actx.currentTime+0.1);
+    env.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+2.5);
+    osc.connect(env);env.connect(gainNode);
+    osc.start(actx.currentTime);
+    osc.stop(actx.currentTime+2.5);
+  }
+  // 패드 (배경 화음)
+  function playPad(){
+    if(!playing)return;
+    const chords=[[261.6,329.6,392.0],[293.7,370.0,440.0],[246.9,311.1,370.0]];
+    const chord=chords[Math.floor(Math.random()*chords.length)];
+    chord.forEach(f=>{
+      const osc=actx.createOscillator();const env=actx.createGain();
+      osc.type='triangle';osc.frequency.value=f/2;
+      env.gain.setValueAtTime(0,actx.currentTime);
+      env.gain.linearRampToValueAtTime(0.12,actx.currentTime+0.5);
+      env.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+6);
+      osc.connect(env);env.connect(gainNode);
+      osc.start(actx.currentTime);osc.stop(actx.currentTime+6);
+    });
+  }
+  intervals.push(setInterval(playNote,2000));
+  intervals.push(setInterval(playPad,6000));
+  playNote();setTimeout(playPad,500);
+}
+
+btn.addEventListener('click',function(){
+  if(!playing){
+    playing=true;btn.classList.remove('off');btn.textContent='🎶';
+    if(!actx)createMusic();else actx.resume();
+  }else{
+    playing=false;btn.classList.add('off');btn.textContent='🎵';
+    intervals.forEach(clearInterval);intervals=[];
+    if(actx)actx.suspend();
+  }
+});
+})();
 </script>
 </body>
 </html>
