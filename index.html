@@ -1130,62 +1130,115 @@ function burstAt(cx,cy){
 }
 })();
 
-// 배경 음악 (Web Audio API로 일본풍 멜로디 자동 생성)
+// 배경 음악 - 잔잔한 피아노 멜로디 (저작권 없음, 직접 작곡)
 (function(){
-let actx=null,playing=false,gainNode=null,intervals=[];
+let actx=null,playing=false,masterGain=null,melodyTimeout=null;
 const btn=document.createElement('button');
 btn.className='music-btn off';btn.id='musicBtn';btn.textContent='🎵';btn.title='배경음악';
 document.body.appendChild(btn);
 
-function createMusic(){
-  actx=new(window.AudioContext||window.webkitAudioContext)();
-  gainNode=actx.createGain();gainNode.gain.value=0.08;gainNode.connect(actx.destination);
-  // 일본 요나누키 음계 (pentatonic) 기반 멜로디
-  const notes=[261.6,293.7,329.6,392.0,440.0,523.3,587.3,659.3,784.0];
-  let noteIdx=0;
-  function playNote(){
-    if(!playing)return;
-    const osc=actx.createOscillator();
-    const env=actx.createGain();
-    osc.type='sine';
-    const idx=Math.floor(Math.random()*notes.length);
-    osc.frequency.value=notes[idx];
-    env.gain.setValueAtTime(0,actx.currentTime);
-    env.gain.linearRampToValueAtTime(0.3,actx.currentTime+0.1);
-    env.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+2.5);
-    osc.connect(env);env.connect(gainNode);
-    osc.start(actx.currentTime);
-    osc.stop(actx.currentTime+2.5);
-  }
-  // 패드 (배경 화음)
-  function playPad(){
-    if(!playing)return;
-    const chords=[[261.6,329.6,392.0],[293.7,370.0,440.0],[246.9,311.1,370.0]];
-    const chord=chords[Math.floor(Math.random()*chords.length)];
-    chord.forEach(f=>{
-      const osc=actx.createOscillator();const env=actx.createGain();
-      osc.type='triangle';osc.frequency.value=f/2;
-      env.gain.setValueAtTime(0,actx.currentTime);
-      env.gain.linearRampToValueAtTime(0.12,actx.currentTime+0.5);
-      env.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+6);
-      osc.connect(env);env.connect(gainNode);
-      osc.start(actx.currentTime);osc.stop(actx.currentTime+6);
-    });
-  }
-  intervals.push(setInterval(playNote,2000));
-  intervals.push(setInterval(playPad,6000));
-  playNote();setTimeout(playPad,500);
+// 음계: C D E G A (요나누키 단음계 - 일본풍 잔잔한 느낌)
+const scale={
+  C3:130.81,D3:146.83,E3:164.81,G3:196.00,A3:220.00,
+  C4:261.63,D4:293.66,E4:329.63,G4:392.00,A4:440.00,
+  C5:523.25,D5:587.33,E5:659.26,G5:784.00,A5:880.00
+};
+
+// 멜로디 패턴 (잔잔한 피아노곡 느낌)
+const phrases=[
+  [{n:'E4',d:0.8},{n:'G4',d:0.4},{n:'A4',d:1.2},{n:'G4',d:0.6},{n:'E4',d:0.8},{n:'D4',d:1.6}],
+  [{n:'C4',d:0.6},{n:'E4',d:0.6},{n:'G4',d:1.0},{n:'A4',d:0.8},{n:'G4',d:0.6},{n:'E4',d:0.6},{n:'D4',d:1.4}],
+  [{n:'A4',d:0.6},{n:'G4',d:0.4},{n:'E4',d:0.8},{n:'D4',d:0.6},{n:'C4',d:1.2},{n:'D4',d:0.4},{n:'E4',d:1.6}],
+  [{n:'G4',d:0.8},{n:'A4',d:0.6},{n:'C5',d:1.0},{n:'A4',d:0.6},{n:'G4',d:0.8},{n:'E4',d:1.8}],
+  [{n:'D4',d:0.6},{n:'E4',d:0.4},{n:'G4',d:0.8},{n:'E4',d:0.6},{n:'D4',d:0.8},{n:'C4',d:2.0}],
+  [{n:'E4',d:0.4},{n:'G4',d:0.4},{n:'A4',d:0.6},{n:'C5',d:1.0},{n:'A4',d:0.4},{n:'G4',d:0.6},{n:'E4',d:0.4},{n:'D4',d:1.4}],
+  [{n:'C5',d:0.8},{n:'A4',d:0.6},{n:'G4',d:0.8},{n:'E4',d:0.6},{n:'G4',d:0.6},{n:'A4',d:0.4},{n:'G4',d:1.8}],
+  [{n:'E4',d:0.6},{n:'D4',d:0.4},{n:'C4',d:1.2},{n:'D4',d:0.6},{n:'E4',d:0.8},{n:'G4',d:0.4},{n:'E4',d:2.0}]
+];
+
+// 코드 진행 (화음)
+const chordProg=[
+  ['C3','E3','G3'],['A3','C4','E4'],['D3','G3','A3'],['G3','C4','E4'],
+  ['C3','E3','G3'],['A3','C4','E4'],['D3','G3','A3'],['C3','E3','G3']
+];
+
+function playPianoNote(freq,time,dur,vel){
+  if(!actx||!playing)return;
+  const osc1=actx.createOscillator();
+  const osc2=actx.createOscillator();
+  const env=actx.createGain();
+  // 피아노 느낌: 사인파 + 약한 삼각파
+  osc1.type='sine';osc1.frequency.value=freq;
+  osc2.type='triangle';osc2.frequency.value=freq*2.01;
+  const mix=actx.createGain();mix.gain.value=0.08;
+  osc1.connect(env);osc2.connect(mix);mix.connect(env);
+  env.connect(masterGain);
+  env.gain.setValueAtTime(0,time);
+  env.gain.linearRampToValueAtTime(vel,time+0.02);
+  env.gain.exponentialRampToValueAtTime(vel*0.4,time+dur*0.3);
+  env.gain.exponentialRampToValueAtTime(0.001,time+dur);
+  osc1.start(time);osc1.stop(time+dur+0.1);
+  osc2.start(time);osc2.stop(time+dur+0.1);
 }
 
-btn.addEventListener('click',function(){
-  if(!playing){
-    playing=true;btn.classList.remove('off');btn.textContent='🎶';
-    if(!actx)createMusic();else actx.resume();
-  }else{
-    playing=false;btn.classList.add('off');btn.textContent='🎵';
-    intervals.forEach(clearInterval);intervals=[];
-    if(actx)actx.suspend();
-  }
+let phraseIdx=0;
+function playPhrase(){
+  if(!playing)return;
+  const phrase=phrases[phraseIdx%phrases.length];
+  const chord=chordProg[phraseIdx%chordProg.length];
+  const t0=actx.currentTime+0.1;
+
+  // 화음 (왼손) - 아르페지오
+  chord.forEach((n,i)=>{
+    playPianoNote(scale[n],t0+i*0.15,4.0,0.15);
+  });
+
+  // 멜로디 (오른손)
+  let t=t0+0.3;
+  let totalDur=0;
+  phrase.forEach(note=>{
+    playPianoNote(scale[note.n],t,note.d*1.2,0.25);
+    t+=note.d;
+    totalDur+=note.d;
+  });
+
+  phraseIdx++;
+  melodyTimeout=setTimeout(playPhrase,(totalDur+1.2)*1000);
+}
+
+function startMusic(){
+  if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();
+  if(actx.state==='suspended')actx.resume();
+  if(!masterGain){masterGain=actx.createGain();masterGain.gain.value=0.35;masterGain.connect(actx.destination);}
+  playing=true;
+  phraseIdx=0;
+  playPhrase();
+  btn.classList.remove('off');btn.textContent='🎶';
+}
+
+function stopMusic(){
+  playing=false;
+  if(melodyTimeout)clearTimeout(melodyTimeout);
+  btn.classList.add('off');btn.textContent='🎵';
+}
+
+// 첫 터치 시 자동 재생
+let autoStarted=false;
+function autoStart(){
+  if(autoStarted)return;
+  autoStarted=true;
+  startMusic();
+  document.removeEventListener('touchstart',autoStart);
+  document.removeEventListener('click',autoStart);
+}
+document.addEventListener('touchstart',autoStart,{once:true,passive:true});
+document.addEventListener('click',autoStart,{once:true});
+
+// 버튼으로 on/off 토글
+btn.addEventListener('click',function(e){
+  e.stopPropagation();
+  if(autoStarted&&playing){stopMusic();}
+  else{autoStarted=true;startMusic();}
 });
 })();
 </script>
