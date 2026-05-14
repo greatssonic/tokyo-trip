@@ -187,8 +187,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretend
 .emerg-call-btn{flex:1;background:#dc2626;color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:600;text-align:center}
 .emerg-map-btn{background:#3b82f6;color:#fff;text-decoration:none;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:600;text-align:center}
 .sakura-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;overflow:hidden}
-.petal{position:absolute;top:-20px;opacity:.5;animation:petFall linear forwards}
-@keyframes petFall{0%{transform:translateX(0) rotate(0deg);opacity:.5}100%{transform:translateX(60px) rotate(720deg);opacity:.5}}
+.petal{position:absolute;opacity:.5}
+.touch-petal{position:absolute;opacity:.5}
 .music-btn{position:fixed;bottom:16px;left:16px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;border:none;cursor:pointer;box-shadow:0 2px 10px rgba(236,72,153,.3);z-index:50;display:flex;align-items:center;justify-content:center;font-size:20px}
 .music-btn:active{transform:scale(.92)}
 .music-btn.off{background:#9ca3af;box-shadow:none}
@@ -1058,19 +1058,76 @@ if(config&&config.url&&config.key&&config.room){startSync()}else{updateSyncUI(fa
 const wrap=document.createElement('div');wrap.className='sakura-wrap';document.body.appendChild(wrap);
 const colors=['#ffb7c5','#ffc0cb','#ff9eb5','#ffd1dc','#fff0f5'];
 const MAX_PETALS=10;
+
+function petalSvg(size,color){
+  return`<svg width="${size}" height="${size}" viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="8" ry="5" fill="${color}" transform="rotate(${Math.random()*360} 10 10)"/></svg>`;
+}
+
+// 위에서 아래로 떨어지는 벚꽃
 function makePetal(){
-  if(wrap.childElementCount>=MAX_PETALS)return;
+  if(wrap.querySelectorAll('.petal').length>=MAX_PETALS)return;
   const p=document.createElement('div');p.className='petal';
   const size=10+Math.random()*8;
-  const left=Math.random()*100;
-  const dur=5+Math.random()*6;
+  const startX=Math.random()*window.innerWidth;
+  const dur=4000+Math.random()*5000;
+  const swayX=40+Math.random()*80;
   const color=colors[Math.floor(Math.random()*colors.length)];
-  p.style.cssText=`left:${left}%;width:${size}px;height:${size}px;animation-duration:${dur}s;opacity:.5;`;
-  p.innerHTML=`<svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="8" ry="5" fill="${color}" transform="rotate(${Math.random()*360} 10 10)"/></svg>`;
+  p.innerHTML=petalSvg(size,color);
+  p.style.cssText=`left:${startX}px;top:-20px;width:${size}px;height:${size}px;`;
   wrap.appendChild(p);
-  setTimeout(()=>p.remove(),dur*1000);
+  let start=null;
+  function ani(ts){
+    if(!start)start=ts;
+    const t=(ts-start)/dur;
+    if(t>=1){p.remove();return;}
+    const y=t*window.innerHeight*1.1;
+    const x=startX+Math.sin(t*4)*swayX;
+    const rot=t*720;
+    p.style.transform=`translate(${x-startX}px,${y}px) rotate(${rot}deg)`;
+    requestAnimationFrame(ani);
+  }
+  requestAnimationFrame(ani);
 }
 setInterval(makePetal,1200);
+
+// 터치하면 그 위치에서 벚꽃 터짐
+document.addEventListener('touchstart',function(e){
+  const touch=e.touches[0];
+  burstAt(touch.clientX,touch.clientY);
+},{passive:true});
+document.addEventListener('click',function(e){
+  burstAt(e.clientX,e.clientY);
+});
+
+function burstAt(cx,cy){
+  const count=5+Math.floor(Math.random()*4);
+  for(let i=0;i<count;i++){
+    const p=document.createElement('div');p.className='touch-petal';
+    const size=8+Math.random()*10;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    p.innerHTML=petalSvg(size,color);
+    p.style.cssText=`left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;`;
+    wrap.appendChild(p);
+    const angle=Math.random()*Math.PI*2;
+    const dist=40+Math.random()*80;
+    const dx=Math.cos(angle)*dist;
+    const dy=Math.sin(angle)*dist+30;
+    const dur=800+Math.random()*600;
+    let start=null;
+    (function(el,dx,dy,dur){
+      function ani(ts){
+        if(!start)start=ts;
+        const t=(ts-start)/dur;
+        if(t>=1){el.remove();return;}
+        const ease=1-Math.pow(1-t,3);
+        el.style.transform=`translate(${dx*ease}px,${dy*ease}px) rotate(${ease*360}deg) scale(${1-t*0.5})`;
+        el.style.opacity=0.6*(1-t);
+        requestAnimationFrame(ani);
+      }
+      requestAnimationFrame(ani);
+    })(p,dx,dy,dur);
+  }
+}
 })();
 
 // 배경 음악 (Web Audio API로 일본풍 멜로디 자동 생성)
