@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1d4ed8">
+<title>🛬 나리타 → 제국호텔 이동 가이드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;background:#0f172a;min-height:100vh;color:#fff;overflow-x:hidden}
+.header{background:linear-gradient(135deg,#1e3a8a,#3b82f6);padding:14px 16px;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.header-inner{max-width:600px;margin:0 auto}
+.back-btn{display:inline-flex;align-items:center;gap:4px;color:#fff;text-decoration:none;font-size:12px;font-weight:600;opacity:.8;margin-bottom:4px}
+.header h1{font-size:15px;font-weight:700}
+.header-sub{font-size:11px;opacity:.8;margin-top:2px}
+
+.container{max-width:600px;margin:0 auto;padding:16px 12px}
+
+/* 타임라인 */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:3px;background:#334155;border-radius:2px}
+
+.step{position:relative;margin-bottom:20px;opacity:0;transform:translateY(30px);transition:all .6s ease}
+.step.visible{opacity:1;transform:translateY(0)}
+.step.active .step-dot{background:#3b82f6;box-shadow:0 0 0 6px rgba(59,130,246,.3);animation:dotPulse 1.5s infinite}
+.step.done .step-dot{background:#22c55e}
+.step.done .step-card{border-color:#22c55e33}
+
+.step-dot{position:absolute;left:-24px;top:16px;width:14px;height:14px;border-radius:50%;background:#475569;border:3px solid #0f172a;z-index:2;transition:all .3s}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 6px rgba(59,130,246,.3)}50%{box-shadow:0 0 0 12px rgba(59,130,246,.1)}}
+
+.step-card{background:#1e293b;border:2px solid #334155;border-radius:16px;padding:16px;transition:all .3s}
+.step.active .step-card{border-color:#3b82f6;background:#1e293b;box-shadow:0 4px 20px rgba(59,130,246,.15)}
+
+.step-num{font-size:10px;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.step-title{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.step-icon{font-size:22px}
+.step-body{font-size:13px;color:#94a3b8;line-height:1.7}
+.step-body b{color:#e2e8f0}
+.step-body .highlight{color:#fbbf24;font-weight:700}
+.step-body .price{display:inline-block;background:#059669;color:#fff;padding:1px 8px;border-radius:6px;font-weight:700;font-size:12px}
+.step-body .warn{color:#f87171;font-weight:600}
+
+/* 방향 표시 */
+.direction{display:flex;align-items:center;gap:8px;background:#0f172a;border:2px solid #334155;border-radius:10px;padding:8px 12px;margin-top:8px;font-size:12px}
+.direction-arrow{font-size:20px;animation:bounce 1s infinite}
+@keyframes bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+
+/* 지도 미니 */
+.mini-map{background:#0f172a;border:2px solid #334155;border-radius:12px;margin-top:10px;padding:16px;position:relative;overflow:hidden;height:120px}
+.map-label{position:absolute;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.map-you{background:#3b82f6;color:#fff;animation:youPulse 2s infinite}
+@keyframes youPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.map-dest{background:#22c55e;color:#fff}
+.map-path{position:absolute;border-top:2px dashed #60a5fa}
+.map-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:#fbbf24}
+
+/* 이동 애니메이션 */
+.moving-icon{display:inline-block;font-size:24px}
+.moving-icon.walk{animation:walkAni 0.6s infinite}
+.moving-icon.bus{animation:busAni 1s infinite}
+@keyframes walkAni{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes busAni{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+
+/* 팁 박스 */
+.tip-box{background:#1e3a5f;border:2px solid #3b82f6;border-radius:12px;padding:12px;margin-top:10px;font-size:12px;color:#93c5fd;line-height:1.6}
+.tip-box b{color:#60a5fa}
+
+.preg-box{background:#451a03;border:2px solid #f59e0b;border-radius:12px;padding:12px;margin-top:10px;font-size:12px;color:#fde68a;line-height:1.6}
+
+/* 진행 바 */
+.progress-fixed{position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #334155;padding:10px 16px;z-index:20}
+.progress-inner{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.progress-bar{flex:1;height:6px;background:#334155;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#22c55e);border-radius:3px;transition:width .5s}
+.progress-text{font-size:12px;font-weight:700;color:#94a3b8;white-space:nowrap}
+.next-btn{background:#3b82f6;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.next-btn:active{transform:scale(.95);background:#2563eb}
+.next-btn.done{background:#22c55e}
+
+/* 완료 화면 */
+.complete-screen{display:none;text-align:center;padding:40px 20px}
+.complete-screen.show{display:block}
+.complete-emoji{font-size:60px;margin-bottom:16px}
+.complete-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.complete-sub{font-size:13px;color:#94a3b8;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="header-inner">
+<a class="back-btn" href="index.html">← 체크리스트로 돌아가기</a>
+<h1>🛬 나리타 공항 → 제국호텔 이동 가이드</h1>
+<div class="header-sub">제1터미널 · TYO-NRT 버스 · 약 1시간 23분</div>
+</div>
+</div>
+
+<div class="container">
+<div class="timeline" id="timeline">
+
+<div class="step" data-step="0">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 1</div>
+<div class="step-title"><span class="step-icon">🛬</span> 입국장(1층)으로 나오기</div>
+<div class="step-body">
+비행기에서 내려 <b>입국 심사</b>를 통과하세요.<br>
+<b>수하물</b>을 찾고 → <b>세관 검사</b>를 마치면<br>
+<b class="highlight">1층 입국장(Arrival Lobby)</b>으로 나옵니다.
+<div class="preg-box">🤰 <b>임산부 팁:</b> 입국 심사 줄이 길면 직원에게 마터니티 마크를 보여주세요. 우선 안내해줄 수 있습니다.</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="1">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 2</div>
+<div class="step-title"><span class="step-icon">🎫</span> 버스 승차권 구매</div>
+<div class="step-body">
+입국장 정면에 <b class="highlight">Bus Ticket Counter</b> (버스 매표소)가 보입니다.<br><br>
+<b>"TYO-NRT 도쿄역/긴자역 방면"</b> 승차권 구매<br>
+요금: <span class="price">¥1,500 / 1인</span> × 2명 = <span class="price">¥3,000</span>
+<div class="tip-box">💡 <b>Suica/PASMO</b>가 있으면 매표소 안 가도 됩니다!<br>버스 탑승 시 단말기에 <b>바로 태그</b>하면 자동 결제됩니다.</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="2">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 3</div>
+<div class="step-title"><span class="step-icon">🚶</span> 7번 승강장으로 이동</div>
+<div class="step-body">
+항공사에 따라 출구가 다릅니다:<br><br>
+<div class="direction">
+<span class="direction-arrow">👈</span>
+<div><b>남윙(South Wing)</b> 출구인 경우<br><b class="highlight">S1 출구</b>로 나온 뒤 → <b>왼쪽</b>으로 조금 걸으면 7번</div>
+</div>
+<div class="direction" style="margin-top:6px">
+<span class="direction-arrow">👉</span>
+<div><b>북윙(North Wing)</b> 출구인 경우<br><b class="highlight">C1 출구</b>(중앙)로 나온 뒤 → <b>오른쪽</b>으로 돌아가면 7번</div>
+</div>
+
+<div class="mini-map">
+<div class="map-label" style="left:10px;top:15px;background:#475569;color:#cbd5e1">남윙 S1</div>
+<div class="map-label" style="right:10px;top:15px;background:#475569;color:#cbd5e1">북윙 C1</div>
+<div class="map-label map-dest" style="left:50%;top:80px;transform:translateX(-50%)">7번 승강장 🚌</div>
+<div class="map-path" style="left:40px;top:40px;width:60px;transform:rotate(60deg)"></div>
+<div class="map-path" style="right:40px;top:40px;width:60px;transform:rotate(-60deg)"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="3">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 4</div>
+<div class="step-title"><span class="step-icon">🚌</span> 버스 대기 & 탑승</div>
+<div class="step-body">
+7번 승강장 표지판에서<br>
+<b class="highlight">"Tokyo Sta. / Ginza Sta."</b> 방면 대기줄에 서세요.<br><br>
+<span class="moving-icon bus">🚌</span> 큰 짐(캐리어)은 <b>버스 하단 트렁크</b>에 실어줍니다.<br>
+직원이 <b class="warn">짐표</b>를 줍니다 → <b class="warn">하차 시 제출해야 하므로 꼭 보관!</b>
+<div class="preg-box">🤰 <b>임산부 팁:</b> 버스 기사에게 "妊娠中です(닌신츄-데스)" 말하면 앞좌석 배려해줄 수 있어요.</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="4">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 5</div>
+<div class="step-title"><span class="step-icon"><span class="moving-icon bus">🚌</span></span> 버스 이동 (약 1시간 14분)</div>
+<div class="step-body">
+버스에 탑승하여 편하게 이동하세요.<br><br>
+<b>나리타 공항</b> → 고속도로 → <b>도쿄 도심</b><br><br>
+<span class="moving-icon walk">🚶</span> 하차 정류장: <b class="highlight">긴자역 (Ginza Sta.)</b>
+<div class="tip-box">💡 <b>버스 안에서:</b><br>
+· Wi-Fi 가능한 버스도 있어요<br>
+· 화장실 없으니 탑승 전 해결!<br>
+· 도착 10분 전 안내 방송 나옵니다</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="5">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 6</div>
+<div class="step-title"><span class="step-icon">📍</span> 긴자역 하차</div>
+<div class="step-body">
+<b class="highlight">긴자역(Ginza Sta.)</b> 정류장에서 하차하세요.<br><br>
+<b class="warn">⚠️ 짐표를 직원에게 제출</b>하고 트렁크에서 짐을 찾으세요.<br><br>
+짐 확인 후, <b>제국호텔</b> 방향으로 이동합니다.
+</div>
+</div>
+</div>
+
+<div class="step" data-step="6">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 7</div>
+<div class="step-title"><span class="step-icon"><span class="moving-icon walk">🚶</span></span> 도보 → 제국호텔 (약 9분)</div>
+<div class="step-body">
+긴자역 정류장에서 <b>제국호텔 도쿄</b>까지<br>
+<b class="highlight">도보 약 9분 (650m)</b><br><br>
+구글맵 길찾기를 켜고 걸어가세요!
+<div class="direction">
+<span class="direction-arrow">📍</span>
+<div><b>Imperial Hotel Tokyo</b><br>〒100-8558 千代田区内幸町1-1-1</div>
+</div>
+<div class="preg-box">🤰 <b>임산부 팁:</b> 짐이 무거우면 택시도 OK! (기본 요금 ¥500 이내 거리)</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="7">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">ARRIVAL!</div>
+<div class="step-title"><span class="step-icon">🏨</span> 제국호텔 도쿄 도착!</div>
+<div class="step-body">
+<b class="highlight">🎉 도착을 축하합니다!</b><br><br>
+<b>· 체크인:</b> 14:00~ (일찍 오면 짐 맡기기)<br>
+<b>· 예약번호:</b> 3533-4705-8196<br>
+<b>· 베이비문 요청</b> 반영 확인<br>
+<b>· Imperial Club International</b> 무료 가입 요청
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="complete-screen" id="completeScreen">
+<div class="complete-emoji">🏨✨</div>
+<div class="complete-title">이동 가이드 완료!</div>
+<div class="complete-sub">제국호텔에서 편안한 시간 보내세요 💖<br>안전하고 즐거운 베이비문 여행 되길! 🌸</div>
+</div>
+</div>
+
+<div class="progress-fixed">
+<div class="progress-inner">
+<div class="progress-text" id="progText">0 / 8</div>
+<div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+<button class="next-btn" id="nextBtn">다음 →</button>
+</div>
+</div>
+
+<script>
+const steps=document.querySelectorAll('.step');
+const total=steps.length;
+let current=0;
+
+function updateView(){
+  steps.forEach((s,i)=>{
+    s.classList.remove('active','done','visible');
+    if(i<current){s.classList.add('visible','done');}
+    else if(i===current){s.classList.add('visible','active');}
+  });
+  document.getElementById('progText').textContent=(current+1)+' / '+total;
+  document.getElementById('progFill').style.width=((current+1)/total*100)+'%';
+
+  const btn=document.getElementById('nextBtn');
+  if(current>=total-1){
+    btn.textContent='완료! ✅';btn.classList.add('done');
+  }else{
+    btn.textContent='다음 →';btn.classList.remove('done');
+  }
+
+  // 현재 스텝으로 스크롤
+  if(steps[current]){
+    setTimeout(()=>{
+      steps[current].scrollIntoView({behavior:'smooth',block:'center'});
+    },100);
+  }
+
+  if(current>=total-1){
+    setTimeout(()=>{
+      document.getElementById('completeScreen').classList.add('show');
+    },800);
+  }
+}
+
+document.getElementById('nextBtn').addEventListener('click',function(){
+  if(current<total-1){current++;updateView();}
+});
+
+// 스와이프로 다음
+let touchStartY=0;
+document.addEventListener('touchstart',function(e){touchStartY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',function(e){
+  const diff=touchStartY-e.changedTouches[0].clientY;
+  if(diff>50&&current<total-1){current++;updateView();}
+  if(diff<-50&&current>0){current--;updateView();}
+},{passive:true});
+
+// 키보드
+document.addEventListener('keydown',function(e){
+  if((e.key==='ArrowDown'||e.key===' ')&&current<total-1){current++;updateView();}
+  if(e.key==='ArrowUp'&&current>0){current--;updateView();}
+});
+
+updateView();
+</script>
+</body>
+</html>

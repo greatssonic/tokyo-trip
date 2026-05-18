@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1d4ed8">
+<title>🛫 VIA INN 아카사카 → 나리타 공항 이동 가이드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;background:#0f172a;min-height:100vh;color:#fff;overflow-x:hidden}
+.header{background:linear-gradient(135deg,#7c3aed,#a855f7);padding:14px 16px;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.header-inner{max-width:600px;margin:0 auto}
+.back-btn{display:inline-flex;align-items:center;gap:4px;color:#fff;text-decoration:none;font-size:12px;font-weight:600;opacity:.8;margin-bottom:4px}
+.header h1{font-size:15px;font-weight:700}
+.header-sub{font-size:11px;opacity:.8;margin-top:2px}
+.container{max-width:600px;margin:0 auto;padding:16px 12px}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:3px;background:#334155;border-radius:2px}
+.step{position:relative;margin-bottom:20px;opacity:0;transform:translateY(30px);transition:all .6s ease}
+.step.visible{opacity:1;transform:translateY(0)}
+.step.active .step-dot{background:#a855f7;box-shadow:0 0 0 6px rgba(168,85,247,.3);animation:dotPulse 1.5s infinite}
+.step.done .step-dot{background:#22c55e}
+.step.done .step-card{border-color:#22c55e33}
+.step-dot{position:absolute;left:-24px;top:16px;width:14px;height:14px;border-radius:50%;background:#475569;border:3px solid #0f172a;z-index:2;transition:all .3s}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 6px rgba(168,85,247,.3)}50%{box-shadow:0 0 0 12px rgba(168,85,247,.1)}}
+.step-card{background:#1e293b;border:2px solid #334155;border-radius:16px;padding:16px;transition:all .3s}
+.step.active .step-card{border-color:#a855f7;box-shadow:0 4px 20px rgba(168,85,247,.15)}
+.step-num{font-size:10px;font-weight:700;color:#c084fc;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.step-title{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.step-icon{font-size:22px}
+.step-body{font-size:13px;color:#94a3b8;line-height:1.7}
+.step-body b{color:#e2e8f0}
+.step-body .highlight{color:#fbbf24;font-weight:700}
+.step-body .price{display:inline-block;background:#059669;color:#fff;padding:1px 8px;border-radius:6px;font-weight:700;font-size:12px}
+.step-body .warn{color:#f87171;font-weight:600}
+.direction{display:flex;align-items:center;gap:8px;background:#0f172a;border:2px solid #334155;border-radius:10px;padding:8px 12px;margin-top:8px;font-size:12px}
+.direction-arrow{font-size:20px;animation:bounce 1s infinite}
+@keyframes bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+.tip-box{background:#1e1a4a;border:2px solid #7c3aed;border-radius:12px;padding:12px;margin-top:10px;font-size:12px;color:#c4b5fd;line-height:1.6}
+.tip-box b{color:#a78bfa}
+.preg-box{background:#451a03;border:2px solid #f59e0b;border-radius:12px;padding:12px;margin-top:10px;font-size:12px;color:#fde68a;line-height:1.6}
+.time-badge{display:inline-block;background:#7c3aed;color:#fff;padding:2px 10px;border-radius:8px;font-size:11px;font-weight:700;margin-bottom:6px}
+.moving-icon{display:inline-block;font-size:24px}
+.moving-icon.walk{animation:walkAni 0.6s infinite}
+.moving-icon.train{animation:trainAni 1s infinite}
+@keyframes walkAni{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes trainAni{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+.progress-fixed{position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #334155;padding:10px 16px;z-index:20}
+.progress-inner{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.progress-bar{flex:1;height:6px;background:#334155;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#a855f7,#22c55e);border-radius:3px;transition:width .5s}
+.progress-text{font-size:12px;font-weight:700;color:#94a3b8;white-space:nowrap}
+.next-btn{background:#7c3aed;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.next-btn:active{transform:scale(.95);background:#6d28d9}
+.next-btn.done{background:#22c55e}
+.complete-screen{display:none;text-align:center;padding:40px 20px}
+.complete-screen.show{display:block}
+.complete-emoji{font-size:60px;margin-bottom:16px}
+.complete-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.complete-sub{font-size:13px;color:#94a3b8;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="header-inner">
+<a class="back-btn" href="index.html">← 체크리스트로 돌아가기</a>
+<h1>🛫 VIA INN 아카사카 → 나리타 공항</h1>
+<div class="header-sub">Day 5 출국 · 지하철 + Access Express · 약 1시간 40분</div>
+</div>
+</div>
+
+<div class="container">
+<div class="timeline" id="timeline">
+
+<div class="step" data-step="0">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 1</div>
+<div class="step-title"><span class="step-icon">🏨</span> 호텔 체크아웃</div>
+<div class="step-body">
+<span class="time-badge">09:30</span><br>
+<b>VIA INN PRIME AKASAKA</b> 체크아웃<br><br>
+· 프런트에 룸키 반납<br>
+· 짐 최종 확인 (여권, 충전기, 어댑터!)<br>
+· <b>1층 7-Eleven</b>에서 비행기 간식 구매
+<div class="preg-box">🤰 <b>임산부 팁:</b> 무거운 짐은 남편이! 캐리어 끌고 계단 X → 엘리베이터 이용</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="1">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 2</div>
+<div class="step-title"><span class="step-icon"><span class="moving-icon walk">🚶</span></span> 아카사카미츠케역 이동</div>
+<div class="step-body">
+<span class="time-badge">09:45</span><br>
+호텔에서 <b class="highlight">아카사카미츠케역</b>까지<br>
+<b>도보 약 5분</b>
+<div class="direction">
+<span class="direction-arrow">🚶</span>
+<div>호텔 정문 나와서 <b>오른쪽</b> 직진<br>큰 사거리에서 <b>지하철 입구</b> 보임</div>
+</div>
+<div class="tip-box">💡 <b>Suica</b>로 개찰구 태그하고 입장!<br>⚠️ <b class="warn">Suica 잔액 확인!</b> 부족하면 역내 충전기에서 충전</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="2">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 3</div>
+<div class="step-title"><span class="step-icon"><span class="moving-icon train">🚃</span></span> 긴자선 → 아사쿠사역</div>
+<div class="step-body">
+<span class="time-badge">09:50 ~ 10:15</span><br><br>
+<b class="highlight">긴자선 (오렌지색 라인)</b><br>
+<b>아사쿠사 방면</b> 탑승<br><br>
+아카사카미츠케 → 아사쿠사 <b>약 25분</b><br>
+(직통, 환승 없음!)
+<div class="direction">
+<span class="direction-arrow">🟠</span>
+<div>긴자선 = <b>오렌지색</b> 표시<br>방향: <b>아사쿠사(浅草)</b> 방면 확인!</div>
+</div>
+<div class="preg-box">🤰 <b>임산부 팁:</b> 우선석(優先席) 근처에 서세요. 마터니티 마크 보이게 달면 자리 양보받을 수 있어요.</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="3">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 4</div>
+<div class="step-title"><span class="step-icon">📍</span> 아사쿠사역 하차 & 환승</div>
+<div class="step-body">
+<span class="time-badge">10:15</span><br>
+<b class="highlight">아사쿠사역</b> 도착 → 하차<br><br>
+Suica로 <b>긴자선 개찰구 나가기</b><br>
+↓<br>
+<b>케이세이/도에이 아사쿠사선</b> 안내 표지판 따라 이동<br>
+↓<br>
+<b class="highlight">Access Express 나리타공항행</b> 승강장으로
+<div class="tip-box">💡 <b>환승 안내:</b><br>
+· 긴자선 출구 → <b>"京成/都営浅草線"</b> 표지판 따라가기<br>
+· 도보 약 3~5분 (지하 연결통로)<br>
+· <b class="warn">⚠️ Suica로 다시 태그</b>하고 입장</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="4">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 5</div>
+<div class="step-title"><span class="step-icon"><span class="moving-icon train">🚃</span></span> Access Express 탑승</div>
+<div class="step-body">
+<span class="time-badge">10:20 ~ 11:20</span><br><br>
+<b class="highlight">케이세이 Access Express</b><br>
+<b>나리타공항행 (成田空港行き)</b> 탑승<br><br>
+소요시간: <b>약 60분</b><br>
+요금: <span class="price">¥1,290 (Suica 결제 OK)</span>
+<div class="direction">
+<span class="direction-arrow">✈️</span>
+<div>행선지 표시에 <b>"成田空港"</b> 또는<br><b>"Narita Airport"</b> 확인!</div>
+</div>
+<div class="tip-box">💡 <b>열차 안에서:</b><br>
+· 좌석 앉아서 편하게 이동<br>
+· 캐리어는 출입문 옆 공간에<br>
+· 도착 5분 전 안내 방송 나옴<br>
+· <b>제1터미널</b>에서 하차!</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="5">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 6</div>
+<div class="step-title"><span class="step-icon">🛫</span> 나리타 공항 도착!</div>
+<div class="step-body">
+<span class="time-badge">11:15 예상</span><br>
+<b class="highlight">나리타 공항 제1터미널</b> 도착<br><br>
+Suica로 개찰구 나오기
+<div class="tip-box">💡 <b>Suica 잔액 소진:</b><br>
+· 역 내 편의점에서 간식 사서 소진<br>
+· Welcome Suica는 <b>환불 불가</b>이므로 여기서 다 쓰기!</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="6">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 7</div>
+<div class="step-title"><span class="step-icon">🧳</span> 체크인 & 수속</div>
+<div class="step-body">
+<span class="time-badge">11:30</span><br><br>
+· 항공사 <b>체크인 카운터</b>에서 수속<br>
+· <b>짐 부치기</b> (위탁 수하물)<br>
+· <b>여권 + 탑승권</b> 확인
+<div class="preg-box">🤰 <b>임산부 팁:</b> 체크인 시 "妊娠中です(닌신츄-데스)" 말하면 우선 탑승 안내받을 수 있어요!</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="7">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 8</div>
+<div class="step-title"><span class="step-icon">🛍️</span> 보안검색 & 면세점</div>
+<div class="step-body">
+<span class="time-badge">12:00</span><br><br>
+· <b>보안 검색</b> 통과<br>
+· <b>면세점</b> 쇼핑 (마지막 쇼핑 찬스!)<br>
+· 남은 엔화로 간식/선물 구매
+<div class="tip-box">💡 <b>면세점 추천:</b><br>
+· 롯데 면세점 (한국 브랜드)<br>
+· 로이스 초콜릿 (홋카이도 명물)<br>
+· 도쿄 바나나 (선물용 인기 1위)</div>
+</div>
+</div>
+</div>
+
+<div class="step" data-step="8">
+<div class="step-dot"></div>
+<div class="step-card">
+<div class="step-num">STEP 9</div>
+<div class="step-title"><span class="step-icon">🎉</span> 게이트 도착 & 출발!</div>
+<div class="step-body">
+<span class="time-badge">13:00 게이트</span>
+<span class="time-badge">13:55 출발</span><br><br>
+· 탑승 게이트 도착 (출발 50분 전)<br>
+· 임산부 <b>우선 탑승</b> 요청<br>
+· <b class="highlight">🛫 13:55 출발!</b><br><br>
+<b>🇰🇷 무사히 한국 도착!</b><br>
+수고하셨습니다 💖
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="complete-screen" id="completeScreen">
+<div class="complete-emoji">🛫🇰🇷✨</div>
+<div class="complete-title">출국 가이드 완료!</div>
+<div class="complete-sub">안전한 비행 되세요!<br>엄마와 아가 모두 건강하게 돌아오길 🌸💖</div>
+</div>
+</div>
+
+<div class="progress-fixed">
+<div class="progress-inner">
+<div class="progress-text" id="progText">0 / 9</div>
+<div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+<button class="next-btn" id="nextBtn">다음 →</button>
+</div>
+</div>
+
+<script>
+const steps=document.querySelectorAll('.step');
+const total=steps.length;
+let current=0;
+
+function updateView(){
+  steps.forEach((s,i)=>{
+    s.classList.remove('active','done','visible');
+    if(i<current){s.classList.add('visible','done');}
+    else if(i===current){s.classList.add('visible','active');}
+  });
+  document.getElementById('progText').textContent=(current+1)+' / '+total;
+  document.getElementById('progFill').style.width=((current+1)/total*100)+'%';
+  const btn=document.getElementById('nextBtn');
+  if(current>=total-1){btn.textContent='완료! ✅';btn.classList.add('done');}
+  else{btn.textContent='다음 →';btn.classList.remove('done');}
+  if(steps[current])setTimeout(()=>{steps[current].scrollIntoView({behavior:'smooth',block:'center'});},100);
+  if(current>=total-1)setTimeout(()=>{document.getElementById('completeScreen').classList.add('show');},800);
+}
+
+document.getElementById('nextBtn').addEventListener('click',function(){
+  if(current<total-1){current++;updateView();}
+});
+
+let touchStartY=0;
+document.addEventListener('touchstart',function(e){touchStartY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',function(e){
+  const diff=touchStartY-e.changedTouches[0].clientY;
+  if(diff>50&&current<total-1){current++;updateView();}
+  if(diff<-50&&current>0){current--;updateView();}
+},{passive:true});
+
+document.addEventListener('keydown',function(e){
+  if((e.key==='ArrowDown'||e.key===' ')&&current<total-1){current++;updateView();}
+  if(e.key==='ArrowUp'&&current>0){current--;updateView();}
+});
+
+updateView();
+</script>
+</body>
+</html>

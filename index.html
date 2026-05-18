@@ -213,6 +213,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretend
 <a href="restaurant-jp.html" style="flex:1;display:block;background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;border-radius:10px;padding:10px 8px;font-size:12px;font-weight:700;text-align:center;text-decoration:none">🍽️ 음식점 일본어</a>
 <a href="transport-jp.html" style="flex:1;display:block;background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;border-radius:10px;padding:10px 8px;font-size:12px;font-weight:700;text-align:center;text-decoration:none">🚃 이동수단 일본어</a>
 </div>
+<a href="route-narita.html" style="display:block;background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#fff;border-radius:10px;padding:10px 12px;margin-top:6px;font-size:12px;font-weight:700;text-align:center;text-decoration:none;border:1px solid #3b82f6">🛬 나리타 → 제국호텔 이동 가이드 (애니메이션)</a>
 <div class="sync-tip" id="syncTip" style="display:none">💚 실시간 동기화 중 · 부부 공유 체크리스트</div>
 <div id="daysContainer"></div>
 <div class="heart-msg"><div style="font-size:28px">💖</div><div class="heart-msg-title">안전하고 즐거운 여행 되세요!</div><div class="heart-msg-body">임신 17주차, 엄마와 아가 모두<br>건강한 여행 되시길 응원해요 🌸</div></div>
@@ -424,10 +425,11 @@ const days=[
 {id:'d1-5',text:'B1층 JR EAST Travel Service Center',map:'JR EAST Travel Service Center Narita Airport Terminal 1'},
 {id:'d1-6',text:'Welcome Suica 2장 구매 (각 ¥5,000 충전)'},
 {id:'d1-7',text:'화장실 & 간단한 간식'}]},
-{title:'🚆 공항 → 제국호텔 (11:27 출발)',items:[
-{id:'d1-8',text:'케이세이 액세스 익스프레스 탑승',map:'Keisei Narita Airport Terminal 1 Station'},
-{id:'d1-9',text:'신바시역 도착 (12:33)',map:'Shimbashi Station Tokyo'},
-{id:'d1-10',text:'제국호텔 도쿄 도보 이동 (7분)',map:'Imperial Hotel Tokyo, Uchisaiwaicho, Chiyoda City'},
+{title:'🚌 공항 → 제국호텔 (버스)',items:[
+{id:'d1-8',text:'Bus Ticket Counter에서 승차권 구매 (¥1,500)',map:'Narita Airport Terminal 1 Bus Ticket Counter',link:'route-narita.html'},
+{id:'d1-8b',text:'7번 승강장 → TYO-NRT 버스 탑승',map:'Narita Airport Terminal 1 Platform 7',link:'route-narita.html'},
+{id:'d1-9',text:'긴자역 하차 (약 1시간 14분)',map:'Ginza Station Tokyo'},
+{id:'d1-10',text:'제국호텔 도쿄 도보 이동 (9분, 650m)',map:'Imperial Hotel Tokyo, Uchisaiwaicho, Chiyoda City',link:'route-narita.html'},
 {id:'d1-11',text:'호텔 도착 & 짐 맡기기'}]},
 {title:'🍱 우나기노나루세 점심 (14:00)',resv:[{id:'rv-d1-lunch-r',type:'예약'},{id:'rv-d1-lunch-w',type:'줄서기'}],items:[
 {id:'d1-12',text:'카렛타 시오도메 B1층 이동',map:'Caretta Shiodome Tokyo'},
@@ -613,9 +615,9 @@ const days=[
 {id:'d5-2',text:'짐 최종 정리'},
 {id:'d5-3',text:'호텔 체크아웃 (09:30)'}]},
 {title:'🚃 공항 이동 (09:45~)',items:[
-{id:'d5-4',text:'아카사카미츠케역 도착',map:'Akasaka-mitsuke Station Tokyo'},
-{id:'d5-5',text:'긴자선 → 아사쿠사역 (25분)',map:'Asakusa Station Tokyo Metro'},
-{id:'d5-6',text:'아사쿠사역에서 Access Express 나리타행 탑승'},
+{id:'d5-4',text:'아카사카미츠케역 도착',map:'Akasaka-mitsuke Station Tokyo',link:'route-airport.html'},
+{id:'d5-5',text:'긴자선 → 아사쿠사역 (25분)',map:'Asakusa Station Tokyo Metro',link:'route-airport.html'},
+{id:'d5-6',text:'아사쿠사역에서 Access Express 나리타행 탑승',link:'route-airport.html'},
 {id:'d5-7',text:'약 60분 열차 이동'},
 {id:'d5-8',text:'⚠️ Suica 일관 사용 (혼용 금지)'}]},
 {title:'✈️ 공항 도착 (11:15~)',items:[
@@ -753,7 +755,7 @@ function render(){
     return`<div class="day-card ${isOpen?'open':''}" data-day="${day.id}"><div class="day-header day-color-${day.color}" data-day="${day.id}"><div class="day-header-row"><div class="day-icon">${day.emoji}</div><div class="day-info"><div class="day-title">${day.title}</div><div class="day-date">${day.date}</div></div><div class="day-pct-block"><div class="day-count">${s.done}/${s.total}</div><div class="day-pct">${s.pct}%</div></div><div class="day-chevron ${isOpen?'open':''}">${chevronSvg()}</div></div><div class="day-progress"><div class="day-progress-fill" style="width:${s.pct}%"></div></div></div><div class="day-content ${isOpen?'open':''}">${day.sections.map(sec=>{const rvs=sec.resv?(Array.isArray(sec.resv)?sec.resv:[sec.resv]):[];const rv=rvs.map(r=>`<span class="resv-tag type-${r.type} ${checked[r.id]?'done':''}" data-resv="${r.id}"><span class="resv-box">${checkSvgSmall()}</span>${checked[r.id]?'✅ '+r.type+' 완료':r.type}</span>`).join('');return`<div class="section"><div class="section-title">${sec.title}${rv}</div>${sec.items.map(item=>{
       const ic=!!checked[item.id];
       const mb=item.map?`<a class="map-btn" href="${mapUrl(item.map)}" target="_blank" rel="noopener">${mapSvg()}</a>`:'';
-      const lb=item.link?`<a class="link-btn" href="${item.link}">📋</a>`:'';
+      const lb=item.link?`<a class="link-btn" href="${item.link}">🗺</a>`:'';
       const itemTotal=itemPrices[item.id]||0;
       const hasPrice=itemTotal>0;
       const showPrice=hasCost(item.text)||hasPrice;
